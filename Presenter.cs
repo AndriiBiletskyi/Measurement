@@ -118,8 +118,7 @@ namespace PomiaryGUI
             DataTable dataTable = new DataTable();
             await Task.Run(() =>
             {
-                int temp = equTable.AsEnumerable().Where(x => x.Field<string>("NamePL") == e[0].ToString()).
-                                                  Select(x => x.Field<int>("ID")).Single();
+                int temp = equIDName.ContainsValue((string)e[0]) ? equIDName.First(x => x.Value == (string)e[0]).Key : 0;
                 dataTable = _dataManager.GetEquData(temp,
                                                     (DateTime)e[1],
                                                     (DateTime)e[2], 
