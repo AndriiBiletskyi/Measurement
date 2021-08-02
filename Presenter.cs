@@ -60,6 +60,13 @@ namespace PomiaryGUI
             _mainForm.ButShowRaportsClick += new EventHandler<List<object>>(MainFormButShowRaportsClick);
 
             _mainForm.AplicationStart += new EventHandler(MainFormGetEquList);
+
+            _dataManager.Message += new EventHandler<string>(DataManagerMessage);
+        }
+
+        private void DataManagerMessage(object sender, string e)
+        {
+            MessageBox.Show(e);
         }
 
         private void MainFormGetEquList(object sender, EventArgs e)
