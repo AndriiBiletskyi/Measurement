@@ -140,7 +140,14 @@ namespace PomiaryGUI
 
         private void MainFormChangeConnect(object sender, EventArgs e)
         {
-            _dataManager.SetConnection(_mainForm.SettingsGetDataConnection());
+            if (_mainForm.GetConnectionWay())
+            {
+                _dataManager.SetConnection(_mainForm.SettingsGetDataConnectionString());
+            }
+            else
+            {
+                _dataManager.SetConnection(_mainForm.SettingsGetDataConnection());
+            }
         }
 
         //private async void Raport_data(Raport step, DateTime dateTimeFrom, DateTime dateTimeTo)

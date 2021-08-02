@@ -8,7 +8,9 @@ namespace PomiaryGUI
 {
     public interface IDataManager
     {
-        void SetConnection(List<string> list);//
+        event EventHandler<string> Message;
+        void SetConnection(List<string> list);
+        void SetConnection(string str);
         void SqlConnectionClose();
         DataRow GetLastEquData(int eq);
         DataTable GetEquData(int eq, DateTime begin, DateTime end);
@@ -41,14 +43,29 @@ namespace PomiaryGUI
             Password = "Kayser2021"
         };
 
+        public event EventHandler<string> Message;
+
         private void Sql_Connect()
         {
-            if (sqlConnection == null)
+            try
             {
-                sqlConnection = new SqlConnection(con);
-                //sqlConnection = new SqlConnection(connection.ConnectionString);
-                sqlConnection.Open();
-            }
+                if (sqlConnection == null || sqlConnection.State == ConnectionState.Closed)
+                {
+                    sqlConnection = new SqlConnection(con);
+                    sqlConnection.Open();
+                    if (sqlConnection.State == ConnectionState.Open)
+                    {
+                        Message?.Invoke(this, "Connection - OK");
+                    }
+                    else
+                    {
+                        Message?.Invoke(this, "Connection - NOK");
+                    }
+                }
+            }catch(Exception ex)
+            {
+                Message?.Invoke(this,ex.ToString());
+            }            
         }
 
         public DataRow GetLastEquData(int eq)
@@ -72,6 +89,7 @@ namespace PomiaryGUI
             }
             catch(Exception ex)
             {
+                Message?.Invoke(this, ex.ToString());
                 return new DataTable().NewRow();
             }
         }
@@ -84,7 +102,7 @@ namespace PomiaryGUI
                 {
                     Sql_Connect();
                                      
-                    string str = "SELECT Czas,Nazwa_urzadzenia,P,Status FROM dbo.\"" + Convert.ToString(eq) + "\" " + "WHERE (Czas BETWEEN '" + replace(begin, _DD_MM_) + "' AND '" + replace(end, _DD_MM_) + "')" + "ORDER BY ID ASC";
+                    string str = "SELECT Czas,Nazwa_urzadzenia,P,Status FROM dbo.\"" + Convert.ToString(eq) + "\" " + "WHERE (Czas BETWEEN '" + Replace(begin, _DD_MM_) + "' AND '" + Replace(end, _DD_MM_) + "')" + "ORDER BY ID ASC";
                     dataAdapter = new SqlDataAdapter(str, sqlConnection);
                     dataSet = new DataSet();
                     dataAdapter.Fill(dataSet, "dbo." + Convert.ToString(eq));
@@ -96,6 +114,7 @@ namespace PomiaryGUI
             }
             catch(Exception ex)
             {
+                Message?.Invoke(this, ex.ToString());
                 return new DataTable();
             }
         }
@@ -109,8 +128,8 @@ namespace PomiaryGUI
                     Sql_Connect();
 
                     string str = "SELECT TOP 1 " + Value + " FROM dbo.\"" + Convert.ToString(eq) + "\" "
-                                    + "WHERE (Czas BETWEEN '" + replace(begin, _DD_MM_) + "' AND '"
-                                                              + replace(end, _DD_MM_) + "')"
+                                    + "WHERE (Czas BETWEEN '" + Replace(begin, _DD_MM_) + "' AND '"
+                                                              + Replace(end, _DD_MM_) + "')"
                                                               + " AND "+ Value + " IS NOT NULL "
                                                               + " ORDER BY ID ASC";
                     cmd = new SqlCommand(str, sqlConnection);
@@ -125,7 +144,7 @@ namespace PomiaryGUI
             }
             catch (Exception ex)
             {
-                string str = ex.ToString();
+                Message?.Invoke(this, ex.ToString());
                 return 0.0f;
             }
         }
@@ -139,8 +158,8 @@ namespace PomiaryGUI
                     Sql_Connect();
 
                     string str = "SELECT TOP 1 " + Value + " FROM dbo.\"" + Convert.ToString(eq) + "\" "
-                                    + "WHERE (Czas BETWEEN '" + replace(begin, _DD_MM_) + "' AND '"
-                                                              + replace(end, _DD_MM_) + "')"
+                                    + "WHERE (Czas BETWEEN '" + Replace(begin, _DD_MM_) + "' AND '"
+                                                              + Replace(end, _DD_MM_) + "')"
                                                               + " AND " + Value + " IS NOT NULL "
                                                               + " ORDER BY ID DESC";
                     cmd = new SqlCommand(str, sqlConnection);
@@ -155,7 +174,7 @@ namespace PomiaryGUI
             }
             catch (Exception ex)
             {
-                string str = ex.ToString();
+                Message?.Invoke(this, ex.ToString());
                 return 0.0f;
             }
         }
@@ -169,8 +188,8 @@ namespace PomiaryGUI
                     Sql_Connect();
 
                     string str = "SELECT * FROM dbo.\"" + Convert.ToString(eq) + "\" "
-                                + "WHERE (Czas BETWEEN '" + replace(begin, _DD_MM_) 
-                                + "' AND '" + replace(end, _DD_MM_) + "')"
+                                + "WHERE (Czas BETWEEN '" + Replace(begin, _DD_MM_) 
+                                + "' AND '" + Replace(end, _DD_MM_) + "')"
                                 + "ORDER BY ID ASC";
 
                     dataAdapter = new SqlDataAdapter(str, sqlConnection);
@@ -202,7 +221,7 @@ namespace PomiaryGUI
             }
             catch (Exception ex)
             {
-
+                Message?.Invoke(this, ex.ToString());
             }
         }
 
@@ -220,16 +239,27 @@ namespace PomiaryGUI
 
                 if (sqlConnection != null && sqlConnection.State != ConnectionState.Closed)
                     sqlConnection.Close();
-
-                if (sqlConnection == null)
-                {
-                    sqlConnection = new SqlConnection(connection.ConnectionString);
-                    sqlConnection.Open();
-                }
+                con = connection.ConnectionString;
+                Sql_Connect();
             }    
             catch(Exception ex)
             {
+                Message?.Invoke(this, ex.ToString());
+            }
+        }
 
+        public void SetConnection(string str)
+        {
+            try
+            {
+                if (sqlConnection != null && sqlConnection.State != ConnectionState.Closed)
+                    sqlConnection.Close();
+                con = str;
+                Sql_Connect();
+            }
+            catch (Exception ex)
+            {
+                Message?.Invoke(this, ex.ToString());
             }
         }
 
@@ -244,7 +274,7 @@ namespace PomiaryGUI
             _DD_MM_ = state;
         }
     
-        private string replace(DateTime dt, bool ddmm)
+        private string Replace(DateTime dt, bool ddmm)
         {
             if (ddmm)
             {
@@ -276,7 +306,7 @@ namespace PomiaryGUI
                         str2 += "," + s;
                     }
 
-                    string str = "SELECT " + str2 + " FROM dbo.\"" + Convert.ToString(eq) + "\" " + "WHERE (Czas BETWEEN '" + replace(begin, _DD_MM_) + "' AND '" + replace(end, _DD_MM_) + "')" + "ORDER BY ID ASC";
+                    string str = "SELECT " + str2 + " FROM dbo.\"" + Convert.ToString(eq) + "\" " + "WHERE (Czas BETWEEN '" + Replace(begin, _DD_MM_) + "' AND '" + Replace(end, _DD_MM_) + "')" + "ORDER BY ID ASC";
                     dataAdapter = new SqlDataAdapter(str, sqlConnection);
                     dataSet = new DataSet();
                     dataAdapter.Fill(dataSet, "dbo." + Convert.ToString(eq));
@@ -288,6 +318,7 @@ namespace PomiaryGUI
             }
             catch(Exception ex)
             {
+                Message?.Invoke(this, ex.ToString());
                 return new DataTable();
             }
         }
@@ -303,8 +334,9 @@ namespace PomiaryGUI
                 dataAdapter.Fill(dataSet, "dbo.equipments");
                 return dataSet.Tables["dbo.equipments"];
             }
-            catch
+            catch(Exception ex)
             {
+                Message?.Invoke(this, ex.ToString());
                 return new DataTable();
             }
         }
@@ -320,7 +352,7 @@ namespace PomiaryGUI
                 {
                     Sql_Connect();
 
-                    string str = "SELECT COUNT(Czas) FROM dbo.\"" + Convert.ToString(i) + "\" " + "WHERE (Czas BETWEEN '" + replace(begin, _DD_MM_) + "' AND '" + replace(end, _DD_MM_) + "')";
+                    string str = "SELECT COUNT(Czas) FROM dbo.\"" + Convert.ToString(i) + "\" " + "WHERE (Czas BETWEEN '" + Replace(begin, _DD_MM_) + "' AND '" + Replace(end, _DD_MM_) + "')";
                     cmd = new SqlCommand(str, sqlConnection);
                     Int32 t = (Int32)cmd.ExecuteScalar();
                     tempCount = t > tempCount ? t : tempCount;
@@ -330,6 +362,7 @@ namespace PomiaryGUI
             }
             catch (Exception ex)
             {
+                Message?.Invoke(this, ex.ToString());
                 return 0;
             }
         }

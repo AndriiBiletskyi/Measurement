@@ -39,7 +39,6 @@ namespace PomiaryGUI
             this.UserID = new System.Windows.Forms.Label();
             this.Password = new System.Windows.Forms.Label();
             this.checkBoxTime = new System.Windows.Forms.CheckBox();
-            this.button1 = new System.Windows.Forms.Button();
             this.textStringConnection = new System.Windows.Forms.TextBox();
             this.checkStringConnection = new System.Windows.Forms.CheckBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -151,16 +150,6 @@ namespace PomiaryGUI
             this.checkBoxTime.Text = "Replace DD:MM";
             this.checkBoxTime.UseVisualStyleBackColor = true;
             // 
-            // button1
-            // 
-            this.button1.Font = new System.Drawing.Font("Times New Roman", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.button1.Location = new System.Drawing.Point(177, 265);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(131, 47);
-            this.button1.TabIndex = 2;
-            this.button1.Text = "Connect";
-            this.button1.UseVisualStyleBackColor = true;
-            // 
             // textStringConnection
             // 
             this.textStringConnection.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -198,7 +187,6 @@ namespace PomiaryGUI
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.checkStringConnection);
             this.Controls.Add(this.checkBoxTime);
-            this.Controls.Add(this.button1);
             this.Controls.Add(this.butConnect);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.Password);
@@ -229,7 +217,6 @@ namespace PomiaryGUI
         private System.Windows.Forms.Label UserID;
         private System.Windows.Forms.Label Password;
         private System.Windows.Forms.CheckBox checkBoxTime;
-        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.TextBox textStringConnection;
         private System.Windows.Forms.CheckBox checkStringConnection;
         private System.Windows.Forms.Label label3;

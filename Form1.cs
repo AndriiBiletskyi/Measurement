@@ -42,7 +42,9 @@ namespace PomiaryGUI
 
         #region Settings
         List<string> SettingsGetDataConnection();
+        string SettingsGetDataConnectionString();
         bool GetReplace();
+        bool GetConnectionWay();
         #endregion
     }
 
@@ -703,9 +705,20 @@ namespace PomiaryGUI
         {
             return PanelSettings.GetDataConnection();
         }
+
+        public string SettingsGetDataConnectionString()
+        {
+            return PanelSettings.GetDataConnectionString();
+        }
+
         public bool GetReplace()
         {
             return PanelSettings.GetReplace();
+        }
+
+        public bool GetConnectionWay()
+        {
+            return PanelSettings.GetConnectionWay();
         }
         #endregion
         #region events

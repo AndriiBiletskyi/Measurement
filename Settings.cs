@@ -20,6 +20,11 @@ namespace PomiaryGUI
             InitializeComponent();
             butConnect.Click += new EventHandler(ButtonConnect_Click);
             checkBoxTime.CheckStateChanged += new EventHandler(Replace_DD_MM);
+            textSerwer.Enabled = !checkStringConnection.Checked;
+            textInitialCatalog.Enabled = !checkStringConnection.Checked;
+            textUserID.Enabled = !checkStringConnection.Checked;
+            textPassword.Enabled = !checkStringConnection.Checked;
+            textStringConnection.Enabled = checkStringConnection.Checked;
         }
 
         private void ButtonConnect_Click(object sender, EventArgs e)
@@ -41,9 +46,19 @@ namespace PomiaryGUI
                                       };
         }
 
+        public string GetDataConnectionString()
+        {
+            return textStringConnection.Text;
+        }
+
         public bool GetReplace()
         {
             return checkBoxTime.Checked;
+        }
+
+        public bool GetConnectionWay()
+        {
+            return checkStringConnection.Checked;
         }
 
         private void CheckStringConnection_CheckedChanged(object sender, EventArgs e)
