@@ -72,6 +72,9 @@ namespace PomiaryGUI
         private void MainFormGetEquList(object sender, EventArgs e)
         {
             equTable = _dataManager.GetEquList();
+            equID.Clear();
+            equIDName.Clear();
+            equName.Clear();
             equID = equTable.AsEnumerable().Where(x => x.Field<object>("ID") != DBNull.Value).Select(x => (int)x["ID"]).ToList();
             
             foreach(var i in equID)
@@ -155,6 +158,7 @@ namespace PomiaryGUI
             {
                 _dataManager.SetConnection(_mainForm.SettingsGetDataConnection());
             }
+            MainFormGetEquList(sender, e);
         }
 
         //private async void Raport_data(Raport step, DateTime dateTimeFrom, DateTime dateTimeTo)

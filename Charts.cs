@@ -177,7 +177,15 @@ namespace PomiaryGUI
 
         public string GetEquSelected()
         {
-            return comboBox1.SelectedItem.ToString();
+            if (comboBox1.Items.Count > 0)
+            {
+                return comboBox1.SelectedItem.ToString();
+            }
+            else
+            {
+                return "";
+            }
+            
             //return _equList.FirstOrDefault(x => x.Value == comboBox1.SelectedItem.ToString()).Key;
             //if (comboBox1.Text == "Szyn-1") return 1;
             //if (comboBox1.Text == "Szyn-2") return 2;

@@ -31,8 +31,8 @@ namespace PomiaryGUI
         private SqlCommand cmd;
         //private DataTable table = null;
         //private string connection = @"Data Source=PL02K01-C0AH8FL\SQL25012021;Initial Catalog=pomiary;Userid=uzytkownik;Password=Kayser2021";
-        //private string con = @"Data Source = (LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Program Files\Microsoft SQL Server\MSSQL13.SQLEXPRESS_0804\MSSQL\DATA\pomiary.mdf;Integrated Security = True; Connect Timeout = 30";
-        private string con = @"Data Source=PL02K02-F1QQ9WC\SQLEXPRESS;Initial Catalog=pomiary;Integrated Security=True";
+        private string con = @"Data Source = (LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Program Files\Microsoft SQL Server\MSSQL13.SQLEXPRESS_0804\MSSQL\DATA\pomiary.mdf;Integrated Security = True; Connect Timeout = 30";
+        //private string con = @"Data Source=PL02K02-F1QQ9WC\SQLEXPRESS;Initial Catalog=pomiary;Integrated Security=True";
         private bool _DD_MM_ = false;
 
         SqlConnectionStringBuilder connection = new SqlConnectionStringBuilder()
