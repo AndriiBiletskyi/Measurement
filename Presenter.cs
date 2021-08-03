@@ -76,10 +76,10 @@ namespace PomiaryGUI
             equIDName.Clear();
             equName.Clear();
             equID = equTable.AsEnumerable().Where(x => x.Field<object>("ID") != DBNull.Value).Select(x => (int)x["ID"]).ToList();
-            
-            foreach(var i in equID)
+
+            foreach (var i in equID)
             {
-                string name = equTable.AsEnumerable().Where(x=>x.Field<int>("ID")==i).Select(x => x["NamePL"].ToString()).First();
+                string name = equTable.AsEnumerable().Where(x => x.Field<int>("ID") == i).Select(x => x["NamePL"].ToString()).First();
                 equName.Add(name);
                 equIDName.Add(i, name);
             }
@@ -121,10 +121,10 @@ namespace PomiaryGUI
                 int temp = equIDName.ContainsValue((string)e[0]) ? equIDName.First(x => x.Value == (string)e[0]).Key : 0;
                 dataTable = _dataManager.GetEquData(temp,
                                                     (DateTime)e[1],
-                                                    (DateTime)e[2], 
+                                                    (DateTime)e[2],
                                                     (List<string>)e[3]);
             });
-            _mainForm.ChartData(dataTable,sender);
+            _mainForm.ChartData(dataTable, sender);
         }
 
         private void MainFormButShowRaportsClick(object sender, List<object> e)
@@ -144,7 +144,8 @@ namespace PomiaryGUI
             //        Raport_data(Raport.year, (DateTime)e[1], (DateTime)e[2]);
             //        break;
             //}
-            RaportData2(Raport.year, (DateTime)e[1], (DateTime)e[2]);
+            //RaportData1(Raport.year, (DateTime)e[1], (DateTime)e[2]);
+            RaportData3(Raport.year, (DateTime)e[1], (DateTime)e[2]);
         }
 
         private void MainFormChangeConnect(object sender, EventArgs e)
@@ -283,7 +284,7 @@ namespace PomiaryGUI
         //    }
         //}
 
-        private async void Raport_data(Raport step, DateTime dateTimeFrom, DateTime dateTimeTo)
+        private async void RaportData1(Raport step, DateTime dateTimeFrom, DateTime dateTimeTo)
         {
             try
             {
@@ -420,7 +421,7 @@ namespace PomiaryGUI
             dataRaports.Columns.Add("Day/Time", typeof(string));
             var dateList = new List<DateTime>();
             DateTime dateTime = dateTimeFrom;
-            var PdayList = new Dictionary<int,List<float>>();
+            var PdayList = new Dictionary<int, List<float>>();
             var QdayList = new Dictionary<int, List<float>>();
 
             try
@@ -429,14 +430,14 @@ namespace PomiaryGUI
                 {
                     dateTimeTo = dateTimeFrom > dateTimeTo ? dateTimeFrom : dateTimeTo;
                     dateList.Add(dateTimeFrom);
-                    //while (dateTime < dateTimeTo)
-                    //{
-                    //    if (raport == Raport.day) dateTime = dateTime.AddHours(1.0);
-                    //    else if (raport == Raport.week) dateTime = dateTime.AddDays(1.0);
-                    //    else if (raport == Raport.month) dateTime = dateTime.AddDays(1.0);
-                    //    else if (raport == Raport.year) dateTime = dateTime.AddMonths(1);
-                    //    if (dateTime < dateTimeTo) dateList.Add(dateTime);
-                    //}
+                    while (dateTime < dateTimeTo)
+                    {
+                        if (raport == Raport.day) dateTime = dateTime.AddHours(1.0);
+                        else if (raport == Raport.week) dateTime = dateTime.AddDays(1.0);
+                        else if (raport == Raport.month) dateTime = dateTime.AddDays(1.0);
+                        else if (raport == Raport.year) dateTime = dateTime.AddMonths(1);
+                        if (dateTime < dateTimeTo) dateList.Add(dateTime);
+                    }
                     dateList.Add(dateTimeTo);
 
                     foreach (var equ in equID)
@@ -494,6 +495,42 @@ namespace PomiaryGUI
             _dataManager.DD_MM(_mainForm.GetReplace());
         }
 
-        
+        private async void RaportData3(Raport step, DateTime dateTimeFrom, DateTime dateTimeTo)
+        {
+            var dataRaports = new DataTable();
+            dataRaports.Columns.Add("Day/Time", typeof(string));
+            var dateList = new List<DateTime>();
+            DateTime dateTime = dateTimeFrom;
+            var PdayList = new Dictionary<int, List<float>>();
+            var QdayList = new Dictionary<int, List<float>>();
+
+            try
+            {
+                await Task.Run(() =>
+                {
+                    dateTimeTo = dateTimeFrom > dateTimeTo ? dateTimeFrom : dateTimeTo;
+                    dateList.Add(dateTimeFrom);
+                    while (dateTime < dateTimeTo)
+                    {
+                        if (step == Raport.day) dateTime = dateTime.AddHours(1.0);
+                        else if (step == Raport.week) dateTime = dateTime.AddDays(1.0);
+                        else if (step == Raport.month) dateTime = dateTime.AddDays(1.0);
+                        else if (step == Raport.year) dateTime = dateTime.AddMonths(1);
+                        if (dateTime < dateTimeTo) dateList.Add(dateTime);
+                    }
+                    dateList.Add(dateTimeTo);
+
+                    dataRaports = _dataManager.GetConsumption(equIDName, dateList);
+                });
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+            finally
+            {
+                _mainForm.RaportsData(dataRaports);
+            }
+        }
     }
 }

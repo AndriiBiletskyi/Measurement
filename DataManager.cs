@@ -3,6 +3,7 @@ using System.Data;
 using System.Linq;
 using System.Data.SqlClient;
 using System.Collections.Generic;
+using System.Text;
 
 namespace PomiaryGUI
 {
@@ -21,6 +22,7 @@ namespace PomiaryGUI
         void GetFirstLastData(int eq, DateTime begin, DateTime end, ref float P_day, ref float Q_day);
         DataTable GetEquList();
         Int32 GetRezultCount(List<int> eq, DateTime begin, DateTime end);
+        DataTable GetConsumption(Dictionary<int,string> equ, List<DateTime> times);
     }
 
     public class DataManager: IDataManager
@@ -367,5 +369,65 @@ namespace PomiaryGUI
             }
         }
 
+        public DataTable GetConsumption(Dictionary<int,string> equ, List<DateTime> times)
+        {
+            try
+            {
+                Sql_Connect();
+
+                string str = "";
+                for(int i = 0; i < times.Count - 1; i++)
+                {
+                    str += "SELECT (MAX(P_day) - MIN(P_day)) AS P_RES, (MAX(Q_day) - MIN(Q_day)) AS Q_RES " +
+                           "FROM dbo.\"" + Convert.ToString(1) + "\" " +
+                           "WHERE (Czas BETWEEN '" + Replace(times[i], _DD_MM_) +
+                                         "' AND '" + Replace(times[i + 1], _DD_MM_) + "')";
+                    if(i!= times.Count - 2) str += " UNION ALL ";
+                }
+
+                //List<int> id = equ.Keys.ToList();
+                //string str = "";
+                //string strmin;
+                //string strmax;
+                //for (int i = 0; i < id.Count - 10; i++)
+                //{
+                //    strmin = "min";// + id[i].ToString();
+                //    strmax = "max ";// + id[i].ToString() + " ";
+                //    str += "SELECT MIN(P_day) AS " + strmin + ", MAX(P_day) AS " + strmax +
+                //          "FROM dbo.\"" + Convert.ToString(id[i]) + "\" " +
+                //          "WHERE (Czas BETWEEN '" + Replace(times[0], _DD_MM_) + 
+                //                        "' AND '" + Replace(times[1], _DD_MM_) + "')" + 
+                //          " UNION ";
+                //}
+                //strmin = "min";// + id.Last().ToString();
+                //strmax = "max ";// + id.Last().ToString() + " ";
+                //str += "SELECT MIN(P_day) AS " + strmin + ", MAX(P_day) AS " + strmax +
+                //          "FROM dbo.\"" + Convert.ToString(id.Last()) + "\" " +
+                //          "WHERE (Czas BETWEEN '" + Replace(times[0], _DD_MM_) +
+                //                        "' AND '" + Replace(times[1], _DD_MM_) + "')";
+
+                //string str = "SELECT (MAX(P_day) - MIN(P_day)) AS RES " +
+                //             "FROM dbo.\"" + Convert.ToString(2) + "\" " +
+                //             "WHERE (Czas BETWEEN '" + Replace(times[0], _DD_MM_) +
+                //             "' AND '" + Replace(times[1], _DD_MM_) + "')";
+
+                //string str = "SELECT (MAX(dbo.\"" + Convert.ToString(1) + "\".P_day) - MIN(dbo.\"" + Convert.ToString(1) + "\".P_day)) AS RES, " +
+                //                     "(MAX(dbo.\"" + Convert.ToString(2) + "\".P_day) - MIN(dbo.\"" + Convert.ToString(2) + "\".P_day)) AS RES1 " +
+                //                     "FROM dbo.\"" + Convert.ToString(1) + "\" , " + "dbo.\"" + Convert.ToString(2) + "\" " +
+                //                     //"dbo.\"" + Convert.ToString(2) + "\" " +
+                //                     "WHERE (Czas BETWEEN '" + Replace(times[0], _DD_MM_) +
+                //                     "' AND '" + Replace(times[1], _DD_MM_) + "')";
+
+                dataAdapter = new SqlDataAdapter(str.ToString(), sqlConnection);
+                dataSet = new DataSet();
+                dataAdapter.Fill(dataSet, "dbo.Consumption");
+                return dataSet.Tables["dbo.Consumption"];
+            }
+            catch (Exception ex)
+            {
+                Message?.Invoke(this, ex.ToString());
+                return new DataTable();
+            }
+        }
     }
 }
