@@ -33,8 +33,8 @@ namespace PomiaryGUI
         private SqlCommand cmd;
         //private DataTable table = null;
         //private string connection = @"Data Source=PL02K01-C0AH8FL\SQL25012021;Initial Catalog=pomiary;Userid=uzytkownik;Password=Kayser2021";
-        private string con = @"Data Source = (LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Program Files\Microsoft SQL Server\MSSQL13.SQLEXPRESS_0804\MSSQL\DATA\pomiary.mdf;Integrated Security = True; Connect Timeout = 30";
-        //private string con = @"Data Source=PL02K02-F1QQ9WC\SQLEXPRESS;Initial Catalog=pomiary;Integrated Security=True";
+        //private string con = @"Data Source = (LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Program Files\Microsoft SQL Server\MSSQL13.SQLEXPRESS_0804\MSSQL\DATA\pomiary.mdf;Integrated Security = True; Connect Timeout = 30";
+        private string con = @"Data Source=PL02K02-F1QQ9WC\SQLEXPRESS;Initial Catalog=pomiary;Integrated Security=True";
         private bool _DD_MM_ = false;
 
         SqlConnectionStringBuilder connection = new SqlConnectionStringBuilder()
@@ -376,12 +376,14 @@ namespace PomiaryGUI
                 Sql_Connect();
 
                 string str = "";
-                for(int i = 0; i < times.Count - 1; i++)
+                for (int i = 0; i < times.Count - 1; i++)
                 {
-                    str += "SELECT (MAX(P_day) - MIN(P_day)) AS P_RES, (MAX(Q_day) - MIN(Q_day)) AS Q_RES " +
+                    str += "SELECT (MAX(P_day) - MIN(P_day)) AS P_RES, " +
+                           "(LAST_VALUE(Q_day) OVER (ORDER BY ID) - FIRST_VALUE(Q_day) OVER(ORDER BY ID)) AS Q_RES " +
                            "FROM dbo.\"" + Convert.ToString(1) + "\" " +
                            "WHERE (Czas BETWEEN '" + Replace(times[i], _DD_MM_) +
                                          "' AND '" + Replace(times[i + 1], _DD_MM_) + "')";
+
                     if(i!= times.Count - 2) str += " UNION ALL ";
                 }
 
