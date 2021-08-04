@@ -33,8 +33,8 @@ namespace PomiaryGUI
         private SqlCommand cmd;
         //private DataTable table = null;
         //private string connection = @"Data Source=PL02K01-C0AH8FL\SQL25012021;Initial Catalog=pomiary;Userid=uzytkownik;Password=Kayser2021";
-        //private string con = @"Data Source = (LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Program Files\Microsoft SQL Server\MSSQL13.SQLEXPRESS_0804\MSSQL\DATA\pomiary.mdf;Integrated Security = True; Connect Timeout = 30";
-        private string con = @"Data Source=PL02K02-F1QQ9WC\SQLEXPRESS;Initial Catalog=pomiary;Integrated Security=True";
+        private string con = @"Data Source = (LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Program Files\Microsoft SQL Server\MSSQL13.SQLEXPRESS_0804\MSSQL\DATA\pomiary.mdf;Integrated Security = True; Connect Timeout = 30";
+        //private string con = @"Data Source=PL02K02-F1QQ9WC\SQLEXPRESS;Initial Catalog=pomiary;Integrated Security=True";
         private bool _DD_MM_ = false;
 
         SqlConnectionStringBuilder connection = new SqlConnectionStringBuilder()
@@ -375,55 +375,45 @@ namespace PomiaryGUI
             {
                 Sql_Connect();
 
-                string str = "";
-                for (int i = 0; i < times.Count - 1; i++)
-                {
-                    str += "SELECT (MAX(P_day) - MIN(P_day)) AS P_RES, " +
-                           "(LAST_VALUE(Q_day) OVER (ORDER BY ID) - FIRST_VALUE(Q_day) OVER(ORDER BY ID)) AS Q_RES " +
-                           "FROM dbo.\"" + Convert.ToString(1) + "\" " +
-                           "WHERE (Czas BETWEEN '" + Replace(times[i], _DD_MM_) +
-                                         "' AND '" + Replace(times[i + 1], _DD_MM_) + "')";
+                DataTable dt = new DataTable();
 
-                    if(i!= times.Count - 2) str += " UNION ALL ";
+                foreach (var eq in equ.Keys)
+                {
+                    string str = "";
+                    string strDb = "FROM dbo.\"" + Convert.ToString(eq) + "\" ";
+                    string strPres = "(MAX(P_day) - MIN(P_day)) AS '" + equ[eq] +", P'";
+
+                    for (int i = 0; i < times.Count - 1; i++)
+                    {
+                        string strWhere = "WHERE(Czas BETWEEN '" + Replace(times[i], _DD_MM_) + "' AND '" + Replace(times[i + 1], _DD_MM_) + "') AND Q_day IS NOT NULL";
+
+                        str += "SELECT " + strPres + ", " +
+                                      "(" +
+                                        "(" +
+                                            "SELECT TOP 1 Q_day " + strDb + strWhere + " ORDER BY ID DESC" +
+                                        ")" +
+                                        " - " +
+                                        "(" +
+                                            "SELECT TOP 1 Q_day " + strDb + strWhere +
+                                        ")" +
+                                    ") AS '" + equ[eq] + ", Q '" +
+
+                               strDb +
+                               "WHERE (Czas BETWEEN '" + Replace(times[i], _DD_MM_) +
+                                             "' AND '" + Replace(times[i + 1], _DD_MM_) + "')";
+
+                        if (i != times.Count - 2) str += " UNION ALL ";
+                    }
+
+                    dataAdapter = new SqlDataAdapter(str.ToString(), sqlConnection);
+                    dataSet = new DataSet();
+                    dataAdapter.Fill(dataSet, "dbo.Consumption" + Convert.ToString(eq));
+                    
+                    dt.Columns.Add(dataSet.Tables["dbo.Consumption" + Convert.ToString(eq)].Columns[0]);
+                    dt.Columns.Add(dataSet.Tables["dbo.Consumption" + Convert.ToString(eq)].Columns[1]);
                 }
 
-                //List<int> id = equ.Keys.ToList();
-                //string str = "";
-                //string strmin;
-                //string strmax;
-                //for (int i = 0; i < id.Count - 10; i++)
-                //{
-                //    strmin = "min";// + id[i].ToString();
-                //    strmax = "max ";// + id[i].ToString() + " ";
-                //    str += "SELECT MIN(P_day) AS " + strmin + ", MAX(P_day) AS " + strmax +
-                //          "FROM dbo.\"" + Convert.ToString(id[i]) + "\" " +
-                //          "WHERE (Czas BETWEEN '" + Replace(times[0], _DD_MM_) + 
-                //                        "' AND '" + Replace(times[1], _DD_MM_) + "')" + 
-                //          " UNION ";
-                //}
-                //strmin = "min";// + id.Last().ToString();
-                //strmax = "max ";// + id.Last().ToString() + " ";
-                //str += "SELECT MIN(P_day) AS " + strmin + ", MAX(P_day) AS " + strmax +
-                //          "FROM dbo.\"" + Convert.ToString(id.Last()) + "\" " +
-                //          "WHERE (Czas BETWEEN '" + Replace(times[0], _DD_MM_) +
-                //                        "' AND '" + Replace(times[1], _DD_MM_) + "')";
-
-                //string str = "SELECT (MAX(P_day) - MIN(P_day)) AS RES " +
-                //             "FROM dbo.\"" + Convert.ToString(2) + "\" " +
-                //             "WHERE (Czas BETWEEN '" + Replace(times[0], _DD_MM_) +
-                //             "' AND '" + Replace(times[1], _DD_MM_) + "')";
-
-                //string str = "SELECT (MAX(dbo.\"" + Convert.ToString(1) + "\".P_day) - MIN(dbo.\"" + Convert.ToString(1) + "\".P_day)) AS RES, " +
-                //                     "(MAX(dbo.\"" + Convert.ToString(2) + "\".P_day) - MIN(dbo.\"" + Convert.ToString(2) + "\".P_day)) AS RES1 " +
-                //                     "FROM dbo.\"" + Convert.ToString(1) + "\" , " + "dbo.\"" + Convert.ToString(2) + "\" " +
-                //                     //"dbo.\"" + Convert.ToString(2) + "\" " +
-                //                     "WHERE (Czas BETWEEN '" + Replace(times[0], _DD_MM_) +
-                //                     "' AND '" + Replace(times[1], _DD_MM_) + "')";
-
-                dataAdapter = new SqlDataAdapter(str.ToString(), sqlConnection);
-                dataSet = new DataSet();
-                dataAdapter.Fill(dataSet, "dbo.Consumption");
-                return dataSet.Tables["dbo.Consumption"];
+                return dt;
             }
             catch (Exception ex)
             {
