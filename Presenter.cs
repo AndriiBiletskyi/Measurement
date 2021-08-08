@@ -129,23 +129,23 @@ namespace PomiaryGUI
 
         private void MainFormButShowRaportsClick(object sender, List<object> e)
         {
-            //switch (e[0])
-            //{
-            //    case FormStates.daily:
-            //        Raport_data(Raport.day, (DateTime)e[1], (DateTime)e[2]);
-            //        break;
-            //    case FormStates.weekly:
-            //        Raport_data(Raport.week, (DateTime)e[1], (DateTime)e[2]);
-            //        break;
-            //    case FormStates.monthly:
-            //        Raport_data(Raport.month, (DateTime)e[1], (DateTime)e[2]);
-            //        break;
-            //    case FormStates.annual:
-            //        Raport_data(Raport.year, (DateTime)e[1], (DateTime)e[2]);
-            //        break;
-            //}
+            switch (e[0])
+            {
+                case FormStates.daily:
+                    RaportData3(Raport.day, (DateTime)e[1], (DateTime)e[2]);
+                    break;
+                case FormStates.weekly:
+                    RaportData3(Raport.week, (DateTime)e[1], (DateTime)e[2]);
+                    break;
+                case FormStates.monthly:
+                    RaportData3(Raport.month, (DateTime)e[1], (DateTime)e[2]);
+                    break;
+                case FormStates.annual:
+                    RaportData3(Raport.year, (DateTime)e[1], (DateTime)e[2]);
+                    break;
+            }
             //RaportData1(Raport.year, (DateTime)e[1], (DateTime)e[2]);
-            RaportData3(Raport.month, (DateTime)e[1], (DateTime)e[2]);
+            //RaportData3(Raport.month, (DateTime)e[1], (DateTime)e[2]);
         }
 
         private void MainFormChangeConnect(object sender, EventArgs e)
@@ -512,10 +512,28 @@ namespace PomiaryGUI
                     dateList.Add(dateTimeFrom);
                     while (dateTime < dateTimeTo)
                     {
-                        if (step == Raport.day) dateTime = dateTime.AddHours(1.0);
-                        else if (step == Raport.week) dateTime = dateTime.AddDays(1.0);
-                        else if (step == Raport.month) dateTime = dateTime.AddDays(1.0);
-                        else if (step == Raport.year) dateTime = dateTime.AddMonths(1);
+                        if (step == Raport.day)
+                        {
+                            TimeSpan dif = dateTimeTo.Subtract(dateTimeFrom);
+                            if (dif.TotalHours > 24) dateTimeTo = dateTimeFrom.AddHours(24);
+                            dateTime = dateTime.AddHours(1.0);
+                        }
+                        else if (step == Raport.week)
+                        {
+                            TimeSpan dif = dateTimeTo.Subtract(dateTimeFrom);
+                            if (dif.TotalDays > 8) dateTimeTo = dateTimeFrom.AddDays(8);
+                            dateTime = dateTime.AddDays(1.0);
+                        }
+                        else if (step == Raport.month)
+                        {
+                            TimeSpan dif = dateTimeTo.Subtract(dateTimeFrom);
+                            if (dif.TotalDays > 32) dateTimeTo = dateTimeFrom.AddDays(32);
+                            dateTime = dateTime.AddDays(1.0);
+                        }
+                        else if (step == Raport.year)
+                        {
+                            dateTime = dateTime.AddMonths(1);
+                        }
                         if (dateTime < dateTimeTo) dateList.Add(dateTime);
                     }
                     dateList.Add(dateTimeTo);
