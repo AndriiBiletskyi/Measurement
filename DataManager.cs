@@ -17,6 +17,7 @@ namespace PomiaryGUI
         DataRow GetLastEquData(int eq);
         DataTable GetEquData(int eq, DateTime begin, DateTime end);
         DataTable GetEquData(int eq, DateTime begin, DateTime end,List<string> colums);
+        DataTable GetEquData2(int eq, DateTime begin, DateTime end, List<string> colums);
         void DD_MM(bool state);
         float GetFirstData(int eq, DateTime begin, DateTime end, string Value);
         float GetLastData(int eq, DateTime begin, DateTime end, string Value);
@@ -305,14 +306,14 @@ namespace PomiaryGUI
                     Sql_Connect();
 
                     string str2 = "Czas,Nazwa_urzadzenia,Status";
-                    foreach(var s in colums)
+                    foreach (var s in colums)
                     {
                         str2 += "," + s;
                     }
 
                     string str = "SELECT " + str2 + " FROM dbo.\"" + Convert.ToString(eq) + "\" " + "WHERE (Czas BETWEEN '" + Replace(begin, _DD_MM_) + "' AND '" + Replace(end, _DD_MM_) + "')" + "ORDER BY ID ASC";
-                    dataAdapter = new SqlDataAdapter(str, sqlConnection);
                     dataSet = new DataSet();
+                    dataAdapter = new SqlDataAdapter(str, sqlConnection);
                     dataAdapter.Fill(dataSet, "dbo." + Convert.ToString(eq));
 
                     return dataSet.Tables["dbo." + Convert.ToString(eq)];
@@ -326,7 +327,40 @@ namespace PomiaryGUI
                 return new DataTable();
             }
         }
-    
+
+        public DataTable GetEquData2(int eq, DateTime begin, DateTime end, List<string> colums)
+        {
+            try
+            {
+                if (eq > 0 && eq < 256)
+                {
+                    Sql_Connect();
+                    string strDb = "FROM dbo.\"" + Convert.ToString(eq) + "\" ";
+                    string strWhere = "WHERE (Czas BETWEEN '" + Replace(begin, _DD_MM_) + "' AND '" + Replace(end, _DD_MM_) + "')";
+                    string str = "SELECT count(ID) as idcount " + strDb + strWhere;
+                    int count = 0;
+                    dataSet = new DataSet();
+                    dataAdapter = new SqlDataAdapter(str, sqlConnection);
+                    dataAdapter.Fill(dataSet, "dbo." + Convert.ToString(eq));
+                    count = (int)dataSet.Tables["dbo." + Convert.ToString(eq)].Rows[0]["idcount"];
+                    int firstid = 1;
+                    str = "SELECT top 1 ID " + strDb + strWhere + " order by ID asc";
+                    dataSet = new DataSet();
+                    dataAdapter = new SqlDataAdapter(str, sqlConnection);
+                    dataAdapter.Fill(dataSet, "dbo." + Convert.ToString(eq));
+                    firstid = (int)dataSet.Tables["dbo." + Convert.ToString(eq)].Rows[0]["ID"];
+
+
+                }
+                return new DataTable();
+            }
+            catch (Exception ex)
+            {
+                Message?.Invoke(this, ex.ToString());
+                return new DataTable();
+            }
+        }
+
         public DataTable GetEquList()
         {
             try
