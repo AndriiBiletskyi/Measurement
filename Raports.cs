@@ -79,9 +79,12 @@ namespace PomiaryGUI
             data.Columns.Clear();
             data = dataTable;
             dataGridViewRaports.DataSource = data;
-            dataGridViewRaports.Columns[0].DefaultCellStyle.WrapMode = DataGridViewTriState.True;
-            dataGridViewRaports.ColumnHeadersDefaultCellStyle.WrapMode = DataGridViewTriState.False;
-            dataGridViewRaports.Columns[0].Frozen = true;
+            if (dataGridViewRaports.Columns.Count > 0)
+            {
+                dataGridViewRaports.Columns[0].DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+                dataGridViewRaports.ColumnHeadersDefaultCellStyle.WrapMode = DataGridViewTriState.False;
+                dataGridViewRaports.Columns[0].Frozen = true;
+            }
             foreach (DataGridViewColumn column in dataGridViewRaports.Columns)
             {
                 column.SortMode = DataGridViewColumnSortMode.NotSortable;

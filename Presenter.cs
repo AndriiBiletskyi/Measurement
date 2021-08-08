@@ -145,7 +145,7 @@ namespace PomiaryGUI
             //        break;
             //}
             //RaportData1(Raport.year, (DateTime)e[1], (DateTime)e[2]);
-            RaportData3(Raport.year, (DateTime)e[1], (DateTime)e[2]);
+            RaportData3(Raport.month, (DateTime)e[1], (DateTime)e[2]);
         }
 
         private void MainFormChangeConnect(object sender, EventArgs e)
@@ -520,7 +520,7 @@ namespace PomiaryGUI
                     }
                     dateList.Add(dateTimeTo);
 
-                    dataRaports = _dataManager.GetConsumption(equIDName, dateList);
+                    dataRaports = _dataManager.GetConsumption2(equIDName, dateList);
                 });
             }
             catch(Exception ex)

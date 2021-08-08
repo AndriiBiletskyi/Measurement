@@ -252,7 +252,7 @@ namespace PomiaryGUI
 
                 DataTable temptable = new DataTable();
                 DataColumn tempcolumn;
-                DataRow temprow, temprow1, temprow2;
+                DataRow temprow;
                 var checkedLines= GetCheckedLines();
 
                 tempcolumn = new DataColumn
