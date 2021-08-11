@@ -26,6 +26,7 @@ namespace PomiaryGUI
         Int32 GetRezultCount(List<int> eq, DateTime begin, DateTime end);
         DataTable GetConsumption(Dictionary<int,string> equ, List<DateTime> times);
         DataTable GetConsumption2(Dictionary<int, string> equ, List<DateTime> times);
+        DataTable GetConsumption3(Dictionary<int, string> equ, List<DateTime> times);
     }
 
     public class DataManager: IDataManager
@@ -36,8 +37,8 @@ namespace PomiaryGUI
         private SqlCommand cmd;
         //private DataTable table = null;
         //private string connection = @"Data Source=PL02K01-C0AH8FL\SQL25012021;Initial Catalog=pomiary;Userid=uzytkownik;Password=Kayser2021";
-        //private string con = @"Data Source = (LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Program Files\Microsoft SQL Server\MSSQL13.SQLEXPRESS_0804\MSSQL\DATA\pomiary.mdf;Integrated Security = True; Connect Timeout = 30";
-        private string con = @"Data Source=PL02K02-F1QQ9WC\SQLEXPRESS;Initial Catalog=pomiary;Integrated Security=True";
+        private string con = @"Data Source = (LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Program Files\Microsoft SQL Server\MSSQL13.SQLEXPRESS_0804\MSSQL\DATA\pomiary.mdf;Integrated Security = True; Connect Timeout = 30";
+        //private string con = @"Data Source=PL02K02-F1QQ9WC\SQLEXPRESS;Initial Catalog=pomiary;Integrated Security=True";
         private bool _DD_MM_ = false;
 
         SqlConnectionStringBuilder connection = new SqlConnectionStringBuilder()
@@ -535,6 +536,102 @@ namespace PomiaryGUI
                     foreach (DataRow row in dataS.Tables["dbo.Consumption" + Convert.ToString(eq)].Rows)
                     {
                         dt.Rows[qwer][equ[eq] + ", P"] = row[equ[eq] + ", P"] !=DBNull.Value ? Math.Round((double)row[equ[eq] + ", P"],2) : 0;
+                        dt.Rows[qwer][equ[eq] + ", Q"] = row[equ[eq] + ", Q"] != DBNull.Value ? Math.Round((double)row[equ[eq] + ", Q"], 2) : 0;
+                        qwer++;
+                    }
+                });
+
+                foreach (var i in sqlConnectionsList)
+                {
+                    i.Close();
+                }
+                return dt;
+            }
+            catch (Exception ex)
+            {
+                Message?.Invoke(this, ex.ToString());
+                return new DataTable();
+            }
+        }
+
+        public DataTable GetConsumption3(Dictionary<int, string> equ, List<DateTime> times)
+        {
+            try
+            {
+                List<SqlConnection> sqlConnectionsList = new List<SqlConnection>
+                {
+                    new SqlConnection(con),
+                    new SqlConnection(con),
+                    new SqlConnection(con),
+                    new SqlConnection(con),
+                    new SqlConnection(con),
+                    new SqlConnection(con),
+                    new SqlConnection(con),
+                    new SqlConnection(con),
+                    new SqlConnection(con),
+                    new SqlConnection(con),
+                    new SqlConnection(con),
+                    new SqlConnection(con)
+                };
+                foreach (var i in sqlConnectionsList)
+                {
+                    i.Open();
+                }
+
+                DataTable dt = new DataTable();
+                dt.Columns.Add("Day/Time", typeof(string));
+                foreach (var eq in equ.Keys)
+                {
+                    string s = equ[eq];
+                    if (string.IsNullOrWhiteSpace(s)) { s = "Unknow" + eq.ToString(); }
+                    dt.Columns.Add(s + ", P", typeof(float));
+                    dt.Columns.Add(s + ", Q", typeof(float));
+                }
+                for (int i = 0; i < times.Count - 1; i++)
+                {
+                    DataRow row = dt.NewRow();
+                    if (i == (times.Count - 2)) row[0] = times[i].ToString() + System.Environment.NewLine + times[i + 1].ToString();
+                    else row[0] = times[i].ToString() + System.Environment.NewLine + times[i + 1].AddSeconds(-1.0).ToString();
+                    dt.Rows.Add(row);
+                }
+                var l = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
+                //foreach (var eq in l)
+                Parallel.ForEach(l, eq =>
+                {
+                    string str = "";
+                    string strDb = "FROM dbo.\"" + Convert.ToString(eq) + "\" ";
+                    string strPres = "((MAX(P_day) - MIN(P_day))/1000) AS '" + equ[eq] + ", P'";
+
+                    for (int i = 0; i < times.Count - 1; i++)
+                    {
+                        string strWhere = "WHERE(Czas BETWEEN '" + Replace(times[i], _DD_MM_) + "' AND '" + Replace(times[i + 1], _DD_MM_) + "') AND Q_day IS NOT NULL";
+
+                        str += "SELECT " + strPres + ", " +
+                                      //"((" +
+                                      //  "(" +
+                                      //      "SELECT TOP 1 Q_day " + strDb + strWhere + " ORDER BY ID DESC" +
+                                      //  ")" +
+                                      //  " - " +
+                                      //  "(" +
+                                      //      "SELECT TOP 1 Q_day " + strDb + strWhere +
+                                      //  ")" +
+                                      //")/1000) AS '" + equ[eq] + ", Q' " +
+                                      "(MAX(Q_day)/1000) AS '" + equ[eq] + ", Q' " +
+
+                               strDb +
+                               "WHERE (Czas BETWEEN '" + Replace(times[i], _DD_MM_) +
+                                             "' AND '" + Replace(times[i + 1], _DD_MM_) + "')";
+
+                        if (i != times.Count - 2) str += " UNION ALL ";
+                    }
+
+                    var dataAdapt = new SqlDataAdapter(str.ToString(), sqlConnectionsList[eq-1]);
+                    var dataS = new DataSet();
+                    dataAdapt.Fill(dataS, "dbo.Consumption" + Convert.ToString(eq));
+                    int qwer = 0;
+                    foreach (DataRow row in dataS.Tables["dbo.Consumption" + Convert.ToString(eq)].Rows)
+                    {
+                        dt.Rows[qwer][equ[eq] + ", P"] = row[equ[eq] + ", P"] != DBNull.Value ? Math.Round((double)row[equ[eq] + ", P"], 2) : 0;
                         dt.Rows[qwer][equ[eq] + ", Q"] = row[equ[eq] + ", Q"] != DBNull.Value ? Math.Round((double)row[equ[eq] + ", Q"], 2) : 0;
                         qwer++;
                     }

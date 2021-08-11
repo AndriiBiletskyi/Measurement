@@ -538,7 +538,7 @@ namespace PomiaryGUI
                     }
                     dateList.Add(dateTimeTo);
 
-                    dataRaports = _dataManager.GetConsumption2(equIDName, dateList);
+                    dataRaports = _dataManager.GetConsumption3(equIDName, dateList);
                 });
             }
             catch(Exception ex)
