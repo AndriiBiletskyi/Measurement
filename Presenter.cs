@@ -119,7 +119,7 @@ namespace PomiaryGUI
             await Task.Run(() =>
             {
                 int temp = equIDName.ContainsValue((string)e[0]) ? equIDName.First(x => x.Value == (string)e[0]).Key : 0;
-                dataTable = _dataManager.GetEquData(temp,
+                dataTable = _dataManager.GetEquData2(temp,
                                                     (DateTime)e[1],
                                                     (DateTime)e[2],
                                                     (List<string>)e[3]);
