@@ -573,6 +573,37 @@ namespace PomiaryGUI
                     new SqlConnection(con),
                     new SqlConnection(con)
                 };
+
+                var dataAdapt = new List<SqlDataAdapter> 
+                {
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null
+                };
+                var dataS = new List<DataSet>
+                {
+                    new DataSet(),
+                    new DataSet(),
+                    new DataSet(),
+                    new DataSet(),
+                    new DataSet(),
+                    new DataSet(),
+                    new DataSet(),
+                    new DataSet(),
+                    new DataSet(),
+                    new DataSet(),
+                    new DataSet(),
+                    new DataSet()
+                };
                 foreach (var i in sqlConnectionsList)
                 {
                     i.Open();
@@ -606,7 +637,7 @@ namespace PomiaryGUI
                     {
                         string strWhere = "WHERE(Czas BETWEEN '" + Replace(times[i], _DD_MM_) + "' AND '" + Replace(times[i + 1], _DD_MM_) + "') AND Q_day IS NOT NULL";
 
-                        str += "SELECT " + strPres + ", " +
+                        str += "SELECT " + strPres + " " +
                                       //"((" +
                                       //  "(" +
                                       //      "SELECT TOP 1 Q_day " + strDb + strWhere + " ORDER BY ID DESC" +
@@ -616,7 +647,7 @@ namespace PomiaryGUI
                                       //      "SELECT TOP 1 Q_day " + strDb + strWhere +
                                       //  ")" +
                                       //")/1000) AS '" + equ[eq] + ", Q' " +
-                                      "(MAX(Q_day)/1000) AS '" + equ[eq] + ", Q' " +
+                               //"(MAX(Q_day)/1000) AS '" + equ[eq] + ", Q' " +
 
                                strDb +
                                "WHERE (Czas BETWEEN '" + Replace(times[i], _DD_MM_) +
@@ -625,14 +656,14 @@ namespace PomiaryGUI
                         if (i != times.Count - 2) str += " UNION ALL ";
                     }
 
-                    var dataAdapt = new SqlDataAdapter(str.ToString(), sqlConnectionsList[eq-1]);
-                    var dataS = new DataSet();
-                    dataAdapt.Fill(dataS, "dbo.Consumption" + Convert.ToString(eq));
+                    dataAdapt[eq - 1] = new SqlDataAdapter(str.ToString(), sqlConnectionsList[eq-1]);
+                    //var dataS[eq - 1] = new DataSet();
+                    dataAdapt[eq - 1].Fill(dataS[eq - 1], "dbo.Consumption" + Convert.ToString(eq));
                     int qwer = 0;
-                    foreach (DataRow row in dataS.Tables["dbo.Consumption" + Convert.ToString(eq)].Rows)
+                    foreach (DataRow row in dataS[eq - 1].Tables["dbo.Consumption" + Convert.ToString(eq)].Rows)
                     {
                         dt.Rows[qwer][equ[eq] + ", P"] = row[equ[eq] + ", P"] != DBNull.Value ? Math.Round((double)row[equ[eq] + ", P"], 2) : 0;
-                        dt.Rows[qwer][equ[eq] + ", Q"] = row[equ[eq] + ", Q"] != DBNull.Value ? Math.Round((double)row[equ[eq] + ", Q"], 2) : 0;
+                        //dt.Rows[qwer][equ[eq] + ", Q"] = row[equ[eq] + ", Q"] != DBNull.Value ? Math.Round((double)row[equ[eq] + ", Q"], 2) : 0;
                         qwer++;
                     }
                 });

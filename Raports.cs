@@ -25,6 +25,9 @@ namespace PomiaryGUI
             MinutesFrom.SelectedItem = MinutesFrom.Items[0];
             MinutesTo.SelectedItem = MinutesTo.Items[59];
 
+            DateFrom.Value = new DateTime(2021, 1, 1);
+            DateTo.Value = new DateTime(2021, 12, 31);
+
             dataGridViewRaports.DefaultCellStyle.Font = new Font("Times New Roman", 16, FontStyle.Bold);
             dataGridViewRaports.ColumnHeadersDefaultCellStyle.Font = new Font("Times New Roman", 16, FontStyle.Bold);
             dataGridViewRaports.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
