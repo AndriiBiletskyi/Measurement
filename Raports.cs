@@ -2,20 +2,81 @@
 using System.Windows.Forms;
 using System.Data;
 using System.Drawing;
+using Microsoft.Office.Interop.Excel;
+using System.IO;
 
 namespace PomiaryGUI
 {
     public partial class Raports : UserControl
     {
-        private DataTable data = new DataTable();
+        private System.Data.DataTable data = new System.Data.DataTable();
         private bool statusRaports = true;
         private Panel panel = new Panel();
         public event EventHandler ButtonShowClick;
+        public event EventHandler ButtonExportClick;
 
         public Raports()
         {
             InitializeComponent();
             buttonShow.Click += new EventHandler(ButtonShow_Click);
+            buttonExport.Click += new EventHandler(ButtonExport_Click);
+        }
+
+        private void ButtonExport_Click(object sender, EventArgs e)
+        {
+            ButtonExportClick?.Invoke(this, EventArgs.Empty);
+
+            Microsoft.Office.Interop.Excel._Application app = new Microsoft.Office.Interop.Excel.Application();
+            Microsoft.Office.Interop.Excel._Workbook workbook = app.Workbooks.Add(Type.Missing);
+            Microsoft.Office.Interop.Excel._Worksheet worksheet = null;
+            app.Visible = true;
+            worksheet = workbook.Sheets["Sheet1"];
+            worksheet = workbook.ActiveSheet;
+            worksheet.Name = "Records";
+
+            try
+            {
+                for (int i = 1; i < dataGridViewRaports.Columns.Count + 1; i++)
+                {
+                    worksheet.Cells[1, i] = dataGridViewRaports.Columns[i - 1].HeaderText;
+                }
+                for (int i = 0; i < dataGridViewRaports.Rows.Count - 1; i++)
+                {
+                    for (int j = 0; j < dataGridViewRaports.Columns.Count; j++)
+                    {
+                        if (dataGridViewRaports.Rows[i].Cells[j].Value != null)
+                        {
+                            worksheet.Cells[i + 2, j + 1] = dataGridViewRaports.Rows[i].Cells[j].Value.ToString();
+                        }
+                        else
+                        {
+                            worksheet.Cells[i + 2, j + 1] = "";
+                        }
+                    }
+                }
+
+                //Getting the location and file name of the excel to save from user. 
+                SaveFileDialog saveDialog = new SaveFileDialog();
+                saveDialog.Filter = "Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.*";
+                saveDialog.FilterIndex = 2;
+
+                if (saveDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    workbook.SaveAs(saveDialog.FileName);
+                    MessageBox.Show("Export Successful", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch (System.Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+            finally
+            {
+                app.Quit();
+                workbook = null;
+                worksheet = null;
+            }
         }
 
         private void Raports_Load(object sender, EventArgs e)
@@ -28,8 +89,8 @@ namespace PomiaryGUI
             DateFrom.Value = new DateTime(2021, 1, 1);
             DateTo.Value = new DateTime(2021, 12, 31);
 
-            dataGridViewRaports.DefaultCellStyle.Font = new Font("Times New Roman", 16, FontStyle.Bold);
-            dataGridViewRaports.ColumnHeadersDefaultCellStyle.Font = new Font("Times New Roman", 16, FontStyle.Bold);
+            dataGridViewRaports.DefaultCellStyle.Font = new System.Drawing.Font("Times New Roman", 16, FontStyle.Bold);
+            dataGridViewRaports.ColumnHeadersDefaultCellStyle.Font = new System.Drawing.Font("Times New Roman", 16, FontStyle.Bold);
             dataGridViewRaports.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             dataGridViewRaports.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             dataGridViewRaports.AllowUserToAddRows = false;
@@ -42,7 +103,7 @@ namespace PomiaryGUI
             panel.BackgroundImageLayout = ImageLayout.Zoom;
             panel.BackgroundImage = Properties.Resources.giphy;
             panel.Size = new Size(300, 200);
-            panel.Location = new Point(this.Width / 2 - panel.Width / 2,
+            panel.Location = new System.Drawing.Point(this.Width / 2 - panel.Width / 2,
                                        this.Height / 2 - panel.Height / 2);
             panel.Visible = false;
         }
@@ -76,7 +137,7 @@ namespace PomiaryGUI
             }
         }
 
-        public void SetData(DataTable dataTable)
+        public void SetData(System.Data.DataTable dataTable)
         {
             data.Clear();
             data.Columns.Clear();
@@ -116,7 +177,7 @@ namespace PomiaryGUI
                 {
                     dataGridViewRaports.Visible = false;
                     panel.Visible = true;
-                    panel.Location = new Point(this.Width / 2 - panel.Width / 2,
+                    panel.Location = new System.Drawing.Point(this.Width / 2 - panel.Width / 2,
                                        this.Height / 2 - panel.Height / 2);
                 }
             }

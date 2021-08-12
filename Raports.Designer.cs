@@ -41,14 +41,16 @@ namespace PomiaryGUI
             this.DateFrom = new System.Windows.Forms.DateTimePicker();
             this.dataGridViewRaports = new System.Windows.Forms.DataGridView();
             this.Time_Day = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.buttonExport = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewRaports)).BeginInit();
             this.SuspendLayout();
             // 
             // buttonShow
             // 
-            this.buttonShow.Location = new System.Drawing.Point(170, 0);
+            this.buttonShow.Location = new System.Drawing.Point(227, 0);
+            this.buttonShow.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.buttonShow.Name = "buttonShow";
-            this.buttonShow.Size = new System.Drawing.Size(75, 54);
+            this.buttonShow.Size = new System.Drawing.Size(100, 66);
             this.buttonShow.TabIndex = 12;
             this.buttonShow.Text = "Show";
             this.buttonShow.UseVisualStyleBackColor = true;
@@ -122,9 +124,10 @@ namespace PomiaryGUI
             "57",
             "58",
             "59"});
-            this.MinutesTo.Location = new System.Drawing.Point(40, 27);
+            this.MinutesTo.Location = new System.Drawing.Point(53, 33);
+            this.MinutesTo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.MinutesTo.Name = "MinutesTo";
-            this.MinutesTo.Size = new System.Drawing.Size(40, 27);
+            this.MinutesTo.Size = new System.Drawing.Size(52, 31);
             this.MinutesTo.TabIndex = 8;
             // 
             // HoursTo
@@ -160,9 +163,10 @@ namespace PomiaryGUI
             "21",
             "22",
             "23"});
-            this.HoursTo.Location = new System.Drawing.Point(0, 27);
+            this.HoursTo.Location = new System.Drawing.Point(0, 33);
+            this.HoursTo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.HoursTo.Name = "HoursTo";
-            this.HoursTo.Size = new System.Drawing.Size(40, 27);
+            this.HoursTo.Size = new System.Drawing.Size(52, 31);
             this.HoursTo.TabIndex = 9;
             // 
             // MinutesFrom
@@ -234,9 +238,10 @@ namespace PomiaryGUI
             "57",
             "58",
             "59"});
-            this.MinutesFrom.Location = new System.Drawing.Point(40, 0);
+            this.MinutesFrom.Location = new System.Drawing.Point(53, 0);
+            this.MinutesFrom.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.MinutesFrom.Name = "MinutesFrom";
-            this.MinutesFrom.Size = new System.Drawing.Size(40, 27);
+            this.MinutesFrom.Size = new System.Drawing.Size(52, 31);
             this.MinutesFrom.TabIndex = 10;
             // 
             // HoursFrom
@@ -273,26 +278,29 @@ namespace PomiaryGUI
             "22",
             "23"});
             this.HoursFrom.Location = new System.Drawing.Point(0, 0);
+            this.HoursFrom.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.HoursFrom.Name = "HoursFrom";
-            this.HoursFrom.Size = new System.Drawing.Size(40, 27);
+            this.HoursFrom.Size = new System.Drawing.Size(52, 31);
             this.HoursFrom.TabIndex = 11;
             // 
             // DateTo
             // 
             this.DateTo.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.DateTo.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.DateTo.Location = new System.Drawing.Point(80, 27);
+            this.DateTo.Location = new System.Drawing.Point(107, 33);
+            this.DateTo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.DateTo.Name = "DateTo";
-            this.DateTo.Size = new System.Drawing.Size(90, 26);
+            this.DateTo.Size = new System.Drawing.Size(119, 30);
             this.DateTo.TabIndex = 6;
             // 
             // DateFrom
             // 
             this.DateFrom.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.DateFrom.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.DateFrom.Location = new System.Drawing.Point(80, 1);
+            this.DateFrom.Location = new System.Drawing.Point(107, 1);
+            this.DateFrom.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.DateFrom.Name = "DateFrom";
-            this.DateFrom.Size = new System.Drawing.Size(90, 26);
+            this.DateFrom.Size = new System.Drawing.Size(119, 30);
             this.DateFrom.TabIndex = 7;
             // 
             // dataGridViewRaports
@@ -319,10 +327,12 @@ namespace PomiaryGUI
             this.dataGridViewRaports.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Time_Day});
             this.dataGridViewRaports.GridColor = System.Drawing.Color.Black;
-            this.dataGridViewRaports.Location = new System.Drawing.Point(0, 54);
+            this.dataGridViewRaports.Location = new System.Drawing.Point(0, 66);
+            this.dataGridViewRaports.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.dataGridViewRaports.Name = "dataGridViewRaports";
             this.dataGridViewRaports.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            this.dataGridViewRaports.Size = new System.Drawing.Size(800, 500);
+            this.dataGridViewRaports.RowHeadersWidth = 51;
+            this.dataGridViewRaports.Size = new System.Drawing.Size(1067, 615);
             this.dataGridViewRaports.TabIndex = 13;
             // 
             // Time_Day
@@ -332,14 +342,26 @@ namespace PomiaryGUI
             dataGridViewCellStyle3.Font = new System.Drawing.Font("Times New Roman", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.Time_Day.DefaultCellStyle = dataGridViewCellStyle3;
             this.Time_Day.HeaderText = "Time/Day";
+            this.Time_Day.MinimumWidth = 6;
             this.Time_Day.Name = "Time_Day";
-            this.Time_Day.Width = 122;
+            this.Time_Day.Width = 158;
+            // 
+            // buttonExport
+            // 
+            this.buttonExport.Location = new System.Drawing.Point(963, 1);
+            this.buttonExport.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonExport.Name = "buttonExport";
+            this.buttonExport.Size = new System.Drawing.Size(100, 66);
+            this.buttonExport.TabIndex = 12;
+            this.buttonExport.Text = "Export >>";
+            this.buttonExport.UseVisualStyleBackColor = true;
             // 
             // Raports
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.dataGridViewRaports);
+            this.Controls.Add(this.buttonExport);
             this.Controls.Add(this.buttonShow);
             this.Controls.Add(this.MinutesTo);
             this.Controls.Add(this.HoursTo);
@@ -347,8 +369,9 @@ namespace PomiaryGUI
             this.Controls.Add(this.HoursFrom);
             this.Controls.Add(this.DateTo);
             this.Controls.Add(this.DateFrom);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "Raports";
-            this.Size = new System.Drawing.Size(800, 554);
+            this.Size = new System.Drawing.Size(1067, 682);
             this.Load += new System.EventHandler(this.Raports_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewRaports)).EndInit();
             this.ResumeLayout(false);
@@ -365,5 +388,6 @@ namespace PomiaryGUI
         private System.Windows.Forms.DateTimePicker DateFrom;
         private System.Windows.Forms.DataGridView dataGridViewRaports;
         private System.Windows.Forms.DataGridViewTextBoxColumn Time_Day;
+        private System.Windows.Forms.Button buttonExport;
     }
 }
