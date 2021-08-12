@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -185,22 +187,6 @@ namespace PomiaryGUI
             {
                 return "";
             }
-            
-            //return _equList.FirstOrDefault(x => x.Value == comboBox1.SelectedItem.ToString()).Key;
-            //if (comboBox1.Text == "Szyn-1") return 1;
-            //if (comboBox1.Text == "Szyn-2") return 2;
-            //if (comboBox1.Text == "Szyn-3") return 3;
-            //if (comboBox1.Text == "Szyn-4") return 4;
-            //if (comboBox1.Text == "Szyn-5") return 5;
-            //if (comboBox1.Text == "Piec 5") return 6;
-            //if (comboBox1.Text == "Piec 6") return 7;
-            //if (comboBox1.Text == "Piec 7") return 8;
-            //if (comboBox1.Text == "Parowy BM") return 9;
-            //if (comboBox1.Text == "Parowy AB_BQ") return 10;
-            //if (comboBox1.Text == "Piec 3") return 11;
-            //if (comboBox1.Text == "Piec 8") return 12;
-
-            //return 0;
         }
 
         public List<string> GetCheckedLines()
@@ -488,6 +474,19 @@ namespace PomiaryGUI
             finally
             {
                 StatusChart = true;
+                try
+                {
+                    using (var bmp = new Bitmap(chart.Width, chart.Height))
+                    {
+                        chart.DrawToBitmap(bmp, new Rectangle(0, 0, bmp.Width, bmp.Height));
+                        bmp.Save("C:/Biletskyi/PanelImage.jpg", ImageFormat.Jpeg);
+                    }
+                    MessageBox.Show("Image saved successfully.");
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show(ex.ToString());
+                }
             }
 
         }
