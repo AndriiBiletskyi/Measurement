@@ -119,24 +119,22 @@ namespace PomiaryGUI
                 this.checkQ_L2.Checked = false;
                 this.checkQ_L3.Checked = false;
             }
-
+            DateFrom.Format = DateTimePickerFormat.Custom;
+            DateFrom.CustomFormat = "MM/dd/yyyy HH:mm:ss";
         }
 
         private void Chart_Load(object sender, EventArgs e)
         {
-            HoursFrom.SelectedItem = HoursFrom.Items[0];
-            HoursTo.SelectedItem = HoursTo.Items[0];
-            MinutesFrom.SelectedItem = MinutesFrom.Items[0];
-            MinutesTo.SelectedItem = MinutesTo.Items[0];
-            DateFrom.Value = DateTime.Today.AddDays(-1);
+        //    HoursFrom.SelectedItem = HoursFrom.Items[0];
+        //    HoursTo.SelectedItem = HoursTo.Items[0];
+        //    MinutesFrom.SelectedItem = MinutesFrom.Items[0];
+        //    MinutesTo.SelectedItem = MinutesTo.Items[0];
+        //    DateFrom.Value = DateTime.Today.AddDays(-1);
 
             chart.DisableAnimations = true;
             chart.LegendLocation = LegendLocation.Bottom;
             chart.BackColor = Color.White;
             chart.Font = new Font(chart.Font.FontFamily, 16);
-
-            
-
 
             this.Controls.Add(panel);
             panel.BackgroundImageLayout = ImageLayout.Zoom;
@@ -152,9 +150,9 @@ namespace PomiaryGUI
             return new DateTime(Convert.ToInt32(DateFrom.Value.Year), 
                                 Convert.ToInt32(DateFrom.Value.Month),
                                 Convert.ToInt32(DateFrom.Value.Day),
-                                Convert.ToInt32(HoursFrom.Text),
-                                Convert.ToInt32(MinutesFrom.Text),
-                                Convert.ToInt32(0));
+                                Convert.ToInt32(DateFrom.Value.Hour),
+                                Convert.ToInt32(DateFrom.Value.Minute),
+                                Convert.ToInt32(DateFrom.Value.Second));
         }
 
         public DateTime GetDateTo()
@@ -162,9 +160,9 @@ namespace PomiaryGUI
             return new DateTime(Convert.ToInt32(DateTo.Value.Year),
                                 Convert.ToInt32(DateTo.Value.Month),
                                 Convert.ToInt32(DateTo.Value.Day),
-                                Convert.ToInt32(HoursTo.Text),
-                                Convert.ToInt32(MinutesTo.Text),
-                                Convert.ToInt32(0));
+                                Convert.ToInt32(DateTo.Value.Hour),
+                                Convert.ToInt32(DateTo.Value.Minute),
+                                Convert.ToInt32(DateTo.Value.Second));
         }
 
         public List<string> EquList
@@ -515,11 +513,16 @@ namespace PomiaryGUI
             {
                 try
                 {
-                    using (var bmp = new Bitmap(chart.Width, chart.Height, PixelFormat.Format32bppArgb))
+                    Rectangle bounds = chart.Bounds;
+                    Point pt = chart.PointToScreen(bounds.Location);
+                    Bitmap bitmap = new Bitmap(bounds.Width, bounds.Height);
+                    using (Graphics g = Graphics.FromImage(bitmap))
                     {
-                        chart.DrawToBitmap(bmp, new Rectangle(0, 0, bmp.Width, bmp.Height));
-                        bmp.Save("C:/Biletskyi/PanelImage.bmp", ImageFormat.Bmp);
+                        g.CopyFromScreen(new Point(pt.X - chart.Location.X, pt.Y - chart.Location.Y), Point.Empty, bounds.Size);
                     }
+
+                    bitmap.Save("E:/PomiaryGUI/pom.png", ImageFormat.Png);
+
                     MessageBox.Show("Image saved successfully.");
                 }
                 catch (Exception ex)
