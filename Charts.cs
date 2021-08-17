@@ -119,6 +119,7 @@ namespace PomiaryGUI
                 this.checkQ_L2.Checked = false;
                 this.checkQ_L3.Checked = false;
             }
+
         }
 
         private void Chart_Load(object sender, EventArgs e)
@@ -133,6 +134,9 @@ namespace PomiaryGUI
             chart.LegendLocation = LegendLocation.Bottom;
             chart.BackColor = Color.White;
             chart.Font = new Font(chart.Font.FontFamily, 16);
+
+            
+
 
             this.Controls.Add(panel);
             panel.BackgroundImageLayout = ImageLayout.Zoom;
@@ -439,19 +443,23 @@ namespace PomiaryGUI
                     if (_n.Contains("Piec")) val = 1;
                     else if (_n.Contains("Szyn")) val = 1;
                 }
-
+                
                 chart.AxisY.Add(new Axis()
                 {
                     Title = _n,
                     MaxValue = val,
-                    FontSize = 20
+                    FontSize = 20,
+                    FontStyle = System.Windows.FontStyles.Normal,
+                    Foreground = System.Windows.Media.Brushes.Black
                 });
                 chart.AxisX.Add(new Axis()
                 {
                     Labels = dates,
-                    FontSize = 16
+                    FontSize = 16,
+                    FontStyle = System.Windows.FontStyles.Normal,
+                    Foreground = System.Windows.Media.Brushes.Black
                 });
-
+                
                 chart.Series = new SeriesCollection();
                 foreach (var i in Lines)
                 {
@@ -465,7 +473,7 @@ namespace PomiaryGUI
                         PointGeometry = null
                     });
                 }
-                chart.Refresh();
+                //chart.Refresh();
             }
             catch (Exception ex)
             {
@@ -474,19 +482,6 @@ namespace PomiaryGUI
             finally
             {
                 StatusChart = true;
-                try
-                {
-                    using (var bmp = new Bitmap(chart.Width, chart.Height))
-                    {
-                        chart.DrawToBitmap(bmp, new Rectangle(0, 0, bmp.Width, bmp.Height));
-                        bmp.Save("C:/Biletskyi/PanelImage.jpg", ImageFormat.Jpeg);
-                    }
-                    MessageBox.Show("Image saved successfully.");
-                }
-                catch(Exception ex)
-                {
-                    MessageBox.Show(ex.ToString());
-                }
             }
 
         }
@@ -502,8 +497,8 @@ namespace PomiaryGUI
                 statusChart = value;
                 if (statusChart)
                 {
-                    chart.Visible = true;
                     panel.Visible = false;
+                    chart.Visible = true;
                 }else
                 {
                     chart.Visible = false;
@@ -513,5 +508,27 @@ namespace PomiaryGUI
                 }
             }
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (chart.Visible)
+            {
+                try
+                {
+                    using (var bmp = new Bitmap(chart.Width, chart.Height, PixelFormat.Format32bppArgb))
+                    {
+                        chart.DrawToBitmap(bmp, new Rectangle(0, 0, bmp.Width, bmp.Height));
+                        bmp.Save("C:/Biletskyi/PanelImage.bmp", ImageFormat.Bmp);
+                    }
+                    MessageBox.Show("Image saved successfully.");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.ToString());
+                }
+            }
+        }
+
+
     }
 }
