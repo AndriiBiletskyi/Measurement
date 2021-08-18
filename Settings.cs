@@ -99,6 +99,8 @@ namespace PomiaryGUI
                                             textStringConnection.Location.Y + textStringConnection.Height + 10);
 
             checkBoxTime.Location = new Point(0, butConnect.Location.Y + butConnect.Height + 20);
+
+
         }
     }
 }
