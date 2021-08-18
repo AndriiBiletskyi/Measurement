@@ -284,17 +284,21 @@ namespace PomiaryGUI
         {
             if (ddmm)
             {
-                return  dt.Year.ToString() + "."
+                return dt.Year.ToString() + "."
                         + dt.Month.ToString() + "."
                         + dt.Day.ToString() + " "
-                        + dt.TimeOfDay.ToString();
+                        + dt.Hour.ToString() + ":"
+                        + dt.Minute.ToString() + ":"
+                        + dt.Second.ToString();
             }
             else
             {
                 return  dt.Year.ToString() + "."
                         + dt.Day.ToString() + "."
                         + dt.Month.ToString() + " "
-                        + dt.TimeOfDay.ToString();
+                        + dt.Hour.ToString() + ":"
+                        + dt.Minute.ToString() + ":"
+                        + dt.Second.ToString();
             }
         }
 

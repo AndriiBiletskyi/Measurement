@@ -535,12 +535,12 @@ namespace PomiaryGUI
 
         private void Change_Connect(object sender, EventArgs e)
         {
-            if (ChangeConnect != null) ChangeConnect(this, EventArgs.Empty);
+            ChangeConnect?.Invoke(this, EventArgs.Empty);
         }
 
         private void Replace_DD_MM(object sender, EventArgs e)
         {
-            if (ReplaceDDMM != null) ReplaceDDMM(this, EventArgs.Empty);
+            ReplaceDDMM?.Invoke(this, EventArgs.Empty);
         }
         #endregion
 
