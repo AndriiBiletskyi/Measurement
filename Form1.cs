@@ -837,6 +837,8 @@ namespace PomiaryGUI
             HideButtonsRaports();
             ButtonsRightPosition(butCharts, butRaports);
             ButtonsRightPosition(butRaports, butSettings);
+
+            labelDataTime.Location = new Point(panelBottom.Width - labelDataTime.Width,0);
         }
 
         private void MainFormInit()

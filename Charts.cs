@@ -50,6 +50,18 @@ namespace PomiaryGUI
                 this.checkQ_L1.Visible = true;
                 this.checkQ_L2.Visible = true;
                 this.checkQ_L3.Visible = true;
+
+                this.checkQ_L3.Location = new Point(this.Width - this.checkQ_L3.Width, comboBox1.Height);
+                this.checkQ_L2.Location = new Point(this.checkQ_L3.Location.X - this.checkQ_L2.Width, comboBox1.Height);
+                this.checkQ_L1.Location = new Point(this.checkQ_L2.Location.X - this.checkQ_L1.Width, comboBox1.Height);
+                this.checkQ.Location = new Point(this.checkQ_L1.Location.X - this.checkQ.Width, comboBox1.Height);
+                this.checkP_L3.Location = new Point(this.checkQ.Location.X - this.checkP_L3.Width, comboBox1.Height);
+                this.checkP_L2.Location = new Point(this.checkP_L3.Location.X - this.checkP_L2.Width, comboBox1.Height);
+                this.checkP_L1.Location = new Point(this.checkP_L2.Location.X - this.checkP_L1.Width, comboBox1.Height);
+                this.checkP.Location = new Point(this.checkP_L1.Location.X - this.checkP.Width, comboBox1.Height);
+                
+
+                this.checkP.Checked = true;
             }
             else if (mode == ChartMode.current)
             {
@@ -72,6 +84,15 @@ namespace PomiaryGUI
                 this.checkQ_L1.Checked = false;
                 this.checkQ_L2.Checked = false;
                 this.checkQ_L3.Checked = false;
+
+                this.checkP_L1.Checked = true;
+                this.checkP_L2.Checked = true;
+                this.checkP_L3.Checked = true;
+
+                this.checkP_L3.Location = new Point(this.Width - buttonExport.Width - this.checkP_L3.Width, comboBox1.Height);
+                this.checkP_L2.Location = new Point(this.checkP_L3.Location.X - this.checkP_L2.Width, comboBox1.Height);
+                this.checkP_L1.Location = new Point(this.checkP_L2.Location.X - this.checkP_L1.Width, comboBox1.Height);
+
             }
             else if (mode == ChartMode.voltage)
             {
@@ -94,6 +115,15 @@ namespace PomiaryGUI
                 this.checkQ_L1.Checked = false;
                 this.checkQ_L2.Checked = false;
                 this.checkQ_L3.Checked = false;
+
+                this.checkP_L1.Checked = true;
+                this.checkP_L2.Checked = true;
+                this.checkP_L3.Checked = true;
+
+                this.checkP_L3.Location = new Point(this.Width - buttonExport.Width - this.checkP_L3.Width, comboBox1.Height);
+                this.checkP_L2.Location = new Point(this.checkP_L3.Location.X - this.checkP_L2.Width, comboBox1.Height);
+                this.checkP_L1.Location = new Point(this.checkP_L2.Location.X - this.checkP_L1.Width, comboBox1.Height);
+
             }
             else if (mode == ChartMode.cos)
             {
@@ -118,19 +148,16 @@ namespace PomiaryGUI
                 this.checkQ_L1.Checked = false;
                 this.checkQ_L2.Checked = false;
                 this.checkQ_L3.Checked = false;
+
+                this.checkP.Checked = true;
+
+                this.checkP.Location = new Point(this.Width - buttonExport.Width - this.checkP.Width, comboBox1.Height);
+                this.checkP.Visible = false;
             }
-            DateFrom.Format = DateTimePickerFormat.Custom;
-            DateFrom.CustomFormat = "MM/dd/yyyy HH:mm:ss";
         }
 
         private void Chart_Load(object sender, EventArgs e)
         {
-        //    HoursFrom.SelectedItem = HoursFrom.Items[0];
-        //    HoursTo.SelectedItem = HoursTo.Items[0];
-        //    MinutesFrom.SelectedItem = MinutesFrom.Items[0];
-        //    MinutesTo.SelectedItem = MinutesTo.Items[0];
-        //    DateFrom.Value = DateTime.Today.AddDays(-1);
-
             chart.DisableAnimations = true;
             chart.LegendLocation = LegendLocation.Bottom;
             chart.BackColor = Color.White;
@@ -143,6 +170,52 @@ namespace PomiaryGUI
             panel.Location = new Point(this.Width / 2 - panel.Width / 2,
                                        this.Height / 2 - panel.Height / 2);
             panel.Visible = false;
+
+            string stri = DateFrom.Value.ToLongDateString() +
+                          DateFrom.Value.ToShortTimeString();
+            DateFrom.Width = TextRenderer.MeasureText(stri, DateFrom.Font).Width;
+            DateTo.Width = DateFrom.Width;
+            DateFrom.Location = new Point(0, 0);
+            DateTo.Location = new Point(0, DateFrom.Height);
+
+            buttonShow.Height = DateFrom.Height + DateTo.Height;
+            buttonShow.Location = new Point(DateFrom.Location.X + DateFrom.Width, DateFrom.Location.Y);
+
+            buttonExport.Height = buttonShow.Height;
+            buttonExport.Location = new Point(this.Width - buttonExport.Width, 0);
+            comboBox1.Location = new Point(buttonShow.Location.X + buttonShow.Width, 0);
+            comboBox1.Width = buttonExport.Location.X - buttonShow.Location.X - buttonShow.Width;
+
+            if (mode == ChartMode.power)
+            {
+                this.checkQ_L3.Location = new Point(this.Width - buttonExport.Width - this.checkQ_L3.Width, comboBox1.Height);
+                this.checkQ_L2.Location = new Point(this.checkQ_L3.Location.X - this.checkQ_L2.Width, comboBox1.Height);
+                this.checkQ_L1.Location = new Point(this.checkQ_L2.Location.X - this.checkQ_L1.Width, comboBox1.Height);
+                this.checkQ.Location = new Point(this.checkQ_L1.Location.X - this.checkQ.Width, comboBox1.Height);
+                this.checkP_L3.Location = new Point(this.checkQ.Location.X - this.checkP_L3.Width, comboBox1.Height);
+                this.checkP_L2.Location = new Point(this.checkP_L3.Location.X - this.checkP_L2.Width, comboBox1.Height);
+                this.checkP_L1.Location = new Point(this.checkP_L2.Location.X - this.checkP_L1.Width, comboBox1.Height);
+                this.checkP.Location = new Point(this.checkP_L1.Location.X - this.checkP.Width, comboBox1.Height);
+            }
+            else if (mode == ChartMode.current)
+            {
+                this.checkP_L3.Location = new Point(this.Width - buttonExport.Width - this.checkP_L3.Width, comboBox1.Height);
+                this.checkP_L2.Location = new Point(this.checkP_L3.Location.X - this.checkP_L2.Width, comboBox1.Height);
+                this.checkP_L1.Location = new Point(this.checkP_L2.Location.X - this.checkP_L1.Width, comboBox1.Height);
+
+            }
+            else if (mode == ChartMode.voltage)
+            {
+                this.checkP_L3.Location = new Point(this.Width - buttonExport.Width - this.checkP_L3.Width, comboBox1.Height);
+                this.checkP_L2.Location = new Point(this.checkP_L3.Location.X - this.checkP_L2.Width, comboBox1.Height);
+                this.checkP_L1.Location = new Point(this.checkP_L2.Location.X - this.checkP_L1.Width, comboBox1.Height);
+
+            }
+            else if (mode == ChartMode.cos)
+            {
+                this.checkP.Location = new Point(this.Width - buttonExport.Width - this.checkP.Width, comboBox1.Height);
+                this.checkP.Visible = false;
+            }
         }
 
         public DateTime GetDateFrom()

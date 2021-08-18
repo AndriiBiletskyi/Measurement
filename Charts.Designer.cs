@@ -42,36 +42,40 @@ namespace PomiaryGUI
             this.checkQ_L1 = new System.Windows.Forms.CheckBox();
             this.checkQ_L2 = new System.Windows.Forms.CheckBox();
             this.checkQ_L3 = new System.Windows.Forms.CheckBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.buttonExport = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // DateFrom
             // 
-            this.DateFrom.CustomFormat = "MM/dd/yyyy HH:mm:ss";
+            this.DateFrom.CustomFormat = "MMMM/dd/yyyy HH:mm:ss";
             this.DateFrom.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.DateFrom.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.DateFrom.Location = new System.Drawing.Point(3, 1);
+            this.DateFrom.Location = new System.Drawing.Point(4, 1);
+            this.DateFrom.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.DateFrom.Name = "DateFrom";
-            this.DateFrom.Size = new System.Drawing.Size(196, 26);
+            this.DateFrom.Size = new System.Drawing.Size(154, 30);
             this.DateFrom.TabIndex = 0;
             this.DateFrom.Value = new System.DateTime(2021, 1, 1, 0, 0, 0, 0);
             // 
             // DateTo
             // 
-            this.DateTo.CustomFormat = "MM/dd/yyyy HH:mm:ss";
+            this.DateTo.CustomFormat = "MMMM/dd/yyyy HH:mm:ss";
             this.DateTo.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.DateTo.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.DateTo.Location = new System.Drawing.Point(3, 27);
+            this.DateTo.Location = new System.Drawing.Point(4, 33);
+            this.DateTo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.DateTo.Name = "DateTo";
-            this.DateTo.Size = new System.Drawing.Size(196, 26);
+            this.DateTo.Size = new System.Drawing.Size(317, 30);
             this.DateTo.TabIndex = 0;
             this.DateTo.Value = new System.DateTime(2021, 12, 31, 23, 59, 59, 0);
             // 
             // buttonShow
             // 
-            this.buttonShow.Location = new System.Drawing.Point(205, -1);
+            this.buttonShow.AutoSize = true;
+            this.buttonShow.Location = new System.Drawing.Point(329, 4);
+            this.buttonShow.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.buttonShow.Name = "buttonShow";
-            this.buttonShow.Size = new System.Drawing.Size(75, 54);
+            this.buttonShow.Size = new System.Drawing.Size(52, 27);
             this.buttonShow.TabIndex = 2;
             this.buttonShow.Text = "Show";
             this.buttonShow.UseVisualStyleBackColor = true;
@@ -83,9 +87,10 @@ namespace PomiaryGUI
             | System.Windows.Forms.AnchorStyles.Right)));
             this.chart.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.chart.ForeColor = System.Drawing.Color.Black;
-            this.chart.Location = new System.Drawing.Point(0, 60);
+            this.chart.Location = new System.Drawing.Point(0, 74);
+            this.chart.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.chart.Name = "chart";
-            this.chart.Size = new System.Drawing.Size(840, 540);
+            this.chart.Size = new System.Drawing.Size(1368, 665);
             this.chart.TabIndex = 3;
             this.chart.Text = "cartesianChart1";
             // 
@@ -111,9 +116,10 @@ namespace PomiaryGUI
             "Parowy AB_BQ",
             "Piec 3",
             "Piec 8"});
-            this.comboBox1.Location = new System.Drawing.Point(286, 0);
+            this.comboBox1.Location = new System.Drawing.Point(437, 4);
+            this.comboBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(554, 32);
+            this.comboBox1.Size = new System.Drawing.Size(797, 38);
             this.comboBox1.TabIndex = 4;
             // 
             // checkP
@@ -121,9 +127,10 @@ namespace PomiaryGUI
             this.checkP.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.checkP.AutoSize = true;
             this.checkP.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.checkP.Location = new System.Drawing.Point(376, 33);
+            this.checkP.Location = new System.Drawing.Point(754, 41);
+            this.checkP.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.checkP.Name = "checkP";
-            this.checkP.Size = new System.Drawing.Size(37, 23);
+            this.checkP.Size = new System.Drawing.Size(44, 27);
             this.checkP.TabIndex = 5;
             this.checkP.Text = "P";
             this.checkP.UseVisualStyleBackColor = true;
@@ -133,9 +140,10 @@ namespace PomiaryGUI
             this.checkP_L1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.checkP_L1.AutoSize = true;
             this.checkP_L1.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.checkP_L1.Location = new System.Drawing.Point(413, 33);
+            this.checkP_L1.Location = new System.Drawing.Point(806, 41);
+            this.checkP_L1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.checkP_L1.Name = "checkP_L1";
-            this.checkP_L1.Size = new System.Drawing.Size(63, 23);
+            this.checkP_L1.Size = new System.Drawing.Size(77, 27);
             this.checkP_L1.TabIndex = 5;
             this.checkP_L1.Text = "P_L1";
             this.checkP_L1.UseVisualStyleBackColor = true;
@@ -145,9 +153,10 @@ namespace PomiaryGUI
             this.checkP_L2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.checkP_L2.AutoSize = true;
             this.checkP_L2.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.checkP_L2.Location = new System.Drawing.Point(477, 33);
+            this.checkP_L2.Location = new System.Drawing.Point(891, 41);
+            this.checkP_L2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.checkP_L2.Name = "checkP_L2";
-            this.checkP_L2.Size = new System.Drawing.Size(63, 23);
+            this.checkP_L2.Size = new System.Drawing.Size(77, 27);
             this.checkP_L2.TabIndex = 5;
             this.checkP_L2.Text = "P_L2";
             this.checkP_L2.UseVisualStyleBackColor = true;
@@ -157,9 +166,10 @@ namespace PomiaryGUI
             this.checkP_L3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.checkP_L3.AutoSize = true;
             this.checkP_L3.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.checkP_L3.Location = new System.Drawing.Point(539, 33);
+            this.checkP_L3.Location = new System.Drawing.Point(974, 41);
+            this.checkP_L3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.checkP_L3.Name = "checkP_L3";
-            this.checkP_L3.Size = new System.Drawing.Size(63, 23);
+            this.checkP_L3.Size = new System.Drawing.Size(77, 27);
             this.checkP_L3.TabIndex = 5;
             this.checkP_L3.Text = "P_L3";
             this.checkP_L3.UseVisualStyleBackColor = true;
@@ -169,9 +179,10 @@ namespace PomiaryGUI
             this.checkQ.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.checkQ.AutoSize = true;
             this.checkQ.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.checkQ.Location = new System.Drawing.Point(602, 33);
+            this.checkQ.Location = new System.Drawing.Point(1056, 41);
+            this.checkQ.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.checkQ.Name = "checkQ";
-            this.checkQ.Size = new System.Drawing.Size(40, 23);
+            this.checkQ.Size = new System.Drawing.Size(48, 27);
             this.checkQ.TabIndex = 5;
             this.checkQ.Text = "Q";
             this.checkQ.UseVisualStyleBackColor = true;
@@ -181,9 +192,10 @@ namespace PomiaryGUI
             this.checkQ_L1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.checkQ_L1.AutoSize = true;
             this.checkQ_L1.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.checkQ_L1.Location = new System.Drawing.Point(642, 33);
+            this.checkQ_L1.Location = new System.Drawing.Point(1111, 41);
+            this.checkQ_L1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.checkQ_L1.Name = "checkQ_L1";
-            this.checkQ_L1.Size = new System.Drawing.Size(66, 23);
+            this.checkQ_L1.Size = new System.Drawing.Size(81, 27);
             this.checkQ_L1.TabIndex = 5;
             this.checkQ_L1.Text = "Q_L1";
             this.checkQ_L1.UseVisualStyleBackColor = true;
@@ -193,9 +205,10 @@ namespace PomiaryGUI
             this.checkQ_L2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.checkQ_L2.AutoSize = true;
             this.checkQ_L2.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.checkQ_L2.Location = new System.Drawing.Point(708, 33);
+            this.checkQ_L2.Location = new System.Drawing.Point(1199, 41);
+            this.checkQ_L2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.checkQ_L2.Name = "checkQ_L2";
-            this.checkQ_L2.Size = new System.Drawing.Size(66, 23);
+            this.checkQ_L2.Size = new System.Drawing.Size(81, 27);
             this.checkQ_L2.TabIndex = 5;
             this.checkQ_L2.Text = "Q_L2";
             this.checkQ_L2.UseVisualStyleBackColor = true;
@@ -205,30 +218,32 @@ namespace PomiaryGUI
             this.checkQ_L3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.checkQ_L3.AutoSize = true;
             this.checkQ_L3.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.checkQ_L3.Location = new System.Drawing.Point(774, 33);
+            this.checkQ_L3.Location = new System.Drawing.Point(1287, 41);
+            this.checkQ_L3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.checkQ_L3.Name = "checkQ_L3";
-            this.checkQ_L3.Size = new System.Drawing.Size(66, 23);
+            this.checkQ_L3.Size = new System.Drawing.Size(81, 27);
             this.checkQ_L3.TabIndex = 5;
             this.checkQ_L3.Text = "Q_L3";
             this.checkQ_L3.UseVisualStyleBackColor = true;
             // 
-            // button1
+            // buttonExport
             // 
-            this.button1.Location = new System.Drawing.Point(285, 34);
-            this.button1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(56, 19);
-            this.button1.TabIndex = 6;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.buttonExport.AutoSize = true;
+            this.buttonExport.Location = new System.Drawing.Point(1241, 9);
+            this.buttonExport.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.buttonExport.Name = "buttonExport";
+            this.buttonExport.Size = new System.Drawing.Size(78, 27);
+            this.buttonExport.TabIndex = 6;
+            this.buttonExport.Text = "Export >>";
+            this.buttonExport.UseVisualStyleBackColor = true;
+            this.buttonExport.Click += new System.EventHandler(this.button1_Click);
             // 
             // Charts
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.buttonExport);
             this.Controls.Add(this.checkQ_L3);
             this.Controls.Add(this.checkQ_L2);
             this.Controls.Add(this.checkQ_L1);
@@ -242,8 +257,9 @@ namespace PomiaryGUI
             this.Controls.Add(this.buttonShow);
             this.Controls.Add(this.DateTo);
             this.Controls.Add(this.DateFrom);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "Charts";
-            this.Size = new System.Drawing.Size(840, 600);
+            this.Size = new System.Drawing.Size(1368, 738);
             this.Load += new System.EventHandler(this.Chart_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -265,6 +281,6 @@ namespace PomiaryGUI
         private System.Windows.Forms.CheckBox checkQ_L1;
         private System.Windows.Forms.CheckBox checkQ_L2;
         private System.Windows.Forms.CheckBox checkQ_L3;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button buttonExport;
     }
 }

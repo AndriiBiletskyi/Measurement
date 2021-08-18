@@ -81,14 +81,6 @@ namespace PomiaryGUI
 
         private void Raports_Load(object sender, EventArgs e)
         {
-            HoursFrom.SelectedItem = HoursFrom.Items[0];
-            HoursTo.SelectedItem = HoursTo.Items[23];
-            MinutesFrom.SelectedItem = MinutesFrom.Items[0];
-            MinutesTo.SelectedItem = MinutesTo.Items[59];
-
-            DateFrom.Value = new DateTime(2021, 1, 1);
-            DateTo.Value = new DateTime(2021, 12, 31);
-
             dataGridViewRaports.DefaultCellStyle.Font = new System.Drawing.Font("Times New Roman", 16, FontStyle.Bold);
             dataGridViewRaports.ColumnHeadersDefaultCellStyle.Font = new System.Drawing.Font("Times New Roman", 16, FontStyle.Bold);
             dataGridViewRaports.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
@@ -106,6 +98,18 @@ namespace PomiaryGUI
             panel.Location = new System.Drawing.Point(this.Width / 2 - panel.Width / 2,
                                        this.Height / 2 - panel.Height / 2);
             panel.Visible = false;
+
+            string stri = DateFrom.Value.ToLongDateString() +
+                          DateFrom.Value.ToShortTimeString();
+            DateFrom.Width = TextRenderer.MeasureText(stri, DateFrom.Font).Width;
+            DateTo.Width = DateFrom.Width;
+            DateFrom.Location = new System.Drawing.Point(0, 0);
+            DateTo.Location = new System.Drawing.Point(0, DateFrom.Height);
+
+            buttonShow.Height = DateFrom.Height + DateTo.Height;
+            buttonShow.Location = new System.Drawing.Point(DateFrom.Location.X + DateFrom.Width, DateFrom.Location.Y);
+
+            buttonExport.Location = new System.Drawing.Point(this.Width - buttonExport.Width, 0);
         }
 
         public DateTime GetDateFrom()
@@ -113,9 +117,9 @@ namespace PomiaryGUI
             return new DateTime(Convert.ToInt32(DateFrom.Value.Year),
                                 Convert.ToInt32(DateFrom.Value.Month),
                                 Convert.ToInt32(DateFrom.Value.Day),
-                                Convert.ToInt32(HoursFrom.Text),
-                                Convert.ToInt32(MinutesFrom.Text),
-                                Convert.ToInt32(0));
+                                Convert.ToInt32(DateFrom.Value.Hour),
+                                Convert.ToInt32(DateFrom.Value.Minute),
+                                Convert.ToInt32(DateFrom.Value.Second));
         }
 
         public DateTime GetDateTo()
@@ -123,9 +127,9 @@ namespace PomiaryGUI
             return new DateTime(Convert.ToInt32(DateTo.Value.Year),
                                 Convert.ToInt32(DateTo.Value.Month),
                                 Convert.ToInt32(DateTo.Value.Day),
-                                Convert.ToInt32(HoursTo.Text),
-                                Convert.ToInt32(MinutesTo.Text),
-                                Convert.ToInt32(0));
+                                Convert.ToInt32(DateTo.Value.Hour),
+                                Convert.ToInt32(DateTo.Value.Minute),
+                                Convert.ToInt32(DateTo.Value.Second));
         }
 
         private void ButtonShow_Click(object sender, EventArgs e)
