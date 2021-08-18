@@ -73,6 +73,9 @@ namespace PomiaryGUI
         {
             InitializeComponent();
 
+            LangComboBox.Visible = false;
+            panelLang.Visible = false;
+
             #region Buttons events
             butCharts.Click += new EventHandler(ButCharts_Click);
             butChartsPower.Click += new EventHandler(But_Click);

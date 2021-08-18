@@ -521,7 +521,8 @@ namespace PomiaryGUI
                         g.CopyFromScreen(new Point(pt.X - chart.Location.X, pt.Y - chart.Location.Y), Point.Empty, bounds.Size);
                     }
 
-                    bitmap.Save("E:/PomiaryGUI/pom.png", ImageFormat.Png);
+                    //bitmap.Save("E:/PomiaryGUI/pom.png", ImageFormat.Png);
+                    bitmap.Save("C:/Biletskyi/pom.png", ImageFormat.Png);
 
                     MessageBox.Show("Image saved successfully.");
                 }
