@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using PomiaryGUI.Properties;
 
 namespace PomiaryGUI
 {
@@ -36,6 +37,9 @@ namespace PomiaryGUI
 
         private void Replace_DD_MM(object sender, EventArgs e)
         {
+
+            PomiaryGUI.Properties.Settings.Default["SetDDMM"] = checkBoxTime.Checked;
+            PomiaryGUI.Properties.Settings.Default.Save();
             ReplaceDDMM?.Invoke(this, EventArgs.Empty);
         }
 
@@ -69,11 +73,14 @@ namespace PomiaryGUI
             textInitialCatalog.Enabled = !checkStringConnection.Checked;
             textUserID.Enabled = !checkStringConnection.Checked;
             textPassword.Enabled = !checkStringConnection.Checked;
-            textStringConnection.Enabled = checkStringConnection.Checked; 
+            textStringConnection.Enabled = checkStringConnection.Checked;
         }
 
         private void Settings_Load(object sender, EventArgs e)
         {
+            checkBoxTime.Checked = (bool)PomiaryGUI.Properties.Settings.Default["SetDDMM"];
+            ReplaceDDMM?.Invoke(this, EventArgs.Empty);
+
             int offset = labelConnectionString.Width + checkStringConnection.Width + 10;
 
             textSerwer.Width = this.Width - offset - 50;
