@@ -332,13 +332,6 @@ namespace PomiaryGUI
         #region EventForwarding
         private void ButtonShowChartsClick(object sender, EventArgs e)
         {
-            //List<object> l = new List<object>
-            //{
-            //    ((Charts)sender).GetEquSelected(),
-            //    ((Charts)sender).GetDateFrom(),
-            //    ((Charts)sender).GetDateTo(),
-            //    ((Charts)sender).GetCheckedLines()
-            //};
             var charparam = new ChartsParameters(((Charts)sender).GetEquSelected(),
                                                  ((Charts)sender).GetDateFrom(),
                                                  ((Charts)sender).GetDateTo(),
@@ -348,12 +341,6 @@ namespace PomiaryGUI
 
         private void ButtonShowRaportsClick(object sender, EventArgs e)
         {
-            //List<object> l = new List<object>
-            //{
-            //    formStates,
-            //    PanelRaport.GetDateFrom(),
-            //    PanelRaport.GetDateTo()
-            //};
             var raportparam = new RaportsParameters(formStates, PanelRaport.GetDateFrom(), PanelRaport.GetDateTo());
             ButShowRaportsClick?.Invoke(sender, raportparam);
         }
@@ -522,7 +509,7 @@ namespace PomiaryGUI
 
         private void ButClose_Click(object sender, EventArgs e)
         {
-            ButCloseClick?.Invoke(this, EventArgs.Empty);
+            ButCloseClick?.Invoke(sender, EventArgs.Empty);
         }
 
         private void LangComboBox_TextChanged(object sender, EventArgs e)
@@ -538,12 +525,12 @@ namespace PomiaryGUI
 
         private void Change_Connect(object sender, EventArgs e)
         {
-            ChangeConnect?.Invoke(this, EventArgs.Empty);
+            ChangeConnect?.Invoke(sender, EventArgs.Empty);
         }
 
         private void Replace_DD_MM(object sender, EventArgs e)
         {
-            ReplaceDDMM?.Invoke(this, EventArgs.Empty);
+            ReplaceDDMM?.Invoke(sender, EventArgs.Empty);
         }
         #endregion
 
