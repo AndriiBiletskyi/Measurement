@@ -118,6 +118,7 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ChartsParameters.cs" />
     <Compile Include="DataManager.cs" />
     <Compile Include="EnumPomiary.cs" />
     <Compile Include="EquControl.cs">

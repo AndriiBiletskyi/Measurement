@@ -56,7 +56,7 @@ namespace PomiaryGUI
 
             _mainForm.ChangeConnect += new EventHandler(MainFormChangeConnect);
             _mainForm.ReplaceDDMM += new EventHandler(MainFormReplaceDDMM);
-            _mainForm.ButShowChartsClick += new EventHandler<List<object>>(MainFormButShowChartsClick);
+            _mainForm.ButShowChartsClick += new EventHandler<ChartsParameters>(MainFormButShowChartsClick);
             _mainForm.ButShowRaportsClick += new EventHandler<List<object>>(MainFormButShowRaportsClick);
 
             _mainForm.AplicationStart += new EventHandler(MainFormGetEquList);
@@ -113,16 +113,13 @@ namespace PomiaryGUI
             _mainForm.FormClose();
         }
 
-        private async void MainFormButShowChartsClick(object sender, List<object> e)
+        private async void MainFormButShowChartsClick(object sender, ChartsParameters e)
         {
             DataTable dataTable = new DataTable();
             await Task.Run(() =>
             {
-                int temp = equIDName.ContainsValue((string)e[0]) ? equIDName.First(x => x.Value == (string)e[0]).Key : 0;
-                dataTable = _dataManager.GetEquData(temp,
-                                                    (DateTime)e[1],
-                                                    (DateTime)e[2],
-                                                    (List<string>)e[3]);
+                int temp = equIDName.ContainsValue(e.EquName) ? equIDName.First(x => x.Value == e.EquName).Key : 0;
+                dataTable = _dataManager.GetEquData(temp, e.DateFrom, e.DateTo, e.Lines);
             });
             _mainForm.ChartData(dataTable, sender);
         }

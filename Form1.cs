@@ -13,7 +13,7 @@ namespace PomiaryGUI
     public interface IMainForm
     {
         #region events
-        event EventHandler<List<object>> ButShowChartsClick;
+        event EventHandler<ChartsParameters> ButShowChartsClick;
         event EventHandler<List<object>> ButShowRaportsClick;
         event EventHandler ButCloseClick;
         event EventHandler AplicationStart;
@@ -332,15 +332,18 @@ namespace PomiaryGUI
         #region EventForwarding
         private void ButtonShowChartsClick(object sender, EventArgs e)
         {
-            List<object> l = new List<object>
-            {
-                ((Charts)sender).GetEquSelected(),
-                ((Charts)sender).GetDateFrom(),
-                ((Charts)sender).GetDateTo(),
-                ((Charts)sender).GetCheckedLines()
-            };
-
-            ButShowChartsClick?.Invoke(sender, l);
+            //List<object> l = new List<object>
+            //{
+            //    ((Charts)sender).GetEquSelected(),
+            //    ((Charts)sender).GetDateFrom(),
+            //    ((Charts)sender).GetDateTo(),
+            //    ((Charts)sender).GetCheckedLines()
+            //};
+            var charparam = new ChartsParameters(((Charts)sender).GetEquSelected(),
+                                                 ((Charts)sender).GetDateFrom(),
+                                                 ((Charts)sender).GetDateTo(),
+                                                 ((Charts)sender).GetCheckedLines());
+            ButShowChartsClick?.Invoke(sender, charparam);
         }
 
         private void ButtonShowRaportsClick(object sender, EventArgs e)
@@ -725,7 +728,7 @@ namespace PomiaryGUI
         }
         #endregion
         #region events
-        public event EventHandler<List<object>> ButShowChartsClick;
+        public event EventHandler<ChartsParameters> ButShowChartsClick;
         public event EventHandler<List<object>> ButShowRaportsClick;
         public event EventHandler ButCloseClick;
         public event EventHandler AplicationStart;
