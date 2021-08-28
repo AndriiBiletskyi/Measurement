@@ -14,7 +14,7 @@ namespace PomiaryGUI
     {
         #region events
         event EventHandler<ChartsParameters> ButShowChartsClick;
-        event EventHandler<List<object>> ButShowRaportsClick;
+        event EventHandler<RaportsParameters> ButShowRaportsClick;
         event EventHandler ButCloseClick;
         event EventHandler AplicationStart;
         event EventHandler ChangeConnect;
@@ -348,14 +348,14 @@ namespace PomiaryGUI
 
         private void ButtonShowRaportsClick(object sender, EventArgs e)
         {
-            List<object> l = new List<object>
-            {
-                formStates,
-                PanelRaport.GetDateFrom(),
-                PanelRaport.GetDateTo()
-            };
-
-            ButShowRaportsClick?.Invoke(sender, l);
+            //List<object> l = new List<object>
+            //{
+            //    formStates,
+            //    PanelRaport.GetDateFrom(),
+            //    PanelRaport.GetDateTo()
+            //};
+            var raportparam = new RaportsParameters(formStates, PanelRaport.GetDateFrom(), PanelRaport.GetDateTo());
+            ButShowRaportsClick?.Invoke(sender, raportparam);
         }
 
         private void ButCharts_Click(object sender, EventArgs e)
@@ -729,7 +729,7 @@ namespace PomiaryGUI
         #endregion
         #region events
         public event EventHandler<ChartsParameters> ButShowChartsClick;
-        public event EventHandler<List<object>> ButShowRaportsClick;
+        public event EventHandler<RaportsParameters> ButShowRaportsClick;
         public event EventHandler ButCloseClick;
         public event EventHandler AplicationStart;
 

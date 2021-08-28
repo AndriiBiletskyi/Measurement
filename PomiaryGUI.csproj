@@ -156,6 +156,7 @@
     <Compile Include="Raports.Designer.cs">
       <DependentUpon>Raports.cs</DependentUpon>
     </Compile>
+    <Compile Include="RaportsParameters.cs" />
     <Compile Include="Settings.cs">
       <SubType>UserControl</SubType>
     </Compile>

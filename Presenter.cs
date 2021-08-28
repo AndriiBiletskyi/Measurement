@@ -57,7 +57,7 @@ namespace PomiaryGUI
             _mainForm.ChangeConnect += new EventHandler(MainFormChangeConnect);
             _mainForm.ReplaceDDMM += new EventHandler(MainFormReplaceDDMM);
             _mainForm.ButShowChartsClick += new EventHandler<ChartsParameters>(MainFormButShowChartsClick);
-            _mainForm.ButShowRaportsClick += new EventHandler<List<object>>(MainFormButShowRaportsClick);
+            _mainForm.ButShowRaportsClick += new EventHandler<RaportsParameters>(MainFormButShowRaportsClick);
 
             _mainForm.AplicationStart += new EventHandler(MainFormGetEquList);
 
@@ -124,21 +124,21 @@ namespace PomiaryGUI
             _mainForm.ChartData(dataTable, sender);
         }
 
-        private void MainFormButShowRaportsClick(object sender, List<object> e)
+        private void MainFormButShowRaportsClick(object sender, RaportsParameters e)
         {
-            switch (e[0])
+            switch (e.FormState)
             {
                 case FormStates.daily:
-                    RaportData3(Raport.day, (DateTime)e[1], (DateTime)e[2]);
+                    RaportData3(Raport.day, e.DateFrom, e.DateTo);
                     break;
                 case FormStates.weekly:
-                    RaportData3(Raport.week, (DateTime)e[1], (DateTime)e[2]);
+                    RaportData3(Raport.week, e.DateFrom, e.DateTo);
                     break;
                 case FormStates.monthly:
-                    RaportData3(Raport.month, (DateTime)e[1], (DateTime)e[2]);
+                    RaportData3(Raport.month, e.DateFrom, e.DateTo);
                     break;
                 case FormStates.annual:
-                    RaportData3(Raport.year, (DateTime)e[1], (DateTime)e[2]);
+                    RaportData3(Raport.year, e.DateFrom, e.DateTo);
                     break;
             }
             //RaportData1(Raport.year, (DateTime)e[1], (DateTime)e[2]);
