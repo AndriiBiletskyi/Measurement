@@ -393,106 +393,115 @@ namespace PomiaryGUI
                     //});
                     //    dates.AddRange(temptable.AsEnumerable().Select(x => x.Field<DateTime>("Czas").ToString()));
 
-                    if (table.Rows.Count > dots)
+                    //if (table.Rows.Count > dots)
+                    //{
+                    //    for (int i = 0; i < table.Rows.Count; i++)
+                    //    {
+                    //        if ((table.Rows.Count - i) > table.Rows.Count / dots)
+                    //        {
+                    //            temptable.Clear();
+                    //            for (int q = 0; q < (table.Rows.Count / dots); q++)
+                    //            {
+                    //                temprow = temptable.NewRow();
+                    //                foreach (string str in GetCheckedLines())
+                    //                {
+                    //                    object objTemp = table.Rows[i][str];
+                    //                    double doubTemp = 0.0;
+                    //                    if (objTemp != DBNull.Value)
+                    //                        doubTemp = (float)objTemp;
+
+                    //                    if (mode == ChartMode.power) temprow[str] = doubTemp / 1000;
+                    //                    else temprow[str] = doubTemp;
+                    //                }
+                    //                temprow["Czas"] = Convert.ToString(table.Rows[i]["Czas"]);
+                    //                temptable.Rows.Add(temprow);
+
+                    //                if (((table.Rows.Count / dots) - q) > 1) i++;
+                    //            }
+
+                    //            var dataRow = temptable.AsEnumerable().OrderByDescending(row => row.Field<float>(GetCheckedLines()[0])).FirstOrDefault();
+
+                    //            foreach (string str in GetCheckedLines())
+                    //            {
+                    //                dataRow = temptable.AsEnumerable()
+                    //                    .OrderByDescending(row => row.Field<float>(str))
+                    //                    .FirstOrDefault();
+                    //                Lines[GetCheckedLines().IndexOf(str)].Add(Convert.ToDouble(dataRow[str]));
+                    //            }
+
+                    //            dates.Add(Convert.ToString(dataRow["Czas"]));
+
+                    //            foreach (string str in GetCheckedLines())
+                    //            {
+                    //                dataRow = temptable.AsEnumerable()
+                    //                    .OrderByDescending(row => row.Field<float>(str))
+                    //                    .LastOrDefault();
+                    //                Lines[GetCheckedLines().IndexOf(str)].Add(Convert.ToDouble(dataRow[str]));
+                    //            }
+
+                    //            dates.Add(Convert.ToString(dataRow["Czas"]));
+                    //        }
+                    //        else
+                    //        {
+                    //            if (Convert.ToBoolean(table.Rows[i]["Status"]))
+                    //            {
+                    //                foreach (string str in GetCheckedLines())
+                    //                {
+                    //                    if (mode == ChartMode.power) Lines[GetCheckedLines().IndexOf(str)].Add(Convert.ToDouble(table.Rows[i][str]) / 1000);
+                    //                    else Lines[GetCheckedLines().IndexOf(str)].Add(Convert.ToDouble(table.Rows[i][str]));
+                    //                }
+                    //                dates.Add(Convert.ToString(table.Rows[i]["Czas"]));
+                    //            }
+                    //            else
+                    //            {
+                    //                foreach (string str in GetCheckedLines())
+                    //                {
+                    //                    Lines[GetCheckedLines().IndexOf(str)].Add(0.0);
+                    //                }
+                    //                dates.Add(Convert.ToString(table.Rows[i]["Czas"]));
+                    //            }
+                    //        }
+                    //    }
+                    //}
+                    //else
+                    //{
+                    //    foreach (DataRow row in table.Rows)
+                    //    {
+                    //        if (Convert.ToBoolean(row["Status"]))
+                    //        {
+                    //            foreach (string str in GetCheckedLines())
+                    //            {
+                    //                if (mode == ChartMode.power) Lines[GetCheckedLines().IndexOf(str)].Add(Convert.ToDouble(row[str]) / 1000);
+                    //                else Lines[GetCheckedLines().IndexOf(str)].Add(Convert.ToDouble(row[str]));
+                    //            }
+                    //            dates.Add(Convert.ToString(row["Czas"]));
+                    //        }
+                    //        else
+                    //        {
+                    //            foreach (string str in GetCheckedLines())
+                    //            {
+                    //                Lines[GetCheckedLines().IndexOf(str)].Add(0.0);
+                    //            }
+                    //            dates.Add(Convert.ToString(row["Czas"]));
+                    //        }
+                    //    }
+                    //}
+                    foreach (DataRow row in table.Rows)
                     {
-                        for (int i = 0; i < table.Rows.Count; i++)
+                        foreach (string str in GetCheckedLines())
                         {
-                            if ((table.Rows.Count - i) > table.Rows.Count / dots)
-                            {
-                                temptable.Clear();
-                                for (int q = 0; q < (table.Rows.Count / dots); q++)
-                                {
-                                    temprow = temptable.NewRow();
-                                    foreach (string str in GetCheckedLines())
-                                    {
-                                        object objTemp = table.Rows[i][str];
-                                        double doubTemp = 0.0;
-                                        if (objTemp != DBNull.Value)
-                                            doubTemp = (double)objTemp;
-
-                                        if (mode == ChartMode.power) temprow[str] = doubTemp / 1000;
-                                        else temprow[str] = doubTemp;
-                                    }
-                                    temprow["Czas"] = Convert.ToString(table.Rows[i]["Czas"]);
-                                    temptable.Rows.Add(temprow);
-
-                                    if (((table.Rows.Count / dots) - q) > 1) i++;
-                                }
-
-                                var dataRow = temptable.AsEnumerable().OrderByDescending(row => row.Field<float>(GetCheckedLines()[0])).FirstOrDefault();
-
-                                foreach (string str in GetCheckedLines())
-                                {
-                                    dataRow = temptable.AsEnumerable()
-                                        .OrderByDescending(row => row.Field<float>(str))
-                                        .FirstOrDefault();
-                                    Lines[GetCheckedLines().IndexOf(str)].Add(Convert.ToDouble(dataRow[str]));
-                                }
-
-                                dates.Add(Convert.ToString(dataRow["Czas"]));
-
-                                foreach (string str in GetCheckedLines())
-                                {
-                                    dataRow = temptable.AsEnumerable()
-                                        .OrderByDescending(row => row.Field<float>(str))
-                                        .LastOrDefault();
-                                    Lines[GetCheckedLines().IndexOf(str)].Add(Convert.ToDouble(dataRow[str]));
-                                }
-
-                                dates.Add(Convert.ToString(dataRow["Czas"]));
-                            }
-                            else
-                            {
-                                if (Convert.ToBoolean(table.Rows[i]["Status"]))
-                                {
-                                    foreach (string str in GetCheckedLines())
-                                    {
-                                        if (mode == ChartMode.power) Lines[GetCheckedLines().IndexOf(str)].Add(Convert.ToDouble(table.Rows[i][str]) / 1000);
-                                        else Lines[GetCheckedLines().IndexOf(str)].Add(Convert.ToDouble(table.Rows[i][str]));
-                                    }
-                                    dates.Add(Convert.ToString(table.Rows[i]["Czas"]));
-                                }
-                                else
-                                {
-                                    foreach (string str in GetCheckedLines())
-                                    {
-                                        Lines[GetCheckedLines().IndexOf(str)].Add(0.0);
-                                    }
-                                    dates.Add(Convert.ToString(table.Rows[i]["Czas"]));
-                                }
-                            }
+                            if (mode == ChartMode.power) Lines[GetCheckedLines().IndexOf(str)].Add(Convert.ToDouble(row[str]) / 1000);
+                            else Lines[GetCheckedLines().IndexOf(str)].Add(Convert.ToDouble(row[str]));
                         }
-                    }
-                    else
-                    {
-                        foreach (DataRow row in table.Rows)
-                        {
-                            if (Convert.ToBoolean(row["Status"]))
-                            {
-                                foreach (string str in GetCheckedLines())
-                                {
-                                    if (mode == ChartMode.power) Lines[GetCheckedLines().IndexOf(str)].Add(Convert.ToDouble(row[str]) / 1000);
-                                    else Lines[GetCheckedLines().IndexOf(str)].Add(Convert.ToDouble(row[str]));
-                                }
-                                dates.Add(Convert.ToString(row["Czas"]));
-                            }
-                            else
-                            {
-                                foreach (string str in GetCheckedLines())
-                                {
-                                    Lines[GetCheckedLines().IndexOf(str)].Add(0.0);
-                                }
-                                dates.Add(Convert.ToString(row["Czas"]));
-                            }
-                        }
-                    }
+                        dates.Add(Convert.ToString(row["Czas"]));
+                    }                    
                 });
                 
-                string _n = "";
-                if (table.Rows.Count > 1 && !table.Rows[2].IsNull("Nazwa_urzadzenia"))
-                {
-                    _n = Convert.ToString(table.Rows[2]["Nazwa_urzadzenia"]);
-                }
+                string _n = "Szyn-1";
+                //if (table.Rows.Count > 1 && !table.Rows[2].IsNull("Nazwa_urzadzenia"))
+                //{
+                //    _n = Convert.ToString(table.Rows[2]["Nazwa_urzadzenia"]);
+                //}
                 int val = 100;
                 if (mode == ChartMode.power)
                 {

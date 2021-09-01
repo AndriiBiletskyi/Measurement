@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using BenchmarkDotNet.Attributes;
 
 namespace PomiaryGUI
 {
@@ -27,13 +28,14 @@ namespace PomiaryGUI
         DataTable GetConsumption(Dictionary<int,string> equ, List<DateTime> times);
         DataTable GetConsumption2(Dictionary<int, string> equ, List<DateTime> times);
         DataTable GetConsumption3(Dictionary<int, string> equ, List<DateTime> times);
+        DataTable GetDataPower(int eq, DateTime begin, DateTime end, List<string> colums);
     }
 
     public class DataManager: IDataManager
     {
-        private SqlConnection sqlConnection = null;
-        private SqlDataAdapter dataAdapter = null;
-        private DataSet dataSet = null;
+        private SqlConnection sqlConnection = null, sqlConnectionPower = null;
+        private SqlDataAdapter dataAdapter = null, dataAdapterPower = null;
+        private DataSet dataSet = null, dataSetPower = null;
         private SqlCommand cmd;
         //private DataTable table = null;
         //private string connection = @"Data Source=PL02K01-C0AH8FL\SQL25012021;Initial Catalog=pomiary;Userid=uzytkownik;Password=Kayser2021";
@@ -68,7 +70,21 @@ namespace PomiaryGUI
                         Message?.Invoke(this, "Connection - NOK");
                     }
                 }
-            }catch(Exception ex)
+                if (sqlConnectionPower == null || sqlConnectionPower.State == ConnectionState.Closed)
+                {
+                    sqlConnectionPower = new SqlConnection(con);
+                    sqlConnectionPower.Open();
+                    if (sqlConnectionPower.State == ConnectionState.Open)
+                    {
+                        Message?.Invoke(this, "ConnectionPower - OK");
+                    }
+                    else
+                    {
+                        Message?.Invoke(this, "ConnectionPower - NOK");
+                    }
+                }
+            }
+            catch(Exception ex)
             {
                 Message?.Invoke(this,ex.ToString());
             }            
@@ -273,6 +289,8 @@ namespace PomiaryGUI
         {
             if (sqlConnection != null && sqlConnection.State != ConnectionState.Closed)
                 sqlConnection.Close();
+            if (sqlConnectionPower != null && sqlConnectionPower.State != ConnectionState.Closed)
+                sqlConnectionPower.Close();
         }
 
         public void DD_MM(bool state)
@@ -685,5 +703,100 @@ namespace PomiaryGUI
             }
         }
    
+        public DataTable GetDataPower(int eq, DateTime begin, DateTime end, List<string> colums)
+        {
+            if (colums.Count == 0) return new DataTable();
+            try
+            {
+                if (eq > 0 && eq < 256)
+                {
+                    string str2 = "Czas";
+                    foreach (var s in colums)
+                    {
+                        str2 += "," + s;
+                    }
+                    string tableName = "dbo." + Convert.ToString(eq);
+                    string str = "SELECT " + str2 + " FROM dbo.\"" + Convert.ToString(eq) + "\" " + "WHERE (Czas BETWEEN '" + Replace(begin, _DD_MM_) + "' AND '" + Replace(end, _DD_MM_) + "') AND Czas IS NOT NULL";
+                    dataSetPower = new DataSet();
+                    dataAdapterPower = new SqlDataAdapter(str, sqlConnectionPower);
+                    dataAdapterPower.Fill(dataSetPower, tableName);
+
+                    int datasize = dataSetPower.Tables[tableName].Rows.Count;
+                    if (datasize == 0) return new DataTable();
+
+                    var tempDataTable = new DataTable();
+                    tempDataTable.Columns.Add("Czas", typeof(string));
+                    tempDataTable.Columns.Add("P", typeof(float));
+
+                    int step = datasize / 1000;
+                    int poz = 0;
+                    var p = dataSetPower.Tables[tableName].AsEnumerable().Select(x => x.Field<object>("P")).Select(x => x != DBNull.Value ? x : 0).ToArray();
+
+                    var indexArray = new int[(datasize / step)*2];
+                    var pointsArray = new float[(datasize / step)*2];
+
+                    int count = 0;
+                    //datasize 381565
+                    //step = 381;
+                    for (int i = 0; i < datasize - step; i += step)
+                    {
+                        int [] indexes = { 0, 0 };
+                        float[] points = { 0, 0 };
+                        MinMax(p.AsSpan().Slice(i, step), ref indexes, ref points);
+                        indexArray[count] = indexes[0] + i;
+                        pointsArray[count] = points[0];
+                        count++;
+                        indexArray[count] = indexes[1] + i;
+                        pointsArray[count] = points[1];
+                        count++;
+                    }
+
+                    for (int i = 0; i < indexArray.Length; i++)
+                    {
+                        var row = tempDataTable.NewRow();
+                        row["Czas"] = dataSetPower.Tables[tableName].Rows[indexArray[i]]["Czas"];
+                        row["P"] = pointsArray[i];
+                        tempDataTable.Rows.Add(row);
+                    }
+
+                    return tempDataTable;
+                }
+
+                return new DataTable();
+            }
+            catch (Exception ex)  
+            {
+                Message?.Invoke(this, ex.ToString());
+                return new DataTable();
+            }
+        }
+
+        private void MinMax(ReadOnlySpan<object> dots, ref int [] indexes, ref float[] points)
+        {
+            float min_val = 0;
+            float max_val = 0;
+            int min_index = 0;
+            int max_index = 0;
+            int index = 0;
+            foreach (var m in dots)
+            {
+                float temp = m == null ? 0 : Convert.ToSingle(m);
+                if (min_val >= temp)
+                {
+                    min_val = temp;
+                    min_index = index;
+                }
+                if (max_val <= temp)
+                {
+                    max_val = temp;
+                    max_index = index;
+                }
+                index++;
+            }
+            indexes[0] = min_index;
+            indexes[1] = max_index;
+            points[0] = min_val;
+            points[1] = max_val;
+        }
     }
 }
