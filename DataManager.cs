@@ -726,23 +726,44 @@ namespace PomiaryGUI
 
                     var tempDataTable = new DataTable();
                     tempDataTable.Columns.Add("Czas", typeof(string));
-                    tempDataTable.Columns.Add("P", typeof(float));
+                    foreach(var col in colums)
+                    {
+                        tempDataTable.Columns.Add(col, typeof(float));
+                    }
 
                     int step = datasize / 1000;
-                    int poz = 0;
-                    var p = dataSetPower.Tables[tableName].AsEnumerable().Select(x => x.Field<object>("P")).Select(x => x != DBNull.Value ? x : 0).ToArray();
+                    int arraycapacity = 0;
+                    if (step == 0)
+                    {
+                        step = 1;
+                        arraycapacity = datasize * 2;
+                    }
+                    else
+                    {
+                        if(datasize % step == 0)
+                        {
+                            arraycapacity = (datasize / step) * 2;
+                        }
+                        else
+                        {
+                            arraycapacity = (datasize / step) * 2 + 2;
+                        }
+                    }
+                    
 
-                    var indexArray = new int[(datasize / step)*2];
-                    var pointsArray = new float[(datasize / step)*2];
+                    var p = dataSetPower.Tables[tableName].AsEnumerable().Select(x => x.Field<object>(colums[0])).Select(x => x != DBNull.Value ? x : 0).ToArray();
+    
+                    var indexArray = new int[arraycapacity];
+                    var pointsArray = new float[arraycapacity];
 
                     int count = 0;
-                    //datasize 381565
-                    //step = 381;
-                    for (int i = 0; i < datasize - step; i += step)
+                    for (int i = 0; i < datasize; i += step)
                     {
                         int [] indexes = { 0, 0 };
                         float[] points = { 0, 0 };
-                        MinMax(p.AsSpan().Slice(i, step), ref indexes, ref points);
+                        int slice = (i + step) >= datasize ? (datasize - i - 1) : step;
+                        if (slice != 0) MinMax(p.AsSpan().Slice(i, slice), ref indexes, ref points);
+                        else MinMax(new object [] { p[i]}, ref indexes, ref points);
                         indexArray[count] = indexes[0] + i;
                         pointsArray[count] = points[0];
                         count++;
@@ -755,10 +776,14 @@ namespace PomiaryGUI
                     {
                         var row = tempDataTable.NewRow();
                         row["Czas"] = dataSetPower.Tables[tableName].Rows[indexArray[i]]["Czas"];
-                        row["P"] = pointsArray[i];
+                        row[colums[0]] = pointsArray[i];
+                        for(int q = 1; q < colums.Count; q++)
+                        {
+                            row[colums[q]] = dataSetPower.Tables[tableName].Rows[indexArray[i]][colums[q]]; ;
+                            if (row[colums[q]] == DBNull.Value) row[colums[q]] = 0;
+                        }
                         tempDataTable.Rows.Add(row);
                     }
-
                     return tempDataTable;
                 }
 
@@ -773,8 +798,8 @@ namespace PomiaryGUI
 
         private void MinMax(ReadOnlySpan<object> dots, ref int [] indexes, ref float[] points)
         {
-            float min_val = 0;
-            float max_val = 0;
+            float min_val = dots[0] == null ? 0 : Convert.ToSingle(dots[0]);
+            float max_val = min_val;
             int min_index = 0;
             int max_index = 0;
             int index = 0;

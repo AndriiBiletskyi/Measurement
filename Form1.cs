@@ -30,7 +30,7 @@ namespace PomiaryGUI
         #endregion
 
         #region Charts
-        void ChartData(DataTable tb, object sender);
+        void ChartData(DataTable tb, object sender, string name);
         #endregion
 
         #region Raports
@@ -666,13 +666,13 @@ namespace PomiaryGUI
         }
 
         #region Charts
-        public void ChartData(DataTable tb, object sender)
+        public void ChartData(DataTable tb, object sender, string name)
         {
             new Thread(() =>
             {
                 BeginInvoke((MethodInvoker)(() =>
                 {
-                    ((Charts)sender).SetDataChart(tb);
+                    ((Charts)sender).SetDataChart(tb, name);
                 }));
             }).Start();
         }

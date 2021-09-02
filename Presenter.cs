@@ -122,7 +122,7 @@ namespace PomiaryGUI
                 //dataTable = _dataManager.GetEquData(temp, e.DateFrom, e.DateTo, e.Lines);
                 dataTable = _dataManager.GetDataPower(temp, e.DateFrom, e.DateTo, e.Lines);
             });
-            _mainForm.ChartData(dataTable, sender);
+            _mainForm.ChartData(dataTable, sender, e.EquName);
         }
 
         private void MainFormButShowRaportsClick(object sender, RaportsParameters e)

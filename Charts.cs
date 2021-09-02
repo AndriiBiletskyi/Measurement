@@ -289,7 +289,7 @@ namespace PomiaryGUI
             }
         }
         
-        public async void SetDataChart(DataTable table)
+        public async void SetDataChart(DataTable table, string name)
         {
             try
             {
@@ -497,7 +497,7 @@ namespace PomiaryGUI
                     }                    
                 });
                 
-                string _n = "Szyn-1";
+                string _n = name;
                 //if (table.Rows.Count > 1 && !table.Rows[2].IsNull("Nazwa_urzadzenia"))
                 //{
                 //    _n = Convert.ToString(table.Rows[2]["Nazwa_urzadzenia"]);
