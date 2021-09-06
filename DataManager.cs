@@ -28,6 +28,7 @@ namespace PomiaryGUI
         DataTable GetConsumption(Dictionary<int,string> equ, List<DateTime> times);
         DataTable GetConsumption2(Dictionary<int, string> equ, List<DateTime> times);
         DataTable GetConsumption3(Dictionary<int, string> equ, List<DateTime> times);
+        DataTable GetConsumption4(Dictionary<int, string> equ, List<DateTime> times);
         DataTable GetDataPower(int eq, DateTime begin, DateTime end, List<string> colums);
     }
 
@@ -659,16 +660,16 @@ namespace PomiaryGUI
                     {
                         string strWhere = "WHERE(Czas BETWEEN '" + Replace(times[i], _DD_MM_) + "' AND '" + Replace(times[i + 1], _DD_MM_) + "') AND Q_day IS NOT NULL";
 
-                        str += "SELECT " + strPres + " " +
-                                      //"((" +
-                                      //  "(" +
-                                      //      "SELECT TOP 1 Q_day " + strDb + strWhere + " ORDER BY ID DESC" +
-                                      //  ")" +
-                                      //  " - " +
-                                      //  "(" +
-                                      //      "SELECT TOP 1 Q_day " + strDb + strWhere +
-                                      //  ")" +
-                                      //")/1000) AS '" + equ[eq] + ", Q' " +
+                        str += "SELECT " + strPres + ", " +
+                                      "((" +
+                                        "(" +
+                                            "SELECT TOP 1 Q_day " + strDb + strWhere + " ORDER BY ID DESC" +
+                                        ")" +
+                                        " - " +
+                                        "(" +
+                                            "SELECT TOP 1 Q_day " + strDb + strWhere +
+                                        ")" +
+                                      ")/1000) AS '" + equ[eq] + ", Q' " +
                                //"(MAX(Q_day)/1000) AS '" + equ[eq] + ", Q' " +
 
                                strDb +
@@ -685,7 +686,7 @@ namespace PomiaryGUI
                     foreach (DataRow row in dataS[eq - 1].Tables["dbo.Consumption" + Convert.ToString(eq)].Rows)
                     {
                         dt.Rows[qwer][equ[eq] + ", P"] = row[equ[eq] + ", P"] != DBNull.Value ? Math.Round((double)row[equ[eq] + ", P"], 2) : 0;
-                        //dt.Rows[qwer][equ[eq] + ", Q"] = row[equ[eq] + ", Q"] != DBNull.Value ? Math.Round((double)row[equ[eq] + ", Q"], 2) : 0;
+                        dt.Rows[qwer][equ[eq] + ", Q"] = row[equ[eq] + ", Q"] != DBNull.Value ? Math.Round((double)row[equ[eq] + ", Q"], 2) : 0;
                         qwer++;
                     }
                 });
@@ -702,7 +703,54 @@ namespace PomiaryGUI
                 return new DataTable();
             }
         }
-   
+
+        public DataTable GetConsumption4(Dictionary<int, string> equ, List<DateTime> times)
+        {
+            var dt = new DataTable();
+            try
+            {
+                var _sqlCon = new SqlConnection(con);
+                var _dataAdapt = new SqlDataAdapter();
+                var _dataSet = new DataSet();
+
+                _sqlCon.Open();
+
+                dt.Columns.Add("Day/Time", typeof(string));
+                foreach (var eq in equ.Keys)
+                {
+                    string s = equ[eq];
+                    if (string.IsNullOrWhiteSpace(s)) { s = "Unknow" + eq.ToString(); }
+                    dt.Columns.Add(s + ", P", typeof(float));
+                    dt.Columns.Add(s + ", Q", typeof(float));
+                }
+                for (int i = 0; i < times.Count - 1; i++)
+                {
+                    DataRow row = dt.NewRow();
+                    if (i == (times.Count - 2)) row[0] = times[i].ToString() + System.Environment.NewLine + times[i + 1].ToString();
+                    else row[0] = times[i].ToString() + System.Environment.NewLine + times[i + 1].AddSeconds(-1.0).ToString();
+                    dt.Rows.Add(row);
+                }
+
+                string str = "";
+                string strDb = "FROM dbo.\"" + Convert.ToString(1) + "\" ";
+                for (int i = 0; i < times.Count - 1; i++)
+                {
+                    string strWhere = " WHERE(Czas BETWEEN '" + Replace(times[i], _DD_MM_) + "' AND '" + Replace(times[i + 1], _DD_MM_) + "') AND Q_day IS NOT NULL";
+
+                    str = "SELECT Czas, P_day, Q_day " + strDb + strWhere;
+                    _dataAdapt = new SqlDataAdapter(str, _sqlCon);
+                    _dataAdapt.Fill(_dataSet, "dbo.Consumption 1");
+                }
+                _sqlCon.Close();
+                return dt;
+            }
+            catch (Exception ex)
+            {
+                Message?.Invoke(this, ex.ToString());
+                return new DataTable();
+            }
+        }
+
         public DataTable GetDataPower(int eq, DateTime begin, DateTime end, List<string> colums)
         {
             if (colums.Count == 0) return new DataTable();

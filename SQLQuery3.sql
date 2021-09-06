@@ -2,7 +2,7 @@
 --CREATE NONCLUSTERED INDEX [iCzasP]
 --ON [dbo].[1] ([Czas])
 --INCLUDE ([P])
---select Czas, P
---from dbo."1"
---where Czas between '01.01.2021' and '12.31.2021'
-drop index iCzasP on dbo."1"
+select Czas, P_day,Q_day
+from dbo."1"
+where Czas between '04.03.2021 00:00:00' and '04.03.2021 01:00:00'
+--drop index iCzasP on dbo."1"
