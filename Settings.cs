@@ -78,9 +78,6 @@ namespace PomiaryGUI
 
         private void Settings_Load(object sender, EventArgs e)
         {
-            checkBoxTime.Checked = (bool)PomiaryGUI.Properties.Settings.Default["SetDDMM"];
-            ReplaceDDMM?.Invoke(this, EventArgs.Empty);
-
             int offset = labelConnectionString.Width + checkStringConnection.Width + 10;
 
             textSerwer.Width = this.Width - offset - 50;
@@ -106,8 +103,12 @@ namespace PomiaryGUI
                                             textStringConnection.Location.Y + textStringConnection.Height + 10);
 
             checkBoxTime.Location = new Point(0, butConnect.Location.Y + butConnect.Height + 20);
+        }
 
-
+        private void Settings_VisibleChanged(object sender, EventArgs e)
+        {
+            checkBoxTime.Checked = (bool)PomiaryGUI.Properties.Settings.Default["SetDDMM"];
+            ReplaceDDMM?.Invoke(this, EventArgs.Empty);
         }
     }
 }

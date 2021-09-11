@@ -49,10 +49,9 @@ namespace PomiaryGUI
             this.textSerwer.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textSerwer.Font = new System.Drawing.Font("Times New Roman", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.textSerwer.Location = new System.Drawing.Point(284, 92);
-            this.textSerwer.Margin = new System.Windows.Forms.Padding(4);
+            this.textSerwer.Location = new System.Drawing.Point(213, 75);
             this.textSerwer.Name = "textSerwer";
-            this.textSerwer.Size = new System.Drawing.Size(720, 38);
+            this.textSerwer.Size = new System.Drawing.Size(541, 32);
             this.textSerwer.TabIndex = 0;
             this.textSerwer.Text = "PL02K01-C0AH8FL,1433\\SQL25012021";
             // 
@@ -60,10 +59,9 @@ namespace PomiaryGUI
             // 
             this.labelSerwer.AutoSize = true;
             this.labelSerwer.Font = new System.Drawing.Font("Times New Roman", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.labelSerwer.Location = new System.Drawing.Point(176, 97);
-            this.labelSerwer.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelSerwer.Location = new System.Drawing.Point(132, 79);
             this.labelSerwer.Name = "labelSerwer";
-            this.labelSerwer.Size = new System.Drawing.Size(96, 31);
+            this.labelSerwer.Size = new System.Drawing.Size(73, 24);
             this.labelSerwer.TabIndex = 1;
             this.labelSerwer.Text = "Serwer";
             // 
@@ -72,10 +70,9 @@ namespace PomiaryGUI
             this.textInitialCatalog.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textInitialCatalog.Font = new System.Drawing.Font("Times New Roman", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.textInitialCatalog.Location = new System.Drawing.Point(284, 139);
-            this.textInitialCatalog.Margin = new System.Windows.Forms.Padding(4);
+            this.textInitialCatalog.Location = new System.Drawing.Point(213, 113);
             this.textInitialCatalog.Name = "textInitialCatalog";
-            this.textInitialCatalog.Size = new System.Drawing.Size(720, 38);
+            this.textInitialCatalog.Size = new System.Drawing.Size(541, 32);
             this.textInitialCatalog.TabIndex = 0;
             this.textInitialCatalog.Text = "pomiary";
             // 
@@ -83,10 +80,9 @@ namespace PomiaryGUI
             // 
             this.labelInitialCatalog.AutoSize = true;
             this.labelInitialCatalog.Font = new System.Drawing.Font("Times New Roman", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.labelInitialCatalog.Location = new System.Drawing.Point(91, 144);
-            this.labelInitialCatalog.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelInitialCatalog.Location = new System.Drawing.Point(68, 117);
             this.labelInitialCatalog.Name = "labelInitialCatalog";
-            this.labelInitialCatalog.Size = new System.Drawing.Size(185, 31);
+            this.labelInitialCatalog.Size = new System.Drawing.Size(137, 24);
             this.labelInitialCatalog.TabIndex = 1;
             this.labelInitialCatalog.Text = "Initial Catalog";
             // 
@@ -95,10 +91,9 @@ namespace PomiaryGUI
             this.butConnect.AutoSize = true;
             this.butConnect.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.butConnect.Font = new System.Drawing.Font("Times New Roman", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.butConnect.Location = new System.Drawing.Point(236, 329);
-            this.butConnect.Margin = new System.Windows.Forms.Padding(4);
+            this.butConnect.Location = new System.Drawing.Point(177, 267);
             this.butConnect.Name = "butConnect";
-            this.butConnect.Size = new System.Drawing.Size(121, 41);
+            this.butConnect.Size = new System.Drawing.Size(95, 34);
             this.butConnect.TabIndex = 2;
             this.butConnect.Text = "Connect";
             this.butConnect.UseVisualStyleBackColor = true;
@@ -108,10 +103,9 @@ namespace PomiaryGUI
             this.textUserID.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textUserID.Font = new System.Drawing.Font("Times New Roman", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.textUserID.Location = new System.Drawing.Point(284, 186);
-            this.textUserID.Margin = new System.Windows.Forms.Padding(4);
+            this.textUserID.Location = new System.Drawing.Point(213, 151);
             this.textUserID.Name = "textUserID";
-            this.textUserID.Size = new System.Drawing.Size(720, 38);
+            this.textUserID.Size = new System.Drawing.Size(541, 32);
             this.textUserID.TabIndex = 0;
             this.textUserID.Text = "uzytkownik";
             // 
@@ -120,10 +114,9 @@ namespace PomiaryGUI
             this.textPassword.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textPassword.Font = new System.Drawing.Font("Times New Roman", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.textPassword.Location = new System.Drawing.Point(284, 233);
-            this.textPassword.Margin = new System.Windows.Forms.Padding(4);
+            this.textPassword.Location = new System.Drawing.Point(213, 189);
             this.textPassword.Name = "textPassword";
-            this.textPassword.Size = new System.Drawing.Size(720, 38);
+            this.textPassword.Size = new System.Drawing.Size(541, 32);
             this.textPassword.TabIndex = 0;
             this.textPassword.Text = "Kayser2022";
             // 
@@ -131,10 +124,9 @@ namespace PomiaryGUI
             // 
             this.labelUserID.AutoSize = true;
             this.labelUserID.Font = new System.Drawing.Font("Times New Roman", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.labelUserID.Location = new System.Drawing.Point(176, 191);
-            this.labelUserID.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelUserID.Location = new System.Drawing.Point(132, 155);
             this.labelUserID.Name = "labelUserID";
-            this.labelUserID.Size = new System.Drawing.Size(99, 31);
+            this.labelUserID.Size = new System.Drawing.Size(73, 24);
             this.labelUserID.TabIndex = 1;
             this.labelUserID.Text = "UserID";
             // 
@@ -142,10 +134,9 @@ namespace PomiaryGUI
             // 
             this.labelPassword.AutoSize = true;
             this.labelPassword.Font = new System.Drawing.Font("Times New Roman", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.labelPassword.Location = new System.Drawing.Point(145, 238);
-            this.labelPassword.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelPassword.Location = new System.Drawing.Point(109, 193);
             this.labelPassword.Name = "labelPassword";
-            this.labelPassword.Size = new System.Drawing.Size(127, 31);
+            this.labelPassword.Size = new System.Drawing.Size(96, 24);
             this.labelPassword.TabIndex = 1;
             this.labelPassword.Text = "Password";
             // 
@@ -153,10 +144,9 @@ namespace PomiaryGUI
             // 
             this.checkBoxTime.AutoSize = true;
             this.checkBoxTime.Font = new System.Drawing.Font("Times New Roman", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.checkBoxTime.Location = new System.Drawing.Point(36, 408);
-            this.checkBoxTime.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBoxTime.Location = new System.Drawing.Point(27, 332);
             this.checkBoxTime.Name = "checkBoxTime";
-            this.checkBoxTime.Size = new System.Drawing.Size(235, 35);
+            this.checkBoxTime.Size = new System.Drawing.Size(181, 28);
             this.checkBoxTime.TabIndex = 3;
             this.checkBoxTime.Text = "Replace DD:MM";
             this.checkBoxTime.UseVisualStyleBackColor = true;
@@ -166,20 +156,18 @@ namespace PomiaryGUI
             this.textStringConnection.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textStringConnection.Font = new System.Drawing.Font("Times New Roman", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.textStringConnection.Location = new System.Drawing.Point(284, 279);
-            this.textStringConnection.Margin = new System.Windows.Forms.Padding(4);
+            this.textStringConnection.Location = new System.Drawing.Point(213, 227);
             this.textStringConnection.Name = "textStringConnection";
-            this.textStringConnection.Size = new System.Drawing.Size(720, 38);
+            this.textStringConnection.Size = new System.Drawing.Size(541, 32);
             this.textStringConnection.TabIndex = 0;
             // 
             // checkStringConnection
             // 
             this.checkStringConnection.AutoSize = true;
             this.checkStringConnection.Font = new System.Drawing.Font("Times New Roman", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.checkStringConnection.Location = new System.Drawing.Point(253, 292);
-            this.checkStringConnection.Margin = new System.Windows.Forms.Padding(4);
+            this.checkStringConnection.Location = new System.Drawing.Point(190, 237);
             this.checkStringConnection.Name = "checkStringConnection";
-            this.checkStringConnection.Size = new System.Drawing.Size(18, 17);
+            this.checkStringConnection.Size = new System.Drawing.Size(15, 14);
             this.checkStringConnection.TabIndex = 3;
             this.checkStringConnection.UseVisualStyleBackColor = true;
             this.checkStringConnection.CheckedChanged += new System.EventHandler(this.CheckStringConnection_CheckedChanged);
@@ -188,16 +176,15 @@ namespace PomiaryGUI
             // 
             this.labelConnectionString.AutoSize = true;
             this.labelConnectionString.Font = new System.Drawing.Font("Times New Roman", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.labelConnectionString.Location = new System.Drawing.Point(20, 283);
-            this.labelConnectionString.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelConnectionString.Location = new System.Drawing.Point(15, 230);
             this.labelConnectionString.Name = "labelConnectionString";
-            this.labelConnectionString.Size = new System.Drawing.Size(227, 31);
+            this.labelConnectionString.Size = new System.Drawing.Size(171, 24);
             this.labelConnectionString.TabIndex = 1;
             this.labelConnectionString.Text = "Connection String";
             // 
             // Settings
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.BackColor = System.Drawing.Color.White;
@@ -214,10 +201,10 @@ namespace PomiaryGUI
             this.Controls.Add(this.textUserID);
             this.Controls.Add(this.textInitialCatalog);
             this.Controls.Add(this.textSerwer);
-            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Settings";
-            this.Size = new System.Drawing.Size(1009, 527);
+            this.Size = new System.Drawing.Size(757, 428);
             this.Load += new System.EventHandler(this.Settings_Load);
+            this.VisibleChanged += new System.EventHandler(this.Settings_VisibleChanged);
             this.ResumeLayout(false);
             this.PerformLayout();
 
