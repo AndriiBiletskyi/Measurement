@@ -710,11 +710,12 @@ namespace PomiaryGUI
             try
             {
                 dt.Columns.Add("Day/Time", typeof(string));
-                for (int i = 0; i < times.Count - 1; i++)
+                for (int i = 0; i < times.Count; i++)
                 {
                     DataRow row = dt.NewRow();
-                    if (i == (times.Count - 2)) row[0] = times[i].ToString() + System.Environment.NewLine + times[i + 1].ToString();
-                    else row[0] = times[i].ToString() + System.Environment.NewLine + times[i + 1].AddSeconds(-1.0).ToString();
+                    if (i < times.Count - 2) row[0] = times[i].ToString() + System.Environment.NewLine + times[i + 1].AddSeconds(-1.0).ToString();
+                    else if (i == (times.Count - 2)) row[0] = times[i].ToString() + System.Environment.NewLine + times[i + 1].ToString();
+                    else row[0] = "Total";
                     dt.Rows.Add(row);
                 }
                 if (equ.Keys.Count == 0) return dt;
@@ -740,10 +741,11 @@ namespace PomiaryGUI
                  {
                      string str = "";
                      string strDb = "FROM dbo.\"" + Convert.ToString(eq) + "\" ";
-                     for (int i = 0; i < times.Count - 1; i++)
+                     for (int i = 0; i < times.Count; i++)
                      {
-                         string strWhere = " WHERE (Czas BETWEEN '" + Replace(times[i], _DD_MM_) + "' AND '" + Replace(times[i + 1], _DD_MM_) + "') ";
-
+                         string strWhere = "";
+                         if(i < times.Count - 1) strWhere = " WHERE (Czas BETWEEN '" + Replace(times[i], _DD_MM_) + "' AND '" + Replace(times[i + 1], _DD_MM_) + "') ";
+                         else strWhere = " WHERE (Czas BETWEEN '" + Replace(times.First(), _DD_MM_) + "' AND '" + Replace(times.Last(), _DD_MM_) + "') ";
                          str = "SELECT * FROM " +
                             "(" +
                                 "(" + "" +
@@ -786,6 +788,7 @@ namespace PomiaryGUI
                              dt.Rows[i][equ[eq] + ", Q"] = Math.Round((Convert.ToSingle(lastQ) - Convert.ToSingle(firstQ)) / 1000, 2);
                          }
                      }
+
                  });
 
                 foreach (var sql in _sqlConnections)
