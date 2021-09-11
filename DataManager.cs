@@ -709,20 +709,7 @@ namespace PomiaryGUI
             var dt = new DataTable();
             try
             {
-                var _sqlCon = new SqlConnection(con);
-                var _dataAdapt = new SqlDataAdapter();
-                var _dataSet = new DataSet();
-
-                _sqlCon.Open();
-
                 dt.Columns.Add("Day/Time", typeof(string));
-                foreach (var eq in equ.Keys)
-                {
-                    string s = equ[eq];
-                    if (string.IsNullOrWhiteSpace(s)) { s = "Unknow" + eq.ToString(); }
-                    dt.Columns.Add(s + ", P", typeof(float));
-                    dt.Columns.Add(s + ", Q", typeof(float));
-                }
                 for (int i = 0; i < times.Count - 1; i++)
                 {
                     DataRow row = dt.NewRow();
@@ -730,18 +717,80 @@ namespace PomiaryGUI
                     else row[0] = times[i].ToString() + System.Environment.NewLine + times[i + 1].AddSeconds(-1.0).ToString();
                     dt.Rows.Add(row);
                 }
+                if (equ.Keys.Count == 0) return dt;
+                var _sqlConnections = new List<SqlConnection>();
+                var _dataAdapts = new List<SqlDataAdapter>();
+                var _dataSets = new List<DataSet>();
+                //var _rows = new List<DataRow[]>();
 
-                string str = "";
-                string strDb = "FROM dbo.\"" + Convert.ToString(1) + "\" ";
-                for (int i = 0; i < times.Count - 1; i++)
+                foreach (var eq in equ.Keys)
                 {
-                    string strWhere = " WHERE(Czas BETWEEN '" + Replace(times[i], _DD_MM_) + "' AND '" + Replace(times[i + 1], _DD_MM_) + "') AND Q_day IS NOT NULL";
-
-                    str = "SELECT Czas, P_day, Q_day " + strDb + strWhere;
-                    _dataAdapt = new SqlDataAdapter(str, _sqlCon);
-                    _dataAdapt.Fill(_dataSet, "dbo.Consumption 1");
+                    string s = equ[eq];
+                    if (string.IsNullOrWhiteSpace(s)) { s = "Unknow" + eq.ToString(); }
+                    dt.Columns.Add(s + ", P", typeof(float));
+                    dt.Columns.Add(s + ", Q", typeof(float));
+                    _sqlConnections.Add(new SqlConnection(con));
+                    _dataAdapts.Add(null);
+                    _dataSets.Add(new DataSet());
                 }
-                _sqlCon.Close();
+                var l = equ.Keys.ToList();
+                var locker = new object();
+                Parallel.ForEach(l, eq =>
+                //foreach(var eq in l)
+                 {
+                     string str = "";
+                     string strDb = "FROM dbo.\"" + Convert.ToString(eq) + "\" ";
+                     for (int i = 0; i < times.Count - 1; i++)
+                     {
+                         string strWhere = " WHERE (Czas BETWEEN '" + Replace(times[i], _DD_MM_) + "' AND '" + Replace(times[i + 1], _DD_MM_) + "') ";
+
+                         str = "SELECT * FROM " +
+                            "(" +
+                                "(" + "" +
+                                    "SELECT TOP 1 Czas,P_day,Q_day " +
+                                    strDb + strWhere + " AND P_day IS NOT NULL ORDER BY Czas ASC " +
+                                ") " +
+                                "UNION ALL " +
+                                "(" +
+                                    "SELECT TOP 1 Czas,P_day,Q_day " +
+                                    strDb + strWhere + " AND P_day IS NOT NULL ORDER BY Czas DESC " +
+                                ") " + 
+                             ") t";
+                        string table = "dbo.Consumption" + Convert.ToString(eq) + i.ToString();
+                        _dataAdapts[l.IndexOf(eq)] = new SqlDataAdapter(str.ToString(), _sqlConnections[l.IndexOf(eq)]);
+                        _dataAdapts[l.IndexOf(eq)].Fill(_dataSets[l.IndexOf(eq)], table);
+                        object firstP, lastP, firstQ, lastQ; 
+                        if(_dataSets[l.IndexOf(eq)].Tables[table].Rows.Count < 2)
+                        {
+                            firstP = 0f;
+                            lastP = 0f;
+                            firstQ = 0f;
+                            lastQ = 0f;
+                        }
+                        else
+                        {
+                            firstP = _dataSets[l.IndexOf(eq)].Tables[table].Rows[0]["P_day"];
+                            lastP = _dataSets[l.IndexOf(eq)].Tables[table].Rows[1]["P_day"];
+                            firstQ = _dataSets[l.IndexOf(eq)].Tables[table].Rows[0]["Q_day"];
+                            lastQ = _dataSets[l.IndexOf(eq)].Tables[table].Rows[1]["Q_day"];
+                        }
+
+                        if (firstP == DBNull.Value) firstP = 0f;
+                        if (lastP == DBNull.Value) lastP = 0f;
+                        if (firstQ == DBNull.Value) firstQ = 0f;
+                        if (lastQ == DBNull.Value) lastQ = 0f;
+
+                         lock(locker)
+                         {
+                             dt.Rows[i][equ[eq] + ", P"] = Math.Round((Convert.ToSingle(lastP) - Convert.ToSingle(firstP)) / 1000, 2);
+                             dt.Rows[i][equ[eq] + ", Q"] = Math.Round((Convert.ToSingle(lastQ) - Convert.ToSingle(firstQ)) / 1000, 2);
+                         }
+                     }
+                 });
+
+                foreach (var sql in _sqlConnections)
+                    sql.Close();
+
                 return dt;
             }
             catch (Exception ex)

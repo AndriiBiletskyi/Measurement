@@ -513,30 +513,30 @@ namespace PomiaryGUI
                         if (step == Raport.day)
                         {
                             TimeSpan dif = dateTimeTo.Subtract(dateTimeFrom);
-                            if (dif.TotalHours > 24) dateTimeTo = dateTimeFrom.AddHours(24);
+                            if (dif.TotalDays > 31) dateTimeTo = dateTimeFrom.AddDays(31);
                             dateTime = dateTime.AddHours(1.0);
                         }
                         else if (step == Raport.week)
                         {
-                            TimeSpan dif = dateTimeTo.Subtract(dateTimeFrom);
-                            if (dif.TotalDays > 8) dateTimeTo = dateTimeFrom.AddDays(8);
-                            dateTime = dateTime.AddDays(1.0);
+                            //TimeSpan dif = dateTimeTo.Subtract(dateTimeFrom);
+                            //if (dif.TotalDays > 8) dateTimeTo = dateTimeFrom.AddDays(8);
+                            dateTime = dateTime.AddDays(7.0);
                         }
                         else if (step == Raport.month)
                         {
-                            TimeSpan dif = dateTimeTo.Subtract(dateTimeFrom);
-                            if (dif.TotalDays > 32) dateTimeTo = dateTimeFrom.AddDays(32);
-                            dateTime = dateTime.AddDays(1.0);
+                            //TimeSpan dif = dateTimeTo.Subtract(dateTimeFrom);
+                            //if (dif.TotalDays > 32) dateTimeTo = dateTimeFrom.AddDays(32);
+                            dateTime = dateTime.AddMonths(1);// .AddDays(1.0);
                         }
                         else if (step == Raport.year)
                         {
-                            dateTime = dateTime.AddMonths(1);
+                            dateTime = dateTime.AddYears(1);// .AddMonths(1);
                         }
                         if (dateTime < dateTimeTo) dateList.Add(dateTime);
                     }
                     dateList.Add(dateTimeTo);
 
-                    dataRaports = _dataManager.GetConsumption3(equIDName, dateList);
+                    dataRaports = _dataManager.GetConsumption4(equIDName, dateList);
                 });
             }
             catch(Exception ex)
