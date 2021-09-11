@@ -9,7 +9,7 @@ namespace PomiaryGUI
 {
     public partial class Raports : UserControl
     {
-        private System.Data.DataTable data = new System.Data.DataTable();
+        //private System.Data.DataTable data = new System.Data.DataTable();
         private bool statusRaports = true;
         private Panel panel = new Panel();
         public event EventHandler ButtonShowClick;
@@ -143,10 +143,10 @@ namespace PomiaryGUI
 
         public void SetData(System.Data.DataTable dataTable)
         {
-            data.Clear();
-            data.Columns.Clear();
-            data = dataTable;
-            dataGridViewRaports.DataSource = data;
+            //data.Clear();
+            //data.Columns.Clear();
+            //data = dataTable;
+            dataGridViewRaports.DataSource = dataTable;
             if (dataGridViewRaports.Columns.Count > 0)
             {
                 dataGridViewRaports.Columns[0].DefaultCellStyle.WrapMode = DataGridViewTriState.True;
@@ -176,10 +176,18 @@ namespace PomiaryGUI
                 {
                     dataGridViewRaports.Visible = true;
                     panel.Visible = false;
+                    buttonExport.Enabled = true;
+                    buttonShow.Enabled = true;
+                    DateFrom.Enabled = true;
+                    DateTo.Enabled = true;
                 }
                 else
                 {
                     dataGridViewRaports.Visible = false;
+                    buttonExport.Enabled = false;
+                    buttonShow.Enabled = false;
+                    DateFrom.Enabled = false;
+                    DateTo.Enabled = false;
                     panel.Visible = true;
                     panel.Location = new System.Drawing.Point(this.Width / 2 - panel.Width / 2,
                                        this.Height / 2 - panel.Height / 2);
