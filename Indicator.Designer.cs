@@ -35,9 +35,9 @@ namespace PomiaryGUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.MenuHighlight;
+            this.BackColor = System.Drawing.SystemColors.Control;
             this.Name = "Indicator";
-            this.Size = new System.Drawing.Size(268, 223);
+            this.Size = new System.Drawing.Size(500, 500);
             this.ResumeLayout(false);
 
         }
