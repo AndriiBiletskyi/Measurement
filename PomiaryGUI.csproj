@@ -366,11 +366,11 @@
       <DependentUpon>Raports.cs</DependentUpon>
     </Compile>
     <Compile Include="RaportsParameters.cs" />
-    <Compile Include="Settings.cs">
+    <Compile Include="SettingsConnection.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Settings.Designer.cs">
-      <DependentUpon>Settings.cs</DependentUpon>
+    <Compile Include="SettingsConnection.Designer.cs">
+      <DependentUpon>SettingsConnection.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="EquControl.resx">
       <DependentUpon>EquControl.cs</DependentUpon>
@@ -397,8 +397,8 @@
     <EmbeddedResource Include="Raports.resx">
       <DependentUpon>Raports.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Settings.resx">
-      <DependentUpon>Settings.cs</DependentUpon>
+    <EmbeddedResource Include="SettingsConnection.resx">
+      <DependentUpon>SettingsConnection.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="PomiaryGUI_TemporaryKey.pfx" />

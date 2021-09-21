@@ -19,8 +19,8 @@ namespace PomiaryGUI
     public enum FormStates
     {
         start,
-        power, current, voltage, cos, equipments,
+        power, current, voltage, cos, somename,
         daily, weekly, monthly, annual,
-        settings
+        setequipments, connection, network
     }
 }

@@ -39,7 +39,6 @@ namespace PomiaryGUI
         DateTime RaportsGetDateTo();
         #endregion
 
-
         #region Settings
         List<string> SettingsGetDataConnection();
         string SettingsGetDataConnectionString();
@@ -54,21 +53,23 @@ namespace PomiaryGUI
 
         #endregion
 
-        EquControl PanelEqu = new EquControl();
-
+        #region Panels
         Charts Power = new Charts(ChartMode.power);      
         Charts Current = new Charts(ChartMode.current);
         Charts Voltage = new Charts(ChartMode.voltage);
         Charts Cos = new Charts(ChartMode.cos);
+        EquControl PanelEqu = new EquControl();
+
+        Raports PanelRaport = new Raports();
+
+        SettingsConnection PanelSettingsConnection = new SettingsConnection();
+        #endregion
 
         List<string> equlist = new List<string>();
         List<InstantaneousValues> inst = new List<InstantaneousValues>();
         int timeTick = 0;
         bool _init = false;
-        Raports PanelRaport = new Raports();
-
-        Settings PanelSettings = new Settings();
-
+        
         public MainForm()
         {
             InitializeComponent();
@@ -89,7 +90,11 @@ namespace PomiaryGUI
             butRaportsWeekly.Click += new EventHandler(But_Click);
             butRaportsMonthly.Click += new EventHandler(But_Click);
             butRaportsAnnual.Click += new EventHandler(But_Click);
+
             butSettings.Click += new EventHandler(ButSettings_Click);
+            butSettingsConnection.Click += new EventHandler(But_Click);
+            butSettingsNetwork.Click += new EventHandler(But_Click);
+            butSettingsEquipments.Click += new EventHandler(But_Click);
             #endregion
 
             LangComboBox.SelectedValueChanged += new EventHandler(LangComboBox_TextChanged);
@@ -107,8 +112,8 @@ namespace PomiaryGUI
             #endregion
 
             #region Settings events
-            PanelSettings.ButtonConnectClick += new EventHandler(Change_Connect);
-            PanelSettings.ReplaceDDMM += new EventHandler(Replace_DD_MM);
+            PanelSettingsConnection.ButtonConnectClick += new EventHandler(Change_Connect);
+            PanelSettingsConnection.ReplaceDDMM += new EventHandler(Replace_DD_MM);
             #endregion
 
             //equlist.Add("1");
@@ -168,6 +173,13 @@ namespace PomiaryGUI
             butRaportsAnnual.Visible = false;
         }
 
+        private void HideButtonsSettings()
+        {
+            butSettingsEquipments.Visible = false;
+            butSettingsConnection.Visible = false;
+            butSettingsNetwork.Visible = false;
+        }
+
         private void ShowButtonsCharts()
         {
             butChartsPower.Visible = true;
@@ -183,6 +195,13 @@ namespace PomiaryGUI
             butRaportsWeekly.Visible = true;
             butRaportsMonthly.Visible = true;
             butRaportsAnnual.Visible = true;
+        }
+
+        private void ShowButtonsSettings()
+        {
+            butSettingsEquipments.Visible = true;
+            butSettingsConnection.Visible = true;
+            butSettingsNetwork.Visible = true;
         }
 
         private void ButtonsRightPosition(Button butup, Button but)
@@ -219,7 +238,7 @@ namespace PomiaryGUI
 
         #endregion
 
-        #region PowerPanel
+        #region Panel
 
         private void PanelShow(Control panel)
         {
@@ -227,67 +246,6 @@ namespace PomiaryGUI
             PanelReSize(panel);
             panel.Refresh();
         }
-
-        private void PowerPanelHide()
-        {
-            Power.Visible = false;
-        }
-
-        #endregion
-
-        #region Raports
-
-        private void _ButtonShowClickRaport(object sender, EventArgs e)
-        {
-            if (formStates == FormStates.daily)
-            {
-                //if (ButRaportsDailyClick != null) ButRaportsDailyClick(this, EventArgs.Empty);
-            }
-            else if (formStates == FormStates.weekly)
-            {
-                //if (ButRaportsWeeklyClick != null) ButRaportsWeeklyClick(this, EventArgs.Empty);
-            }
-            else if (formStates == FormStates.monthly)
-            {
-                //if (ButRaportsMonthlyClick != null) ButRaportsMonthlyClick(this, EventArgs.Empty);
-            }
-            else if (formStates == FormStates.annual)
-            {
-                //if (ButRaportsAnnualClick != null) ButRaportsAnnualClick(this, EventArgs.Empty);
-            }
-
-        }
-
-        private void RaportsPanelShow()
-        {
-            PanelRaport.Visible = true;
-            PanelReSize(PanelRaport);
-
-            PanelRaport.Refresh();
-        }
-
-        private void RaportsPanelHide()
-        {
-            PanelRaport.Visible = false;
-        }
-
-        #endregion
-
-        #region SettingsPanel
-        private void SettingsPanelShow()
-        {
-            PanelSettings.Visible = true;
-            PanelReSize(PanelSettings);
-
-            PanelSettings.Refresh();
-
-        }
-
-        private void SettingsPanelHide()
-        {
-            PanelSettings.Visible = false;
-        }
-        #endregion
 
         private void PanelReSize(Control panel)
         {
@@ -302,9 +260,11 @@ namespace PomiaryGUI
             Current.Visible = false;
             Voltage.Visible = false;
             Cos.Visible = false;
-            PanelSettings.Visible = false;
+            PanelSettingsConnection.Visible = false;
             PanelRaport.Visible = false;
         }
+
+        #endregion
 
         #endregion
 
@@ -330,6 +290,7 @@ namespace PomiaryGUI
             {
                 HideButtonsCharts();
                 HideButtonsRaports();
+                HideButtonsSettings();
                 ButtonsRightPosition(butCharts, butRaports);
                 ButtonsRightPosition(butRaports, butSettings);
                 MarkBottomBut(((Button)sender).Location, ((Button)sender).Size);
@@ -337,6 +298,7 @@ namespace PomiaryGUI
             else
             {
                 HideButtonsRaports();
+                HideButtonsSettings();
                 ShowButtonsCharts();
                 ButtonsRightPosition(butCharts, butChartsPower);
                 ButtonsRightPosition(butChartsPower, butChartsCurrent);
@@ -349,7 +311,7 @@ namespace PomiaryGUI
                 else if (formStates == FormStates.current) MarkBottomBut(butChartsCurrent.Location, butChartsCurrent.Size);
                 else if (formStates == FormStates.voltage) MarkBottomBut(butChartsVoltage.Location, butChartsVoltage.Size);
                 else if (formStates == FormStates.cos) MarkBottomBut(butChartsCos.Location, butChartsCos.Size);
-                else if (formStates == FormStates.equipments) MarkBottomBut(butChartsEquipments.Location, butChartsEquipments.Size);
+                else if (formStates == FormStates.somename) MarkBottomBut(butChartsEquipments.Location, butChartsEquipments.Size);
                 else MarkBottomBut(((Button)sender).Location, ((Button)sender).Size);
             }
         }
@@ -423,17 +385,41 @@ namespace PomiaryGUI
                         PanelShow(PanelRaport);
                     }
                     break;
+                case "butSettingsEquipments":
+                    if (formStates != FormStates.setequipments)
+                    {
+                        AllPanelsHide();
+                        formStates = FormStates.setequipments;
+                        //PanelShow(PanelRaport);
+                    }
+                    break;
+                case "butSettingsConnection":
+                    if (formStates != FormStates.connection)
+                    {
+                        AllPanelsHide();
+                        formStates = FormStates.connection;
+                        PanelShow(PanelSettingsConnection);
+                    }
+                    break;
+                case "butSettingsNetwork":
+                    if (formStates != FormStates.network)
+                    {
+                        AllPanelsHide();
+                        formStates = FormStates.network;
+                        //PanelShow(PanelRaport);
+                    }
+                    break;
             }
             MarkBottomBut(((Button)sender).Location, ((Button)sender).Size);
         }
 
         private void ButChartsEquipments_Click(object sender, EventArgs e)
         {
-            if (formStates != FormStates.equipments)
+            if (formStates != FormStates.somename)
             {
                 AllPanelsHide();
                 EquPanelShow();
-                formStates = FormStates.equipments;
+                formStates = FormStates.somename;
             }
             MarkBottomBut(((Button)sender).Location, ((Button)sender).Size);
         }
@@ -444,6 +430,7 @@ namespace PomiaryGUI
             {
                 HideButtonsCharts();
                 HideButtonsRaports();
+                HideButtonsSettings();
                 ButtonsRightPosition(butCharts, butRaports);
                 ButtonsRightPosition(butRaports, butSettings);
                 MarkBottomBut(((Button)sender).Location, ((Button)sender).Size);
@@ -451,6 +438,7 @@ namespace PomiaryGUI
             else
             {
                 HideButtonsCharts();
+                HideButtonsSettings();
                 ShowButtonsRaports();
                 ButtonsRightPosition(butCharts, butRaports);
                 ButtonsRightPosition(butRaports, butRaportsDaily);
@@ -468,19 +456,41 @@ namespace PomiaryGUI
 
         private void ButSettings_Click(object sender, EventArgs e)
         {
-            HideButtonsCharts();
-            HideButtonsRaports();
-            ButtonsRightPosition(butCharts, butRaports);
-            ButtonsRightPosition(butRaports, butSettings);
-
-            if (formStates != FormStates.settings)
+            if (butSettingsEquipments.Visible)
             {
-                AllPanelsHide();
-                SettingsPanelShow();
-                formStates = FormStates.settings;
+                HideButtonsCharts();
+                HideButtonsRaports();
+                HideButtonsSettings();
+                ButtonsRightPosition(butCharts, butRaports);
+                ButtonsRightPosition(butRaports, butSettings);
+                MarkBottomBut(((Button)sender).Location, ((Button)sender).Size);
+            }
+            else
+            {
+                HideButtonsCharts();
+                HideButtonsRaports();
+                ShowButtonsSettings();
+                ButtonsRightPosition(butCharts, butRaports);
+                ButtonsRightPosition(butRaports, butSettings);
+                ButtonsRightPosition(butSettings, butSettingsEquipments);
+                ButtonsRightPosition(butSettingsEquipments, butSettingsConnection);
+                ButtonsRightPosition(butSettingsConnection, butSettingsNetwork);
+
+                if (formStates == FormStates.setequipments) MarkBottomBut(butSettingsEquipments.Location, butSettingsEquipments.Size);
+                else if (formStates == FormStates.connection) MarkBottomBut(butSettingsConnection.Location, butSettingsConnection.Size);
+                else if (formStates == FormStates.network) MarkBottomBut(butSettingsNetwork.Location, butSettingsNetwork.Size);
+                else MarkBottomBut(((Button)sender).Location, ((Button)sender).Size);
             }
 
-            MarkBottomBut(((Button)sender).Location, ((Button)sender).Size);
+
+            //if (formStates != FormStates.settings)
+            //{
+            //    AllPanelsHide();
+            //    SettingsPanelShow();
+            //    formStates = FormStates.settings;
+            //}
+
+            
         }
 
         private void ButClose_Click(object sender, EventArgs e)
@@ -672,22 +682,22 @@ namespace PomiaryGUI
         #region Settings
         public List<string> SettingsGetDataConnection()
         {
-            return PanelSettings.GetDataConnection();
+            return PanelSettingsConnection.GetDataConnection();
         }
 
         public string SettingsGetDataConnectionString()
         {
-            return PanelSettings.GetDataConnectionString();
+            return PanelSettingsConnection.GetDataConnectionString();
         }
 
         public bool GetReplace()
         {
-            return PanelSettings.GetReplace();
+            return PanelSettingsConnection.GetReplace();
         }
 
         public bool GetConnectionWay()
         {
-            return PanelSettings.GetConnectionWay();
+            return PanelSettingsConnection.GetConnectionWay();
         }
         #endregion
         #region events
@@ -787,12 +797,12 @@ namespace PomiaryGUI
             PanelReSize(PanelRaport);
             #endregion
             #region PanelSettings
-            PanelSettings.Visible = false;
-            MainForm.ActiveForm.Controls.Add(PanelSettings);
+            PanelSettingsConnection.Visible = false;
+            MainForm.ActiveForm.Controls.Add(PanelSettingsConnection);
             this.PanelEqu.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right) | System.Windows.Forms.AnchorStyles.Bottom));
-            PanelSettings.Location = new Point(panelButtons.Width, panelHead.Height);
-            PanelReSize(PanelSettings);
+            PanelSettingsConnection.Location = new Point(panelButtons.Width, panelHead.Height);
+            PanelReSize(PanelSettingsConnection);
 
             LangComboBox.SelectedItem = LangComboBox.Items[0];
             #endregion
@@ -801,10 +811,13 @@ namespace PomiaryGUI
 
             HideButtonsCharts();
             HideButtonsRaports();
+            HideButtonsSettings();
             ButtonsRightPosition(butCharts, butRaports);
             ButtonsRightPosition(butRaports, butSettings);
 
             labelDataTime.Location = new Point(panelBottom.Width - labelDataTime.Width,0);
+
+            PanelHead_MouseDoubleClick(this, new MouseEventArgs(new MouseButtons(),0,0,0,0));
         }
 
         private void MainFormInit()
@@ -838,7 +851,6 @@ namespace PomiaryGUI
             isDragging = false;
         }
         #endregion
-
-        
+   
     }
 }

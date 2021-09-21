@@ -11,12 +11,12 @@ using PomiaryGUI.Properties;
 
 namespace PomiaryGUI
 {
-    public partial class Settings : UserControl
+    public partial class SettingsConnection : UserControl
     {
         public event EventHandler ButtonConnectClick;
         public event EventHandler ReplaceDDMM;
 
-        public Settings()
+        public SettingsConnection()
         {
             InitializeComponent();
             butConnect.Click += new EventHandler(ButtonConnect_Click);

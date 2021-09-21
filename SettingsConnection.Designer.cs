@@ -1,7 +1,7 @@
 ﻿
 namespace PomiaryGUI
 {
-    partial class Settings
+    partial class SettingsConnection
     {
         /// <summary> 
         /// Обязательная переменная конструктора.
