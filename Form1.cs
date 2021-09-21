@@ -151,27 +151,6 @@ namespace PomiaryGUI
             panelButtonMark.BringToFront();
         }
 
-        private void MarkBottomBut(Point loc, int width, int hieght)
-        {
-            panelButtonMark.Location = loc;
-            panelButtonMark.Width = width;
-            panelButtonMark.Height = hieght;
-        }
-
-        private void MarkBottomBut(Point loc, int width)
-        {
-            panelButtonMark.Location = loc;
-            panelButtonMark.Width = width;
-            panelButtonMark.Height = 3;
-        }
-
-        private void MarkBottomBut(int x, int y, int width)
-        {
-            panelButtonMark.Location = new Point(x, y);
-            panelButtonMark.Width = width;
-            panelButtonMark.Height = 3;
-        }
-
         private void HideButtonsCharts()
         {
             butChartsPower.Visible = false;
@@ -450,8 +429,6 @@ namespace PomiaryGUI
 
         private void ButChartsEquipments_Click(object sender, EventArgs e)
         {
-            //if (ButChartsEquipmentsClick != null) ButChartsEquipmentsClick(this, EventArgs.Empty);
-
             if (formStates != FormStates.equipments)
             {
                 AllPanelsHide();
@@ -491,7 +468,6 @@ namespace PomiaryGUI
 
         private void ButSettings_Click(object sender, EventArgs e)
         {
-            // (ButSettingsClick != null) ButSettingsClick(this, EventArgs.Empty);
             HideButtonsCharts();
             HideButtonsRaports();
             ButtonsRightPosition(butCharts, butRaports);

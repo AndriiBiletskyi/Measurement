@@ -9,7 +9,6 @@ namespace PomiaryGUI
 {
     public partial class Raports : UserControl
     {
-        //private System.Data.DataTable data = new System.Data.DataTable();
         private bool statusRaports = true;
         private Panel panel = new Panel();
         public event EventHandler ButtonShowClick;
@@ -143,9 +142,6 @@ namespace PomiaryGUI
 
         public void SetData(System.Data.DataTable dataTable)
         {
-            //data.Clear();
-            //data.Columns.Clear();
-            //data = dataTable;
             dataGridViewRaports.DataSource = dataTable;
             if (dataGridViewRaports.Columns.Count > 0)
             {
@@ -156,7 +152,6 @@ namespace PomiaryGUI
             foreach (DataGridViewColumn column in dataGridViewRaports.Columns)
             {
                 column.SortMode = DataGridViewColumnSortMode.NotSortable;
-                column.ReadOnly = true;
             }
             dataGridViewRaports.Refresh();
 
