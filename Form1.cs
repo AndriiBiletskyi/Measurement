@@ -16,6 +16,7 @@ namespace PomiaryGUI
         event EventHandler<ChartsParameters> ButShowChartsClick;
         event EventHandler<RaportsParameters> ButShowRaportsClick;
         event EventHandler ButCloseClick;
+        event EventHandler ButChartsEquipmentsClick;
         event EventHandler AplicationStart;
         event EventHandler ChangeConnect;
         event EventHandler ReplaceDDMM;
@@ -116,32 +117,37 @@ namespace PomiaryGUI
             PanelSettingsConnection.ReplaceDDMM += new EventHandler(Replace_DD_MM);
             #endregion
 
-            //equlist.Add("1");
-            //equlist.Add("2");
-            //equlist.Add("3");
-            //equlist.Add("4");
-            //equlist.Add("5");
-            //equlist.Add("6");
-            //equlist.Add("7");
-            //equlist.Add("8");
-            //equlist.Add("9");
-            //equlist.Add("10");
-            //equlist.Add("11");
-            //equlist.Add("12");
+            equlist.Add("1");
+            equlist.Add("2");
+            equlist.Add("3");
+            equlist.Add("4");
+            equlist.Add("5");
+            equlist.Add("6");
+            equlist.Add("7");
+            equlist.Add("8");
+            equlist.Add("9");
+            equlist.Add("10");
+            equlist.Add("11");
+            equlist.Add("12");
             //foreach (var c in equlist)
             //{
-            //    for (int i = 0; i < 4; i++)
-            //    {
-            //        inst.Add(new InstantaneousValues());
-            //        inst.Add(new InstantaneousValues());
-            //        inst.Add(new InstantaneousValues());
-            //        inst.Add(new InstantaneousValues());
-            //    }
+            for (int i = 0; i < 4; i++)
+            {
+                inst.Add(new InstantaneousValues());
+                    inst.Add(new InstantaneousValues());
+                    inst.Add(new InstantaneousValues());
+                    inst.Add(new InstantaneousValues());
+            }
             //}
-            //foreach (InstantaneousValues c in inst)
+            foreach (InstantaneousValues c in inst)
+            {
+                //c.Visible = false;
+                PanelEqu.Controls.Add(c);
+            }
+
+            //for (int i = 0; i < 60; i++)
             //{
-            //    c.Visible = false;
-            //    PanelEqu.Controls.Add(c);
+            //    PanelEqu.Controls.Add(new Indicator());
             //}
         }
 
@@ -422,6 +428,7 @@ namespace PomiaryGUI
                 formStates = FormStates.somename;
             }
             MarkBottomBut(((Button)sender).Location, ((Button)sender).Size);
+            //ButChartsEquipmentsClick?.Invoke(sender, e);
         }
 
         private void ButRaports_Click(object sender, EventArgs e)
@@ -704,6 +711,7 @@ namespace PomiaryGUI
         public event EventHandler<ChartsParameters> ButShowChartsClick;
         public event EventHandler<RaportsParameters> ButShowRaportsClick;
         public event EventHandler ButCloseClick;
+        public event EventHandler ButChartsEquipmentsClick;
         public event EventHandler AplicationStart;
 
         //public event EventHandler LangComboBoxTextChanged;
@@ -749,7 +757,7 @@ namespace PomiaryGUI
             _init = true;
 
             #region PanelEqu
-            MainForm.ActiveForm.Controls.Add(PanelEqu);
+            this.Controls.Add(PanelEqu);
             this.PanelEqu.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right) | System.Windows.Forms.AnchorStyles.Bottom));
             PanelEqu.Visible = false;
@@ -758,7 +766,7 @@ namespace PomiaryGUI
             #endregion
             #region PanelPower
             Power.Visible = false;
-            MainForm.ActiveForm.Controls.Add(Power);
+            this.Controls.Add(Power);
             this.Power.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right) | System.Windows.Forms.AnchorStyles.Bottom));
             Power.Location = new Point(panelButtons.Width, panelHead.Height);
@@ -766,7 +774,7 @@ namespace PomiaryGUI
             #endregion
             #region PanelCurrent
             Current.Visible = false;
-            MainForm.ActiveForm.Controls.Add(Current);
+            this.Controls.Add(Current);
             this.Current.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right) | System.Windows.Forms.AnchorStyles.Bottom));
             Current.Location = new Point(panelButtons.Width, panelHead.Height);
@@ -774,7 +782,7 @@ namespace PomiaryGUI
             #endregion
             #region PanelVoltage
             Voltage.Visible = false;
-            MainForm.ActiveForm.Controls.Add(Voltage);
+            this.Controls.Add(Voltage);
             this.Voltage.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right) | System.Windows.Forms.AnchorStyles.Bottom));
             Voltage.Location = new Point(panelButtons.Width, panelHead.Height);
@@ -782,7 +790,7 @@ namespace PomiaryGUI
             #endregion
             #region PanelCos
             Cos.Visible = false;
-            MainForm.ActiveForm.Controls.Add(Cos);
+            this.Controls.Add(Cos);
             this.Cos.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right) | System.Windows.Forms.AnchorStyles.Bottom));
             Cos.Location = new Point(panelButtons.Width, panelHead.Height);
@@ -790,7 +798,7 @@ namespace PomiaryGUI
             #endregion
             #region PanelRaports
             PanelRaport.Visible = false;
-            MainForm.ActiveForm.Controls.Add(PanelRaport);
+            this.Controls.Add(PanelRaport);
             this.PanelRaport.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right) | System.Windows.Forms.AnchorStyles.Bottom));
             PanelRaport.Location = new Point(panelButtons.Width, panelHead.Height);
@@ -798,7 +806,7 @@ namespace PomiaryGUI
             #endregion
             #region PanelSettings
             PanelSettingsConnection.Visible = false;
-            MainForm.ActiveForm.Controls.Add(PanelSettingsConnection);
+            this.Controls.Add(PanelSettingsConnection);
             this.PanelEqu.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right) | System.Windows.Forms.AnchorStyles.Bottom));
             PanelSettingsConnection.Location = new Point(panelButtons.Width, panelHead.Height);

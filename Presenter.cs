@@ -52,7 +52,7 @@ namespace PomiaryGUI
 
             _mainForm.ButCloseClick += new EventHandler(MainFormButCloseClick);
 
-            //_mainForm.ButChartsEquipmentsClick += new EventHandler(_mainForm_ButEquClick);
+            _mainForm.ButChartsEquipmentsClick += new EventHandler(MainFormButEquClick);
 
             _mainForm.ChangeConnect += new EventHandler(MainFormChangeConnect);
             _mainForm.ReplaceDDMM += new EventHandler(MainFormReplaceDDMM);
@@ -92,10 +92,10 @@ namespace PomiaryGUI
             {
                 DataTable dataTable = _dataManager.GetEquData(1, new DateTime(1800, 1, 1, 1, 1, 1), new DateTime(1800, 1, 1, 1, 1, 1));
 
-                foreach (string i in _mainForm.EquList)//200ms
+                for (int i = 1; i < 13; i++) //in _mainForm.EquList)//200ms
                 {
                     DataRow dataRow = dataTable.NewRow();
-                    dataRow = _dataManager.GetLastEquData(Convert.ToInt32(i));
+                    dataRow = _dataManager.GetLastEquData(i);
                     dataTable.ImportRow(dataRow);
                 }
                 _mainForm.EquipmentsFill(dataTable);//1635 ms

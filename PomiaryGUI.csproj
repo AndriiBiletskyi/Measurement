@@ -342,6 +342,12 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Indicator.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Indicator.Designer.cs">
+      <DependentUpon>Indicator.cs</DependentUpon>
+    </Compile>
     <Compile Include="InstantaneousValues.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -377,6 +383,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Indicator.resx">
+      <DependentUpon>Indicator.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="InstantaneousValues.resx">
       <DependentUpon>InstantaneousValues.cs</DependentUpon>
