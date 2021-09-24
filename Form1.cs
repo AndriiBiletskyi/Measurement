@@ -69,7 +69,7 @@ namespace PomiaryGUI
         List<string> equlist = new List<string>();
         List<InstantaneousValues> inst = new List<InstantaneousValues>();
         int timeTick = 0;
-        bool _init = false;
+        //bool _init = false;
         
         public MainForm()
         {
@@ -428,7 +428,7 @@ namespace PomiaryGUI
                 formStates = FormStates.somename;
             }
             MarkBottomBut(((Button)sender).Location, ((Button)sender).Size);
-            //ButChartsEquipmentsClick?.Invoke(sender, e);
+            ButChartsEquipmentsClick?.Invoke(sender, e);
         }
 
         private void ButRaports_Click(object sender, EventArgs e)
@@ -754,7 +754,7 @@ namespace PomiaryGUI
 
         private void MainForm_Shown(object sender, EventArgs e)
         {
-            _init = true;
+            //_init = true;
 
             #region PanelEqu
             this.Controls.Add(PanelEqu);
