@@ -24,46 +24,26 @@ namespace PomiaryGUI
         private void ButtonExport_Click(object sender, EventArgs e)
         {
             ButtonExportClick?.Invoke(this, EventArgs.Empty);
-
-            Microsoft.Office.Interop.Excel._Application app = new Microsoft.Office.Interop.Excel.Application();
-            Microsoft.Office.Interop.Excel._Workbook workbook = app.Workbooks.Add(Type.Missing);
-            Microsoft.Office.Interop.Excel._Worksheet worksheet = null;
-            app.Visible = true;
-            //worksheet = workbook.Sheets["Sheet1"];
-            worksheet = workbook.ActiveSheet;
-            worksheet.Name = "Records";
-
             try
             {
-                for (int i = 1; i < dataGridViewRaports.Columns.Count + 1; i++)
+                var app = new Microsoft.Office.Interop.Excel.Application();
+                app.Workbooks.Add();
+                var worksheet = (Microsoft.Office.Interop.Excel.Worksheet)app.ActiveSheet;
+
+                int i, j;
+                for(i = 0; i < dataGridViewRaports.ColumnCount; i++)
                 {
-                    worksheet.Cells[1, i] = dataGridViewRaports.Columns[i - 1].HeaderText;
+                    worksheet.Cells[1, i + 1] = dataGridViewRaports.Columns[i].HeaderText;
                 }
-                for (int i = 0; i < dataGridViewRaports.Rows.Count - 1; i++)
+                for(i = 0; i <= dataGridViewRaports.RowCount - 1; i++)
                 {
-                    for (int j = 0; j < dataGridViewRaports.Columns.Count; j++)
+                    for(j = 0; j <= dataGridViewRaports.ColumnCount - 1; j++)
                     {
-                        if (dataGridViewRaports.Rows[i].Cells[j].Value != null)
-                        {
-                            worksheet.Cells[i + 2, j + 1] = dataGridViewRaports.Rows[i].Cells[j].Value.ToString();
-                        }
-                        else
-                        {
-                            worksheet.Cells[i + 2, j + 1] = "";
-                        }
+                        worksheet.Cells[i + 2, j + 1] = dataGridViewRaports[j, i].Value.ToString();
                     }
                 }
 
-                //Getting the location and file name of the excel to save from user. 
-                SaveFileDialog saveDialog = new SaveFileDialog();
-                saveDialog.Filter = "Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.*";
-                saveDialog.FilterIndex = 2;
-
-                if (saveDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                {
-                    workbook.SaveAs(saveDialog.FileName);
-                    MessageBox.Show("Export Successful", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
+                app.Visible = true;
             }
             catch (System.Exception ex)
             {
@@ -72,9 +52,9 @@ namespace PomiaryGUI
 
             finally
             {
-                app.Quit();
-                workbook = null;
-                worksheet = null;
+                //app.Quit();
+                //workbook = null;
+                //worksheet = null;
             }
         }
 
