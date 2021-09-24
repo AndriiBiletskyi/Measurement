@@ -89,7 +89,7 @@ namespace PomiaryGUI
                 this.checkP_L2.Checked = true;
                 this.checkP_L3.Checked = true;
 
-                this.checkP_L3.Location = new Point(this.Width - buttonExport.Width - this.checkP_L3.Width, comboBox1.Height);
+                this.checkP_L3.Location = new Point(this.Width - butExport.Width - this.checkP_L3.Width, comboBox1.Height);
                 this.checkP_L2.Location = new Point(this.checkP_L3.Location.X - this.checkP_L2.Width, comboBox1.Height);
                 this.checkP_L1.Location = new Point(this.checkP_L2.Location.X - this.checkP_L1.Width, comboBox1.Height);
 
@@ -120,7 +120,7 @@ namespace PomiaryGUI
                 this.checkP_L2.Checked = true;
                 this.checkP_L3.Checked = true;
 
-                this.checkP_L3.Location = new Point(this.Width - buttonExport.Width - this.checkP_L3.Width, comboBox1.Height);
+                this.checkP_L3.Location = new Point(this.Width - butExport.Width - this.checkP_L3.Width, comboBox1.Height);
                 this.checkP_L2.Location = new Point(this.checkP_L3.Location.X - this.checkP_L2.Width, comboBox1.Height);
                 this.checkP_L1.Location = new Point(this.checkP_L2.Location.X - this.checkP_L1.Width, comboBox1.Height);
 
@@ -151,7 +151,7 @@ namespace PomiaryGUI
 
                 this.checkP.Checked = true;
 
-                this.checkP.Location = new Point(this.Width - buttonExport.Width - this.checkP.Width, comboBox1.Height);
+                this.checkP.Location = new Point(this.Width - butExport.Width - this.checkP.Width, comboBox1.Height);
                 this.checkP.Visible = false;
             }
         }
@@ -181,14 +181,14 @@ namespace PomiaryGUI
             buttonShow.Height = DateFrom.Height + DateTo.Height;
             buttonShow.Location = new Point(DateFrom.Location.X + DateFrom.Width, DateFrom.Location.Y);
 
-            buttonExport.Height = buttonShow.Height;
-            buttonExport.Location = new Point(this.Width - buttonExport.Width, 0);
+            butExport.Height = buttonShow.Height;
+            butExport.Location = new Point(this.Width - butExport.Width, 0);
             comboBox1.Location = new Point(buttonShow.Location.X + buttonShow.Width, 0);
-            comboBox1.Width = buttonExport.Location.X - buttonShow.Location.X - buttonShow.Width;
+            comboBox1.Width = butExport.Location.X - buttonShow.Location.X - buttonShow.Width;
 
             if (mode == ChartMode.power)
             {
-                this.checkQ_L3.Location = new Point(this.Width - buttonExport.Width - this.checkQ_L3.Width, comboBox1.Height);
+                this.checkQ_L3.Location = new Point(this.Width - butExport.Width - this.checkQ_L3.Width, comboBox1.Height);
                 this.checkQ_L2.Location = new Point(this.checkQ_L3.Location.X - this.checkQ_L2.Width, comboBox1.Height);
                 this.checkQ_L1.Location = new Point(this.checkQ_L2.Location.X - this.checkQ_L1.Width, comboBox1.Height);
                 this.checkQ.Location = new Point(this.checkQ_L1.Location.X - this.checkQ.Width, comboBox1.Height);
@@ -199,21 +199,21 @@ namespace PomiaryGUI
             }
             else if (mode == ChartMode.current)
             {
-                this.checkP_L3.Location = new Point(this.Width - buttonExport.Width - this.checkP_L3.Width, comboBox1.Height);
+                this.checkP_L3.Location = new Point(this.Width - butExport.Width - this.checkP_L3.Width, comboBox1.Height);
                 this.checkP_L2.Location = new Point(this.checkP_L3.Location.X - this.checkP_L2.Width, comboBox1.Height);
                 this.checkP_L1.Location = new Point(this.checkP_L2.Location.X - this.checkP_L1.Width, comboBox1.Height);
 
             }
             else if (mode == ChartMode.voltage)
             {
-                this.checkP_L3.Location = new Point(this.Width - buttonExport.Width - this.checkP_L3.Width, comboBox1.Height);
+                this.checkP_L3.Location = new Point(this.Width - butExport.Width - this.checkP_L3.Width, comboBox1.Height);
                 this.checkP_L2.Location = new Point(this.checkP_L3.Location.X - this.checkP_L2.Width, comboBox1.Height);
                 this.checkP_L1.Location = new Point(this.checkP_L2.Location.X - this.checkP_L1.Width, comboBox1.Height);
 
             }
             else if (mode == ChartMode.cos)
             {
-                this.checkP.Location = new Point(this.Width - buttonExport.Width - this.checkP.Width, comboBox1.Height);
+                this.checkP.Location = new Point(this.Width - butExport.Width - this.checkP.Width, comboBox1.Height);
                 this.checkP.Visible = false;
             }
         }
@@ -588,7 +588,7 @@ namespace PomiaryGUI
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void ButExport_Click(object sender, EventArgs e)
         {
             if (chart.Visible)
             {
@@ -602,10 +602,25 @@ namespace PomiaryGUI
                         g.CopyFromScreen(new Point(pt.X - chart.Location.X, pt.Y - chart.Location.Y), Point.Empty, bounds.Size);
                     }
 
-                    //bitmap.Save("E:/PomiaryGUI/pom.png", ImageFormat.Png);
-                    bitmap.Save("C:/Biletskyi/pom.png", ImageFormat.Png);
-
-                    MessageBox.Show("Image saved successfully.");
+                    SaveFileDialog sfd = new SaveFileDialog
+                    {
+                        Filter = "Images|*.png;*.bmp;*.jpg"
+                    };
+                    var format = ImageFormat.Png;
+                    if (sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                    {
+                        string ext = System.IO.Path.GetExtension(sfd.FileName);
+                        switch (ext)
+                        {
+                            case ".jpg":
+                                format = ImageFormat.Jpeg;
+                                break;
+                            case ".bmp":
+                                format = ImageFormat.Bmp;
+                                break;
+                        }
+                        bitmap.Save(sfd.FileName, format);
+                    }
                 }
                 catch (Exception ex)
                 {
