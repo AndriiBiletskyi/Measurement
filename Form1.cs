@@ -20,6 +20,7 @@ namespace PomiaryGUI
         event EventHandler AplicationStart;
         event EventHandler ChangeConnect;
         event EventHandler<int> SettingsGetDataForID;
+        event EventHandler<SettingsEquipmentsData> SettingsUpdateDataForID;
         event EventHandler ReplaceDDMM;
         #endregion
 
@@ -47,7 +48,7 @@ namespace PomiaryGUI
         string SettingsGetDataConnectionString();
         bool GetReplace();
         bool GetConnectionWay();
-        void SettingsSetDataForID(List<string> data);
+        void SettingsSetDataForID(SettingsEquipmentsData data);
         #endregion
     }
 
@@ -121,6 +122,7 @@ namespace PomiaryGUI
             PanelSettingsConnection.ButtonConnectClick += new EventHandler(Change_Connect);
             PanelSettingsConnection.ReplaceDDMM += new EventHandler(Replace_DD_MM);
             PanelSettingsEquipments.IDChanged += new EventHandler<int>(SettingsEquipmentsIDChanged);
+            PanelSettingsEquipments.UpdateData += new EventHandler<SettingsEquipmentsData>(SettingsEquipmentsUpdateData);
             #endregion
 
             //equlist.Add("1");
@@ -537,6 +539,11 @@ namespace PomiaryGUI
         {
             SettingsGetDataForID?.Invoke(sender, id);
         }
+
+        private void SettingsEquipmentsUpdateData(object sender, SettingsEquipmentsData data)
+        {
+            SettingsUpdateDataForID?.Invoke(sender, data);
+        }
         #endregion
 
         #region IMainForm
@@ -732,7 +739,7 @@ namespace PomiaryGUI
             return PanelSettingsConnection.GetConnectionWay();
         }
 
-        public void SettingsSetDataForID(List<string> data)
+        public void SettingsSetDataForID(SettingsEquipmentsData data)
         {
             PanelSettingsEquipments.SetDataForID(data);
         }
@@ -747,6 +754,8 @@ namespace PomiaryGUI
         //public event EventHandler LangComboBoxTextChanged;
 
         public event EventHandler<int> SettingsGetDataForID;
+        public event EventHandler<SettingsEquipmentsData> SettingsUpdateDataForID;
+
         public event EventHandler ChangeConnect;
         public event EventHandler ReplaceDDMM;
         #endregion

@@ -29,7 +29,7 @@ namespace PomiaryGUI
         DataTable GetConsumption3(Dictionary<int, string> equ, List<DateTime> times);
         DataTable GetConsumption4(Dictionary<int, string> equ, List<DateTime> times);
         DataTable GetDataPower(int eq, DateTime begin, DateTime end, List<string> colums);
-       
+        void UpdateDataForID(SettingsEquipmentsData data);
     }
 
     public class DataManager: IDataManager
@@ -922,6 +922,30 @@ namespace PomiaryGUI
             indexes[1] = max_index;
             points[0] = min_val;
             points[1] = max_val;
+        }
+
+        public void UpdateDataForID(SettingsEquipmentsData data)
+        {
+            try
+            {
+                Sql_Connect();
+                string str = "UPDATE dbo.equipments " +
+                             "SET NamePL = '" + data.Name + "', " +
+                                 "RatedPower = '" + data.RatedPower.ToString() + "', " +
+                                 "RatedCurrent = '" + data.RatedCurrent.ToString() + "', " +
+                                 "RatedVoltage = '" + data.RatedVoltage.ToString() + "', " +
+                                 "NumberOfPhases = '" + data.NumberOfPhases.ToString() + "', " +
+                                 "UnitOfPower = '" + data.UnitOfPower + "' " +
+                             "WHERE ID = '" + data.Id.ToString() + "'";
+
+                SqlCommand cmd = sqlConnection.CreateCommand();
+                cmd.CommandText = str;
+                cmd.ExecuteNonQuery();
+            }
+            catch(Exception ex)
+            {
+                Message?.Invoke(this, ex.ToString());
+            }
         }
     }
 }

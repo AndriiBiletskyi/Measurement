@@ -402,6 +402,7 @@
     <Compile Include="SettingsEquipments.Designer.cs">
       <DependentUpon>SettingsEquipments.cs</DependentUpon>
     </Compile>
+    <Compile Include="SettingsEquipmentsData.cs" />
     <EmbeddedResource Include="EquControl.resx">
       <DependentUpon>EquControl.cs</DependentUpon>
     </EmbeddedResource>

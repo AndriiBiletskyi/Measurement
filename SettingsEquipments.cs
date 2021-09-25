@@ -13,6 +13,7 @@ namespace PomiaryGUI
     public partial class SettingsEquipments : UserControl
     {
         public event EventHandler<int> IDChanged;
+        public event EventHandler<SettingsEquipmentsData> UpdateData;
 
         public SettingsEquipments()
         {
@@ -20,6 +21,7 @@ namespace PomiaryGUI
             comboBoxID.TextChanged += new EventHandler(ComboBoxIDChanged);
             checkAdd.CheckedChanged += new EventHandler(CheckAdd);
             checkEdit.CheckedChanged += new EventHandler(CheckEdit);
+            butSaveChanges.Click += new EventHandler(ButSaveChangesClick);
             checkEdit.Checked = true;
             comboBoxPhase.SelectedItem = comboBoxPhase.Items[1];
         }
@@ -60,17 +62,10 @@ namespace PomiaryGUI
         {
             get
             {
-                if (comboBoxID.Items.Count > 0)
-                {
-                    var list = new List<int>();
-                    foreach (var i in comboBoxID.Items)
-                        list.Add(Convert.ToInt32(i));
-                    return list;
-                }
-                else
-                {
-                    return new List<int>();
-                }
+                var list = new List<int>();
+                foreach (var i in comboBoxID.Items)
+                    list.Add(Convert.ToInt32(i));
+                return list;
             }
             set
             {
@@ -80,16 +75,16 @@ namespace PomiaryGUI
             }
         }
         
-        public void SetDataForID(List<string> data)
+        public void SetDataForID(SettingsEquipmentsData data)
         {
             try
             {
-                EquipmentName.Text = data[0];
-                Power.Text = data[1];
-                Current.Text = data[2];
-                Voltage.Text = data[3];
-                comboBoxPhase.SelectedItem = data[4];
-                UnitOfPower.Text = data[5];
+                EquipmentName.Text = data.Name;
+                Power.Text = data.RatedPower.ToString();
+                Current.Text = data.RatedCurrent.ToString();
+                Voltage.Text = data.RatedVoltage.ToString();
+                comboBoxPhase.SelectedItem = data.NumberOfPhases.ToString();
+                UnitOfPower.Text = data.UnitOfPower;
             }
             catch(Exception ex)
             {
@@ -109,6 +104,22 @@ namespace PomiaryGUI
             IDChanged?.Invoke(sender, Convert.ToInt32(comboBoxID.SelectedItem));
         }
 
-        
+        private void ButSaveChangesClick(object sender, EventArgs e)
+        {
+            if (checkEdit.Checked)
+            {
+                var data = new SettingsEquipmentsData
+                {
+                    Id = Convert.ToInt32(comboBoxID.SelectedItem),
+                    Name = EquipmentName.Text,
+                    RatedPower = Convert.ToSingle(Power.Text),
+                    RatedCurrent = Convert.ToSingle(Current.Text),
+                    RatedVoltage = Convert.ToSingle(Voltage.Text),
+                    NumberOfPhases = Convert.ToInt32(comboBoxPhase.SelectedItem),
+                    UnitOfPower = UnitOfPower.Text
+                };
+                UpdateData?.Invoke(sender, data);
+            }
+        }
     }
 }
