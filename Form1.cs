@@ -19,6 +19,7 @@ namespace PomiaryGUI
         event EventHandler ButChartsEquipmentsClick;
         event EventHandler AplicationStart;
         event EventHandler ChangeConnect;
+        event EventHandler<int> SettingsGetDataForID;
         event EventHandler ReplaceDDMM;
         #endregion
 
@@ -27,6 +28,7 @@ namespace PomiaryGUI
 
         #region Equipments
         List<string> EquList { get; set; }
+        List<int> IdList { get; set; }
         void EquipmentsFill(DataTable dataTable);
         #endregion
 
@@ -45,6 +47,7 @@ namespace PomiaryGUI
         string SettingsGetDataConnectionString();
         bool GetReplace();
         bool GetConnectionWay();
+        void SettingsSetDataForID(List<string> data);
         #endregion
     }
 
@@ -64,9 +67,11 @@ namespace PomiaryGUI
         Raports PanelRaport = new Raports();
 
         SettingsConnection PanelSettingsConnection = new SettingsConnection();
+        SettingsEquipments PanelSettingsEquipments = new SettingsEquipments();
         #endregion
 
-        List<string> equlist = new List<string>();
+        List<string> equList = new List<string>();
+        List<int> idList = new List<int>();
         List<InstantaneousValues> inst = new List<InstantaneousValues>();
         int timeTick = 0;
         //bool _init = false;
@@ -115,35 +120,36 @@ namespace PomiaryGUI
             #region Settings events
             PanelSettingsConnection.ButtonConnectClick += new EventHandler(Change_Connect);
             PanelSettingsConnection.ReplaceDDMM += new EventHandler(Replace_DD_MM);
+            PanelSettingsEquipments.IDChanged += new EventHandler<int>(SettingsEquipmentsIDChanged);
             #endregion
 
-            equlist.Add("1");
-            equlist.Add("2");
-            equlist.Add("3");
-            equlist.Add("4");
-            equlist.Add("5");
-            equlist.Add("6");
-            equlist.Add("7");
-            equlist.Add("8");
-            equlist.Add("9");
-            equlist.Add("10");
-            equlist.Add("11");
-            equlist.Add("12");
+            //equlist.Add("1");
+            //equlist.Add("2");
+            //equlist.Add("3");
+            //equlist.Add("4");
+            //equlist.Add("5");
+            //equlist.Add("6");
+            //equlist.Add("7");
+            //equlist.Add("8");
+            //equlist.Add("9");
+            //equlist.Add("10");
+            //equlist.Add("11");
+            //equlist.Add("12");
             //foreach (var c in equlist)
             //{
-            for (int i = 0; i < 4; i++)
-            {
-                inst.Add(new InstantaneousValues());
-                    inst.Add(new InstantaneousValues());
-                    inst.Add(new InstantaneousValues());
-                    inst.Add(new InstantaneousValues());
-            }
+            //for (int i = 0; i < 4; i++)
+            //{
+            //    inst.Add(new InstantaneousValues());
+            //        inst.Add(new InstantaneousValues());
+            //        inst.Add(new InstantaneousValues());
+            //        inst.Add(new InstantaneousValues());
             //}
-            foreach (InstantaneousValues c in inst)
-            {
-                //c.Visible = false;
-                PanelEqu.Controls.Add(c);
-            }
+            //}
+            //foreach (InstantaneousValues c in inst)
+            //{
+            //    //c.Visible = false;
+            //    PanelEqu.Controls.Add(c);
+            //}
 
             //for (int i = 0; i < 60; i++)
             //{
@@ -267,6 +273,7 @@ namespace PomiaryGUI
             Voltage.Visible = false;
             Cos.Visible = false;
             PanelSettingsConnection.Visible = false;
+            PanelSettingsEquipments.Visible = false;
             PanelRaport.Visible = false;
         }
 
@@ -396,7 +403,7 @@ namespace PomiaryGUI
                     {
                         AllPanelsHide();
                         formStates = FormStates.setequipments;
-                        //PanelShow(PanelRaport);
+                        PanelShow(PanelSettingsEquipments);
                     }
                     break;
                 case "butSettingsConnection":
@@ -525,6 +532,11 @@ namespace PomiaryGUI
         {
             ReplaceDDMM?.Invoke(sender, EventArgs.Empty);
         }
+
+        private void SettingsEquipmentsIDChanged(object sender, int id)
+        {
+            SettingsGetDataForID?.Invoke(sender, id);
+        }
         #endregion
 
         #region IMainForm
@@ -641,15 +653,28 @@ namespace PomiaryGUI
         {
             get
             {
-                return equlist;
+                return equList;
             }
             set
             {
-                equlist = value;
+                equList = value;
                 Power.EquList = value;
                 Voltage.EquList = value;
                 Current.EquList = value;
                 Cos.EquList = value;
+            }
+        }
+
+        public List<int> IdList
+        {
+            get
+            {
+                return idList;
+            }
+            set
+            {
+                idList = value;
+                PanelSettingsEquipments.SetEquList(value);
             }
         }
 
@@ -706,6 +731,11 @@ namespace PomiaryGUI
         {
             return PanelSettingsConnection.GetConnectionWay();
         }
+
+        public void SettingsSetDataForID(List<string> data)
+        {
+            PanelSettingsEquipments.SetDataForID(data);
+        }
         #endregion
         #region events
         public event EventHandler<ChartsParameters> ButShowChartsClick;
@@ -716,6 +746,7 @@ namespace PomiaryGUI
 
         //public event EventHandler LangComboBoxTextChanged;
 
+        public event EventHandler<int> SettingsGetDataForID;
         public event EventHandler ChangeConnect;
         public event EventHandler ReplaceDDMM;
         #endregion
@@ -804,16 +835,24 @@ namespace PomiaryGUI
             PanelRaport.Location = new Point(panelButtons.Width, panelHead.Height);
             PanelReSize(PanelRaport);
             #endregion
-            #region PanelSettings
+            #region PanelSettingsConnection
             PanelSettingsConnection.Visible = false;
             this.Controls.Add(PanelSettingsConnection);
-            this.PanelEqu.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.PanelSettingsConnection.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right) | System.Windows.Forms.AnchorStyles.Bottom));
             PanelSettingsConnection.Location = new Point(panelButtons.Width, panelHead.Height);
             PanelReSize(PanelSettingsConnection);
+            #endregion
+            #region PanelSettingsEquipments
+            PanelSettingsEquipments.Visible = false;
+            this.Controls.Add(PanelSettingsEquipments);
+            this.PanelSettingsEquipments.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            | System.Windows.Forms.AnchorStyles.Right) | System.Windows.Forms.AnchorStyles.Bottom));
+            PanelSettingsEquipments.Location = new Point(panelButtons.Width, panelHead.Height);
+            PanelReSize(PanelSettingsEquipments);
+            #endregion
 
             LangComboBox.SelectedItem = LangComboBox.Items[0];
-            #endregion
 
             MainFormInit();
 

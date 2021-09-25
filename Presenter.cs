@@ -58,6 +58,7 @@ namespace PomiaryGUI
             _mainForm.ReplaceDDMM += new EventHandler(MainFormReplaceDDMM);
             _mainForm.ButShowChartsClick += new EventHandler<ChartsParameters>(MainFormButShowChartsClick);
             _mainForm.ButShowRaportsClick += new EventHandler<RaportsParameters>(MainFormButShowRaportsClick);
+            _mainForm.SettingsGetDataForID += new EventHandler<int>(MainFormSettingsGetDataForID);
 
             _mainForm.AplicationStart += new EventHandler(MainFormGetEquList);
 
@@ -84,6 +85,7 @@ namespace PomiaryGUI
                 equIDName.Add(i, name);
             }
             _mainForm.EquList = equName;
+            _mainForm.IdList = equID;
         }
 
         private void MainFormButEquClick(object sender, EventArgs e)
@@ -157,6 +159,54 @@ namespace PomiaryGUI
                 _dataManager.SetConnection(_mainForm.SettingsGetDataConnection());
             }
             MainFormGetEquList(sender, e);
+        }
+
+        private void MainFormSettingsGetDataForID(object sender, int id)
+        {
+            var data = new List<string>();
+            if (id > 0 && id < 256)
+            {
+                try
+                {
+                    var tempTable = _dataManager.GetEquList();
+                    string name = "";
+                    float ratedPower = 0;
+                    float ratedCurrent = 0;
+                    float ratedVoltage = 0;
+                    int numberOfPhases = 0;
+                    string unitOfPower = "";
+
+                    object o_name = tempTable.AsEnumerable().Where(x => x.Field<int>("ID") == id).Select(x => x["NamePL"].ToString()).First();
+                    name = o_name != DBNull.Value ? Convert.ToString(o_name) : "";
+
+                    object o_ratedPower = tempTable.AsEnumerable().Where(x => x.Field<int>("ID") == id).Select(x => x["RatedPower"]).First();
+                    ratedPower = o_ratedPower != DBNull.Value ? Convert.ToSingle(o_ratedPower) : 0;
+
+                    object o_ratedCurrent = tempTable.AsEnumerable().Where(x => x.Field<int>("ID") == id).Select(x => x["RatedCurrent"]).First();
+                    ratedCurrent = o_ratedCurrent != DBNull.Value ? Convert.ToSingle(o_ratedCurrent) : 0;
+
+                    object o_ratedVoltage = tempTable.AsEnumerable().Where(x => x.Field<int>("ID") == id).Select(x => x["RatedVoltage"]).First();
+                    ratedVoltage = o_ratedVoltage != DBNull.Value ? Convert.ToSingle(o_ratedVoltage) : 0;
+
+                    object o_numberOfPhases = tempTable.AsEnumerable().Where(x => x.Field<int>("ID") == id).Select(x => x["NumberOfPhases"]).First();
+                    numberOfPhases = o_numberOfPhases != DBNull.Value ? Convert.ToInt32(o_numberOfPhases) : 0;
+
+                    object o_unitOfPower = tempTable.AsEnumerable().Where(x => x.Field<int>("ID") == id).Select(x => x["UnitOfPower"].ToString()).First();
+                    unitOfPower = o_unitOfPower != DBNull.Value ? Convert.ToString(o_unitOfPower) : "";
+
+                    data.Add(name);
+                    data.Add(ratedPower.ToString());
+                    data.Add(ratedCurrent.ToString());
+                    data.Add(ratedVoltage.ToString());
+                    data.Add(numberOfPhases.ToString());
+                    data.Add(unitOfPower);
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show(ex.ToString());
+                }
+            }           
+            _mainForm.SettingsSetDataForID(data);
         }
 
         //private async void Raport_data(Raport step, DateTime dateTimeFrom, DateTime dateTimeTo)

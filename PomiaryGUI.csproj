@@ -396,6 +396,12 @@
     <Compile Include="SettingsConnection.Designer.cs">
       <DependentUpon>SettingsConnection.cs</DependentUpon>
     </Compile>
+    <Compile Include="SettingsEquipments.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SettingsEquipments.Designer.cs">
+      <DependentUpon>SettingsEquipments.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="EquControl.resx">
       <DependentUpon>EquControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -426,6 +432,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SettingsConnection.resx">
       <DependentUpon>SettingsConnection.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SettingsEquipments.resx">
+      <DependentUpon>SettingsEquipments.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="PomiaryGUI_TemporaryKey.pfx" />

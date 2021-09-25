@@ -29,6 +29,7 @@ namespace PomiaryGUI
         DataTable GetConsumption3(Dictionary<int, string> equ, List<DateTime> times);
         DataTable GetConsumption4(Dictionary<int, string> equ, List<DateTime> times);
         DataTable GetDataPower(int eq, DateTime begin, DateTime end, List<string> colums);
+       
     }
 
     public class DataManager: IDataManager
@@ -48,7 +49,7 @@ namespace PomiaryGUI
             DataSource = "PL02K01-C0AH8FL,1433\\SQL25012021",
             InitialCatalog = "pomiary",
             UserID = "uzytkownik",
-            Password = "Kayser2021"
+            Password = "Kayser2022"
         };
 
         public event EventHandler<string> Message;
