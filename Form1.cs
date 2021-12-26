@@ -19,6 +19,7 @@ namespace PomiaryGUI
         event EventHandler ButChartsEquipmentsClick;
         event EventHandler AplicationStart;
         event EventHandler ChangeConnect;
+        event EventHandler ExecuteScript;
         event EventHandler<int> SettingsGetDataForID;
         event EventHandler<SettingsEquipmentsData> SettingsUpdateDataForID;
         event EventHandler ReplaceDDMM;
@@ -120,6 +121,7 @@ namespace PomiaryGUI
 
             #region Settings events
             PanelSettingsConnection.ButtonConnectClick += new EventHandler(Change_Connect);
+            PanelSettingsConnection.ButtonExecuteScriptClick += new EventHandler(Execute_Script);
             PanelSettingsConnection.ReplaceDDMM += new EventHandler(Replace_DD_MM);
             PanelSettingsEquipments.IDChanged += new EventHandler<int>(SettingsEquipmentsIDChanged);
             PanelSettingsEquipments.UpdateData += new EventHandler<SettingsEquipmentsData>(SettingsEquipmentsUpdateData);
@@ -530,6 +532,11 @@ namespace PomiaryGUI
             ChangeConnect?.Invoke(sender, EventArgs.Empty);
         }
 
+        private void Execute_Script(object sender, EventArgs e)
+        {
+            ExecuteScript?.Invoke(sender, EventArgs.Empty);
+        }
+
         private void Replace_DD_MM(object sender, EventArgs e)
         {
             ReplaceDDMM?.Invoke(sender, EventArgs.Empty);
@@ -757,6 +764,7 @@ namespace PomiaryGUI
         public event EventHandler<SettingsEquipmentsData> SettingsUpdateDataForID;
 
         public event EventHandler ChangeConnect;
+        public event EventHandler ExecuteScript;
         public event EventHandler ReplaceDDMM;
         #endregion
         #endregion

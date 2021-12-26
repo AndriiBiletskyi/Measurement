@@ -14,12 +14,14 @@ namespace PomiaryGUI
     public partial class SettingsConnection : UserControl
     {
         public event EventHandler ButtonConnectClick;
+        public event EventHandler ButtonExecuteScriptClick;
         public event EventHandler ReplaceDDMM;
 
         public SettingsConnection()
         {
             InitializeComponent();
             butConnect.Click += new EventHandler(ButtonConnect_Click);
+            butExecuteScript.Click += new EventHandler(ButtonExecuteScript_Click);
             checkBoxTime.CheckStateChanged += new EventHandler(Replace_DD_MM);
             textSerwer.Enabled = !checkStringConnection.Checked;
             textInitialCatalog.Enabled = !checkStringConnection.Checked;
@@ -33,6 +35,11 @@ namespace PomiaryGUI
         private void ButtonConnect_Click(object sender, EventArgs e)
         {
             ButtonConnectClick?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void ButtonExecuteScript_Click(object sender, EventArgs e)
+        {
+            ButtonExecuteScriptClick?.Invoke(this, EventArgs.Empty);
         }
 
         private void Replace_DD_MM(object sender, EventArgs e)

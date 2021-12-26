@@ -55,6 +55,7 @@ namespace PomiaryGUI
             _mainForm.ButChartsEquipmentsClick += new EventHandler(MainFormButEquClick);
 
             _mainForm.ChangeConnect += new EventHandler(MainFormChangeConnect);
+            _mainForm.ExecuteScript += new EventHandler(MainFormExecuteScript);
             _mainForm.ReplaceDDMM += new EventHandler(MainFormReplaceDDMM);
             _mainForm.ButShowChartsClick += new EventHandler<ChartsParameters>(MainFormButShowChartsClick);
             _mainForm.ButShowRaportsClick += new EventHandler<RaportsParameters>(MainFormButShowRaportsClick);
@@ -160,6 +161,11 @@ namespace PomiaryGUI
                 _dataManager.SetConnection(_mainForm.SettingsGetDataConnection());
             }
             MainFormGetEquList(sender, e);
+        }
+
+        private void MainFormExecuteScript(object sender, EventArgs e)
+        {
+            _dataManager.ExecuteScript();
         }
 
         private void MainFormSettingsGetDataForID(object sender, int id)

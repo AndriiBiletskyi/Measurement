@@ -32,6 +32,7 @@ namespace PomiaryGUI
         DataTable GetConsumption4(Dictionary<int, string> equ, List<DateTime> times);
         DataTable GetDataPower(int eq, DateTime begin, DateTime end, List<string> colums);
         void UpdateDataForID(SettingsEquipmentsData data);
+        void ExecuteScript();
     }
 
     public class DataManager: IDataManager
@@ -972,7 +973,9 @@ namespace PomiaryGUI
                         //Get the path of specified file
                         filePath = openFileDialog.FileName;
                         FileInfo file = new FileInfo(filePath);//(@"E:\PomiaryGUI\Mesurement\hourly_create.sql");
-                        string script = file.OpenText().ReadToEnd();
+                        var stream = file.OpenText();
+                        string script = stream.ReadToEnd();
+                        stream.Close();
                         SqlCommand cmd = sqlConnection.CreateCommand();
                         cmd.CommandText = script;
                         cmd.ExecuteNonQuery();

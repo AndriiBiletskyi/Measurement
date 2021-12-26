@@ -42,6 +42,7 @@ namespace PomiaryGUI
             this.textStringConnection = new System.Windows.Forms.TextBox();
             this.checkStringConnection = new System.Windows.Forms.CheckBox();
             this.labelConnectionString = new System.Windows.Forms.Label();
+            this.butExecuteScript = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // textSerwer
@@ -182,7 +183,20 @@ namespace PomiaryGUI
             this.labelConnectionString.TabIndex = 1;
             this.labelConnectionString.Text = "Connection String";
             // 
-            // Settings
+            // butExecuteScript
+            // 
+            this.butExecuteScript.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.butExecuteScript.AutoSize = true;
+            this.butExecuteScript.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.butExecuteScript.Font = new System.Drawing.Font("Times New Roman", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.butExecuteScript.Location = new System.Drawing.Point(27, 391);
+            this.butExecuteScript.Name = "butExecuteScript";
+            this.butExecuteScript.Size = new System.Drawing.Size(150, 34);
+            this.butExecuteScript.TabIndex = 2;
+            this.butExecuteScript.Text = "Execute Script";
+            this.butExecuteScript.UseVisualStyleBackColor = true;
+            // 
+            // SettingsConnection
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -190,6 +204,7 @@ namespace PomiaryGUI
             this.BackColor = System.Drawing.Color.White;
             this.Controls.Add(this.checkStringConnection);
             this.Controls.Add(this.checkBoxTime);
+            this.Controls.Add(this.butExecuteScript);
             this.Controls.Add(this.butConnect);
             this.Controls.Add(this.labelConnectionString);
             this.Controls.Add(this.labelPassword);
@@ -201,7 +216,7 @@ namespace PomiaryGUI
             this.Controls.Add(this.textUserID);
             this.Controls.Add(this.textInitialCatalog);
             this.Controls.Add(this.textSerwer);
-            this.Name = "Settings";
+            this.Name = "SettingsConnection";
             this.Size = new System.Drawing.Size(757, 428);
             this.Load += new System.EventHandler(this.Settings_Load);
             this.VisibleChanged += new System.EventHandler(this.Settings_VisibleChanged);
@@ -225,5 +240,6 @@ namespace PomiaryGUI
         private System.Windows.Forms.TextBox textStringConnection;
         private System.Windows.Forms.CheckBox checkStringConnection;
         private System.Windows.Forms.Label labelConnectionString;
+        private System.Windows.Forms.Button butExecuteScript;
     }
 }

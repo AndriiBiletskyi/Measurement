@@ -1,5 +1,5 @@
 DECLARE @cnt INT = 1;
-DECLARE @count INT = 5;
+DECLARE @count INT = 6;
 DECLARE @table_name nvarchar(50);
 DECLARE @sql_create nvarchar(max);
 
