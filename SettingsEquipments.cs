@@ -79,7 +79,8 @@ namespace PomiaryGUI
         {
             try
             {
-                EquipmentName.Text = data.Name;
+                EquipmentNamePL.Text = data.NamePL;
+                EquipmentNameEN.Text = data.NameEN;
                 Power.Text = data.RatedPower.ToString();
                 Current.Text = data.RatedCurrent.ToString();
                 Voltage.Text = data.RatedVoltage.ToString();
@@ -111,7 +112,8 @@ namespace PomiaryGUI
                 var data = new SettingsEquipmentsData
                 {
                     Id = Convert.ToInt32(comboBoxID.SelectedItem),
-                    Name = EquipmentName.Text,
+                    NamePL = EquipmentNamePL.Text,
+                    NameEN = EquipmentNameEN.Text,
                     RatedPower = Convert.ToSingle(Power.Text),
                     RatedCurrent = Convert.ToSingle(Current.Text),
                     RatedVoltage = Convert.ToSingle(Voltage.Text),

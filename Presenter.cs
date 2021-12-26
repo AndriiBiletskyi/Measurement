@@ -173,8 +173,11 @@ namespace PomiaryGUI
 
                     data.Id = id;
 
-                    object o_name = tempTable.AsEnumerable().Where(x => x.Field<int>("ID") == id).Select(x => x["NamePL"].ToString()).First();
-                    data.Name = o_name != DBNull.Value ? Convert.ToString(o_name) : "";
+                    object o_namePL = tempTable.AsEnumerable().Where(x => x.Field<int>("ID") == id).Select(x => x["NamePL"].ToString()).First();
+                    data.NamePL = o_namePL != DBNull.Value ? Convert.ToString(o_namePL) : "";
+
+                    object o_nameEN = tempTable.AsEnumerable().Where(x => x.Field<int>("ID") == id).Select(x => x["NameEN"].ToString()).First();
+                    data.NameEN = o_nameEN != DBNull.Value ? Convert.ToString(o_nameEN) : "";
 
                     object o_ratedPower = tempTable.AsEnumerable().Where(x => x.Field<int>("ID") == id).Select(x => x["RatedPower"]).First();
                     data.RatedPower = o_ratedPower != DBNull.Value ? Convert.ToSingle(o_ratedPower) : 0;

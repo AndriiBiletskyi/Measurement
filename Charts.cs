@@ -359,6 +359,7 @@ namespace PomiaryGUI
                 {
                     if (_n.Contains("Piec")) val = 100;
                     else if (_n.Contains("Szyn")) val = 50;
+                    else if (_n.Contains("TR")) val = 1000;
                 }
                 else if (mode == ChartMode.current)
                 {

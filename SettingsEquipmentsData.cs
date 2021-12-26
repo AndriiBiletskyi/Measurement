@@ -9,7 +9,8 @@ namespace PomiaryGUI
     public class SettingsEquipmentsData
     {
         public int Id = 0;
-        public string Name = "";
+        public string NamePL = "";
+        public string NameEN = "";
         public float RatedPower = 0;
         public float RatedCurrent = 0;
         public float RatedVoltage = 0;

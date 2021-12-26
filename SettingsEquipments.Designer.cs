@@ -30,7 +30,7 @@ namespace PomiaryGUI
         private void InitializeComponent()
         {
             this.comboBoxID = new System.Windows.Forms.ComboBox();
-            this.EquipmentName = new System.Windows.Forms.TextBox();
+            this.EquipmentNamePL = new System.Windows.Forms.TextBox();
             this.Power = new System.Windows.Forms.TextBox();
             this.Current = new System.Windows.Forms.TextBox();
             this.Voltage = new System.Windows.Forms.TextBox();
@@ -43,6 +43,7 @@ namespace PomiaryGUI
             this.checkAdd = new System.Windows.Forms.CheckBox();
             this.TextIDAdd = new System.Windows.Forms.TextBox();
             this.UnitOfPower = new System.Windows.Forms.TextBox();
+            this.EquipmentNameEN = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // comboBoxID
@@ -54,20 +55,20 @@ namespace PomiaryGUI
             this.comboBoxID.Size = new System.Drawing.Size(107, 32);
             this.comboBoxID.TabIndex = 0;
             // 
-            // EquipmentName
+            // EquipmentNamePL
             // 
-            this.EquipmentName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.EquipmentNamePL.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.EquipmentName.Font = new System.Drawing.Font("Times New Roman", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.EquipmentName.Location = new System.Drawing.Point(132, 52);
-            this.EquipmentName.Name = "EquipmentName";
-            this.EquipmentName.Size = new System.Drawing.Size(585, 32);
-            this.EquipmentName.TabIndex = 1;
+            this.EquipmentNamePL.Font = new System.Drawing.Font("Times New Roman", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.EquipmentNamePL.Location = new System.Drawing.Point(132, 52);
+            this.EquipmentNamePL.Name = "EquipmentNamePL";
+            this.EquipmentNamePL.Size = new System.Drawing.Size(585, 32);
+            this.EquipmentNamePL.TabIndex = 1;
             // 
             // Power
             // 
             this.Power.Font = new System.Drawing.Font("Times New Roman", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.Power.Location = new System.Drawing.Point(132, 90);
+            this.Power.Location = new System.Drawing.Point(132, 128);
             this.Power.Name = "Power";
             this.Power.Size = new System.Drawing.Size(79, 32);
             this.Power.TabIndex = 1;
@@ -76,7 +77,7 @@ namespace PomiaryGUI
             // Current
             // 
             this.Current.Font = new System.Drawing.Font("Times New Roman", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.Current.Location = new System.Drawing.Point(132, 128);
+            this.Current.Location = new System.Drawing.Point(132, 166);
             this.Current.Name = "Current";
             this.Current.Size = new System.Drawing.Size(79, 32);
             this.Current.TabIndex = 1;
@@ -85,7 +86,7 @@ namespace PomiaryGUI
             // Voltage
             // 
             this.Voltage.Font = new System.Drawing.Font("Times New Roman", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.Voltage.Location = new System.Drawing.Point(132, 166);
+            this.Voltage.Location = new System.Drawing.Point(132, 204);
             this.Voltage.Name = "Voltage";
             this.Voltage.Size = new System.Drawing.Size(79, 32);
             this.Voltage.TabIndex = 1;
@@ -99,7 +100,7 @@ namespace PomiaryGUI
             this.comboBoxPhase.Items.AddRange(new object[] {
             "1",
             "3"});
-            this.comboBoxPhase.Location = new System.Drawing.Point(132, 204);
+            this.comboBoxPhase.Location = new System.Drawing.Point(132, 242);
             this.comboBoxPhase.Name = "comboBoxPhase";
             this.comboBoxPhase.Size = new System.Drawing.Size(79, 32);
             this.comboBoxPhase.TabIndex = 0;
@@ -108,7 +109,7 @@ namespace PomiaryGUI
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Times New Roman", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label2.Location = new System.Drawing.Point(217, 131);
+            this.label2.Location = new System.Drawing.Point(217, 169);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(25, 24);
             this.label2.TabIndex = 2;
@@ -118,7 +119,7 @@ namespace PomiaryGUI
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Times New Roman", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label3.Location = new System.Drawing.Point(217, 169);
+            this.label3.Location = new System.Drawing.Point(217, 207);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(25, 24);
             this.label3.TabIndex = 2;
@@ -128,7 +129,7 @@ namespace PomiaryGUI
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Times New Roman", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label4.Location = new System.Drawing.Point(217, 207);
+            this.label4.Location = new System.Drawing.Point(217, 245);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(64, 24);
             this.label4.TabIndex = 2;
@@ -137,7 +138,7 @@ namespace PomiaryGUI
             // butSaveChanges
             // 
             this.butSaveChanges.Font = new System.Drawing.Font("Times New Roman", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.butSaveChanges.Location = new System.Drawing.Point(132, 242);
+            this.butSaveChanges.Location = new System.Drawing.Point(132, 280);
             this.butSaveChanges.Name = "butSaveChanges";
             this.butSaveChanges.Size = new System.Drawing.Size(149, 32);
             this.butSaveChanges.TabIndex = 3;
@@ -177,11 +178,21 @@ namespace PomiaryGUI
             // UnitOfPower
             // 
             this.UnitOfPower.Font = new System.Drawing.Font("Times New Roman", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.UnitOfPower.Location = new System.Drawing.Point(217, 90);
+            this.UnitOfPower.Location = new System.Drawing.Point(217, 128);
             this.UnitOfPower.Name = "UnitOfPower";
             this.UnitOfPower.Size = new System.Drawing.Size(46, 32);
             this.UnitOfPower.TabIndex = 1;
             this.UnitOfPower.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // EquipmentNameEN
+            // 
+            this.EquipmentNameEN.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.EquipmentNameEN.Font = new System.Drawing.Font("Times New Roman", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.EquipmentNameEN.Location = new System.Drawing.Point(132, 90);
+            this.EquipmentNameEN.Name = "EquipmentNameEN";
+            this.EquipmentNameEN.Size = new System.Drawing.Size(585, 32);
+            this.EquipmentNameEN.TabIndex = 1;
             // 
             // SettingsEquipments
             // 
@@ -198,7 +209,8 @@ namespace PomiaryGUI
             this.Controls.Add(this.TextIDAdd);
             this.Controls.Add(this.UnitOfPower);
             this.Controls.Add(this.Power);
-            this.Controls.Add(this.EquipmentName);
+            this.Controls.Add(this.EquipmentNameEN);
+            this.Controls.Add(this.EquipmentNamePL);
             this.Controls.Add(this.comboBoxPhase);
             this.Controls.Add(this.comboBoxID);
             this.Name = "SettingsEquipments";
@@ -211,7 +223,7 @@ namespace PomiaryGUI
         #endregion
 
         private System.Windows.Forms.ComboBox comboBoxID;
-        private System.Windows.Forms.TextBox EquipmentName;
+        private System.Windows.Forms.TextBox EquipmentNamePL;
         private System.Windows.Forms.TextBox Power;
         private System.Windows.Forms.TextBox Current;
         private System.Windows.Forms.TextBox Voltage;
@@ -224,5 +236,6 @@ namespace PomiaryGUI
         private System.Windows.Forms.CheckBox checkAdd;
         private System.Windows.Forms.TextBox TextIDAdd;
         private System.Windows.Forms.TextBox UnitOfPower;
+        private System.Windows.Forms.TextBox EquipmentNameEN;
     }
 }

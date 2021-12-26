@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Data;
 using System.Linq;
-using System.Data.SqlClient;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
+using System.Data.SqlClient;
+using System.Windows.Forms;
 
 namespace PomiaryGUI
 {
@@ -930,7 +932,8 @@ namespace PomiaryGUI
             {
                 Sql_Connect();
                 string str = "UPDATE dbo.equipments " +
-                             "SET NamePL = '" + data.Name + "', " +
+                             "SET NamePL = '" + data.NamePL + "', " +
+                                 "NameEN = '" + data.NameEN + "', " +
                                  "RatedPower = '" + data.RatedPower.ToString() + "', " +
                                  "RatedCurrent = '" + data.RatedCurrent.ToString() + "', " +
                                  "RatedVoltage = '" + data.RatedVoltage.ToString() + "', " +
@@ -941,8 +944,42 @@ namespace PomiaryGUI
                 SqlCommand cmd = sqlConnection.CreateCommand();
                 cmd.CommandText = str;
                 cmd.ExecuteNonQuery();
+
+                ExecuteScript();
             }
-            catch(Exception ex)
+            catch (Exception ex)
+            {
+                Message?.Invoke(this, ex.ToString());
+            }
+        }
+
+        public void ExecuteScript()
+        {
+            try
+            {
+                Sql_Connect();
+
+                using (OpenFileDialog openFileDialog = new OpenFileDialog())
+                {
+                    string filePath = null;
+                    openFileDialog.InitialDirectory = Path.Combine(System.IO.Path.GetDirectoryName(Application.ExecutablePath), @"Mesurement");
+                    openFileDialog.Filter = "sql files (*.sql)|*.sql|All files (*.*)|*.*";
+                    openFileDialog.FilterIndex = 1;
+                    openFileDialog.RestoreDirectory = true;
+
+                    if (openFileDialog.ShowDialog() == DialogResult.OK)
+                    {
+                        //Get the path of specified file
+                        filePath = openFileDialog.FileName;
+                        FileInfo file = new FileInfo(filePath);//(@"E:\PomiaryGUI\Mesurement\hourly_create.sql");
+                        string script = file.OpenText().ReadToEnd();
+                        SqlCommand cmd = sqlConnection.CreateCommand();
+                        cmd.CommandText = script;
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
             {
                 Message?.Invoke(this, ex.ToString());
             }
