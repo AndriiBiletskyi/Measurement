@@ -946,7 +946,7 @@ namespace PomiaryGUI
                 cmd.CommandText = str;
                 cmd.ExecuteNonQuery();
 
-                ExecuteScript();
+                //ExecuteScript();
             }
             catch (Exception ex)
             {
