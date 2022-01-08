@@ -1,5 +1,6 @@
+use pomiary;
 DECLARE @cnt INT = 1;
-DECLARE @count INT = 2;
+DECLARE @count INT = 20;
 DECLARE @table_name nvarchar(50);
 DECLARE @sql_create nvarchar(max);
 
