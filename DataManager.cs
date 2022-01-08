@@ -819,7 +819,8 @@ namespace PomiaryGUI
                         str2 += "," + s;
                     }
                     string tableName = "dbo." + Convert.ToString(eq);
-                    string str = "SELECT " + str2 + " FROM dbo.\"" + Convert.ToString(eq) + "\" " + "WHERE (Czas BETWEEN '" + Replace(begin, _DD_MM_) + "' AND '" + Replace(end, _DD_MM_) + "')";// AND Czas IS NOT NULL";
+                    //string str = "SELECT " + str2 + " FROM dbo.\"" + Convert.ToString(eq) + "\" " + "WHERE (Czas BETWEEN '" + Replace(begin, _DD_MM_) + "' AND '" + Replace(end, _DD_MM_) + "')";// AND Czas IS NOT NULL";
+                    string str = "SELECT " + str2 + " FROM dbo.EQ_" + Convert.ToString(eq) + " " + "WHERE (Czas BETWEEN '" + Replace(begin, _DD_MM_) + "' AND '" + Replace(end, _DD_MM_) + "')";// AND Czas IS NOT NULL";
                     dataSetPower = new DataSet();
                     dataAdapterPower = new SqlDataAdapter(str, sqlConnectionPower);
                     dataAdapterPower.Fill(dataSetPower, tableName);
