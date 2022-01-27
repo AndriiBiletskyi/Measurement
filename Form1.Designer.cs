@@ -36,6 +36,9 @@ namespace PomiaryGUI
             this.btMin = new System.Windows.Forms.Button();
             this.panelButtons = new System.Windows.Forms.Panel();
             this.butRaportsAnnual = new System.Windows.Forms.Button();
+            this.butSettingsEquipments = new System.Windows.Forms.Button();
+            this.butSettingsNetwork = new System.Windows.Forms.Button();
+            this.butSettingsConnection = new System.Windows.Forms.Button();
             this.butRaportsMonthly = new System.Windows.Forms.Button();
             this.butRaportsWeekly = new System.Windows.Forms.Button();
             this.butRaportsDaily = new System.Windows.Forms.Button();
@@ -53,9 +56,7 @@ namespace PomiaryGUI
             this.panelLang = new System.Windows.Forms.Panel();
             this.labelDataTime = new System.Windows.Forms.Label();
             this.timerDataTime = new System.Windows.Forms.Timer(this.components);
-            this.butSettingsConnection = new System.Windows.Forms.Button();
-            this.butSettingsNetwork = new System.Windows.Forms.Button();
-            this.butSettingsEquipments = new System.Windows.Forms.Button();
+            this.butRaportsHourly = new System.Windows.Forms.Button();
             this.panelHead.SuspendLayout();
             this.panelButtons.SuspendLayout();
             this.panelBottom.SuspendLayout();
@@ -124,6 +125,7 @@ namespace PomiaryGUI
             this.panelButtons.Controls.Add(this.butSettingsConnection);
             this.panelButtons.Controls.Add(this.butRaportsMonthly);
             this.panelButtons.Controls.Add(this.butRaportsWeekly);
+            this.panelButtons.Controls.Add(this.butRaportsHourly);
             this.panelButtons.Controls.Add(this.butRaportsDaily);
             this.panelButtons.Controls.Add(this.panelButtonMark);
             this.panelButtons.Controls.Add(this.butSettings);
@@ -149,13 +151,64 @@ namespace PomiaryGUI
             this.butRaportsAnnual.FlatAppearance.BorderSize = 0;
             this.butRaportsAnnual.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.butRaportsAnnual.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.butRaportsAnnual.Location = new System.Drawing.Point(4, 169);
+            this.butRaportsAnnual.Location = new System.Drawing.Point(4, 204);
             this.butRaportsAnnual.Name = "butRaportsAnnual";
             this.butRaportsAnnual.Size = new System.Drawing.Size(66, 29);
             this.butRaportsAnnual.TabIndex = 4;
             this.butRaportsAnnual.Text = "Annual";
             this.butRaportsAnnual.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.butRaportsAnnual.UseVisualStyleBackColor = true;
+            // 
+            // butSettingsEquipments
+            // 
+            this.butSettingsEquipments.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.butSettingsEquipments.AutoSize = true;
+            this.butSettingsEquipments.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.butSettingsEquipments.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
+            this.butSettingsEquipments.FlatAppearance.BorderSize = 0;
+            this.butSettingsEquipments.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.butSettingsEquipments.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.butSettingsEquipments.Location = new System.Drawing.Point(2, 335);
+            this.butSettingsEquipments.Name = "butSettingsEquipments";
+            this.butSettingsEquipments.Size = new System.Drawing.Size(97, 29);
+            this.butSettingsEquipments.TabIndex = 4;
+            this.butSettingsEquipments.Text = "Equipments";
+            this.butSettingsEquipments.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.butSettingsEquipments.UseVisualStyleBackColor = true;
+            // 
+            // butSettingsNetwork
+            // 
+            this.butSettingsNetwork.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.butSettingsNetwork.AutoSize = true;
+            this.butSettingsNetwork.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.butSettingsNetwork.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
+            this.butSettingsNetwork.FlatAppearance.BorderSize = 0;
+            this.butSettingsNetwork.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.butSettingsNetwork.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.butSettingsNetwork.Location = new System.Drawing.Point(17, 300);
+            this.butSettingsNetwork.Name = "butSettingsNetwork";
+            this.butSettingsNetwork.Size = new System.Drawing.Size(77, 29);
+            this.butSettingsNetwork.TabIndex = 4;
+            this.butSettingsNetwork.Text = "Network";
+            this.butSettingsNetwork.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.butSettingsNetwork.UseVisualStyleBackColor = true;
+            // 
+            // butSettingsConnection
+            // 
+            this.butSettingsConnection.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.butSettingsConnection.AutoSize = true;
+            this.butSettingsConnection.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.butSettingsConnection.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
+            this.butSettingsConnection.FlatAppearance.BorderSize = 0;
+            this.butSettingsConnection.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.butSettingsConnection.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.butSettingsConnection.Location = new System.Drawing.Point(5, 265);
+            this.butSettingsConnection.Name = "butSettingsConnection";
+            this.butSettingsConnection.Size = new System.Drawing.Size(94, 29);
+            this.butSettingsConnection.TabIndex = 4;
+            this.butSettingsConnection.Text = "Connection";
+            this.butSettingsConnection.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.butSettingsConnection.UseVisualStyleBackColor = true;
             // 
             // butRaportsMonthly
             // 
@@ -166,7 +219,7 @@ namespace PomiaryGUI
             this.butRaportsMonthly.FlatAppearance.BorderSize = 0;
             this.butRaportsMonthly.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.butRaportsMonthly.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.butRaportsMonthly.Location = new System.Drawing.Point(71, 170);
+            this.butRaportsMonthly.Location = new System.Drawing.Point(71, 205);
             this.butRaportsMonthly.Name = "butRaportsMonthly";
             this.butRaportsMonthly.Size = new System.Drawing.Size(76, 29);
             this.butRaportsMonthly.TabIndex = 4;
@@ -183,7 +236,7 @@ namespace PomiaryGUI
             this.butRaportsWeekly.FlatAppearance.BorderSize = 0;
             this.butRaportsWeekly.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.butRaportsWeekly.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.butRaportsWeekly.Location = new System.Drawing.Point(22, 144);
+            this.butRaportsWeekly.Location = new System.Drawing.Point(22, 179);
             this.butRaportsWeekly.Name = "butRaportsWeekly";
             this.butRaportsWeekly.Size = new System.Drawing.Size(70, 29);
             this.butRaportsWeekly.TabIndex = 4;
@@ -223,7 +276,7 @@ namespace PomiaryGUI
             this.butSettings.FlatAppearance.BorderSize = 0;
             this.butSettings.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.butSettings.Font = new System.Drawing.Font("Times New Roman", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.butSettings.Location = new System.Drawing.Point(0, 194);
+            this.butSettings.Location = new System.Drawing.Point(0, 233);
             this.butSettings.Name = "butSettings";
             this.butSettings.Size = new System.Drawing.Size(150, 40);
             this.butSettings.TabIndex = 0;
@@ -403,56 +456,22 @@ namespace PomiaryGUI
             this.timerDataTime.Interval = 1000;
             this.timerDataTime.Tick += new System.EventHandler(this.TimerDataTime_Tick);
             // 
-            // butSettingsConnection
+            // butRaportsHourly
             // 
-            this.butSettingsConnection.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.butSettingsConnection.AutoSize = true;
-            this.butSettingsConnection.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.butSettingsConnection.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
-            this.butSettingsConnection.FlatAppearance.BorderSize = 0;
-            this.butSettingsConnection.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.butSettingsConnection.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.butSettingsConnection.Location = new System.Drawing.Point(5, 226);
-            this.butSettingsConnection.Name = "butSettingsConnection";
-            this.butSettingsConnection.Size = new System.Drawing.Size(94, 29);
-            this.butSettingsConnection.TabIndex = 4;
-            this.butSettingsConnection.Text = "Connection";
-            this.butSettingsConnection.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.butSettingsConnection.UseVisualStyleBackColor = true;
-            // 
-            // butSettingsNetwork
-            // 
-            this.butSettingsNetwork.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.butSettingsNetwork.AutoSize = true;
-            this.butSettingsNetwork.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.butSettingsNetwork.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
-            this.butSettingsNetwork.FlatAppearance.BorderSize = 0;
-            this.butSettingsNetwork.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.butSettingsNetwork.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.butSettingsNetwork.Location = new System.Drawing.Point(17, 261);
-            this.butSettingsNetwork.Name = "butSettingsNetwork";
-            this.butSettingsNetwork.Size = new System.Drawing.Size(77, 29);
-            this.butSettingsNetwork.TabIndex = 4;
-            this.butSettingsNetwork.Text = "Network";
-            this.butSettingsNetwork.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.butSettingsNetwork.UseVisualStyleBackColor = true;
-            // 
-            // butSettingsEquipments
-            // 
-            this.butSettingsEquipments.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.butSettingsEquipments.AutoSize = true;
-            this.butSettingsEquipments.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.butSettingsEquipments.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
-            this.butSettingsEquipments.FlatAppearance.BorderSize = 0;
-            this.butSettingsEquipments.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.butSettingsEquipments.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.butSettingsEquipments.Location = new System.Drawing.Point(2, 296);
-            this.butSettingsEquipments.Name = "butSettingsEquipments";
-            this.butSettingsEquipments.Size = new System.Drawing.Size(97, 29);
-            this.butSettingsEquipments.TabIndex = 4;
-            this.butSettingsEquipments.Text = "Equipments";
-            this.butSettingsEquipments.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.butSettingsEquipments.UseVisualStyleBackColor = true;
+            this.butRaportsHourly.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.butRaportsHourly.AutoSize = true;
+            this.butRaportsHourly.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.butRaportsHourly.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
+            this.butRaportsHourly.FlatAppearance.BorderSize = 0;
+            this.butRaportsHourly.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.butRaportsHourly.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.butRaportsHourly.Location = new System.Drawing.Point(21, 141);
+            this.butRaportsHourly.Name = "butRaportsHourly";
+            this.butRaportsHourly.Size = new System.Drawing.Size(65, 29);
+            this.butRaportsHourly.TabIndex = 4;
+            this.butRaportsHourly.Text = "Hourly";
+            this.butRaportsHourly.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.butRaportsHourly.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 
@@ -504,6 +523,7 @@ namespace PomiaryGUI
         private System.Windows.Forms.Button butSettingsEquipments;
         private System.Windows.Forms.Button butSettingsNetwork;
         private System.Windows.Forms.Button butSettingsConnection;
+        private System.Windows.Forms.Button butRaportsHourly;
     }
 }
 

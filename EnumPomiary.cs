@@ -8,7 +8,7 @@ namespace PomiaryGUI
 {
     public enum Raport
     {
-        day, week, month, year
+        hour, day, week, month, year
     }
 
     public enum ChartMode
@@ -20,7 +20,7 @@ namespace PomiaryGUI
     {
         start,
         power, current, voltage, cos, somename,
-        daily, weekly, monthly, annual,
+        hourly, daily, weekly, monthly, annual,
         setequipments, connection, network
     }
 }

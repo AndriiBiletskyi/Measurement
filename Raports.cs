@@ -80,15 +80,15 @@ namespace PomiaryGUI
 
             string stri = DateFrom.Value.ToLongDateString() +
                           DateFrom.Value.ToShortTimeString();
-            DateFrom.Width = TextRenderer.MeasureText(stri, DateFrom.Font).Width;
+            DateFrom.Width = (int)(TextRenderer.MeasureText(stri, DateFrom.Font).Width*1.5f);
             DateTo.Width = DateFrom.Width;
             DateFrom.Location = new System.Drawing.Point(0, 0);
             DateTo.Location = new System.Drawing.Point(0, DateFrom.Height);
 
-            buttonShow.Height = DateFrom.Height + DateTo.Height;
-            buttonShow.Location = new System.Drawing.Point(DateFrom.Location.X + DateFrom.Width, DateFrom.Location.Y);
+            buttonShow.Height = DateFrom.Height + DateTo.Height + 2;
+            buttonShow.Location = new System.Drawing.Point(DateFrom.Location.X + DateFrom.Width, DateFrom.Location.Y-1);
 
-            buttonExport.Location = new System.Drawing.Point(this.Width - buttonExport.Width, 0);
+            buttonExport.Location = new System.Drawing.Point(this.Width - buttonExport.Width, buttonShow.Location.Y);
         }
 
         public DateTime GetDateFrom()
@@ -129,10 +129,10 @@ namespace PomiaryGUI
                 dataGridViewRaports.ColumnHeadersDefaultCellStyle.WrapMode = DataGridViewTriState.False;
                 dataGridViewRaports.Columns[0].Frozen = true;
             }
-            foreach (DataGridViewColumn column in dataGridViewRaports.Columns)
-            {
-                column.SortMode = DataGridViewColumnSortMode.NotSortable;
-            }
+            //foreach (DataGridViewColumn column in dataGridViewRaports.Columns)
+            //{
+            //    column.SortMode = DataGridViewColumnSortMode.NotSortable;
+            //}
             dataGridViewRaports.Refresh();
 
             StatusRaports = true;

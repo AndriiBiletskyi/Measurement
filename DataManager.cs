@@ -30,6 +30,7 @@ namespace PomiaryGUI
         DataTable GetConsumption2(Dictionary<int, string> equ, List<DateTime> times);
         DataTable GetConsumption3(Dictionary<int, string> equ, List<DateTime> times);
         DataTable GetConsumption4(Dictionary<int, string> equ, List<DateTime> times);
+        DataTable GetConsumption5(Dictionary<int, string> equ, DateTime timeBegin, DateTime timeEnd, Raport step);
         DataTable GetDataPower(int eq, DateTime begin, DateTime end, List<string> colums);
         void UpdateDataForID(SettingsEquipmentsData data);
         void ExecuteScript();
@@ -792,7 +793,7 @@ namespace PomiaryGUI
                          }
                      }
 
-                 });
+                });
 
                 foreach (var sql in _sqlConnections)
                     sql.Close();
@@ -803,6 +804,120 @@ namespace PomiaryGUI
             {
                 Message?.Invoke(this, ex.ToString());
                 return new DataTable();
+            }
+        }
+
+        public DataTable GetConsumption5(Dictionary<int, string> equ, DateTime timeBegin, DateTime timeEnd, Raport step)
+        {
+            var dt = new DataTable();
+            if (timeBegin >= timeEnd) return dt;
+            try
+            {
+                dt.Columns.Add("Day/Time", typeof(string));
+                foreach (var eq in equ.Keys)
+                {
+                    string s = equ[eq];
+                    if (string.IsNullOrWhiteSpace(s)) { s = "Unknow" + eq.ToString(); }
+                    dt.Columns.Add(s + ", P", typeof(float));
+                    dt.Columns.Add(s + ", Q", typeof(float));
+                }
+
+                var timeList = new List<(string table_name, DateTime timeFrom, DateTime timeTo)>();
+                
+
+
+                if (step == Raport.hour)
+                {
+                    timeList.Add(("hourly_", 
+                                  timeBegin, 
+                                  timeEnd.AddMinutes(timeEnd.Minute * (-1))
+                                         .AddSeconds(timeEnd.Second * (-1) - 1))
+                                 );
+                }else if(step == Raport.day)
+                {
+                    timeList.Add(("daily_",
+                                  timeBegin,
+                                  timeEnd.AddHours(timeEnd.Hour * (-1))
+                                         .AddMinutes(timeEnd.Minute * (-1))
+                                         .AddSeconds(timeEnd.Second * (-1) - 1))
+                                 );
+                }
+                else if(step == Raport.week)
+                {
+                    timeList.Add(("weekly_",
+                                  timeBegin,
+                                  timeEnd.AddHours(timeEnd.Hour * (-1))
+                                         .AddMinutes(timeEnd.Minute * (-1))
+                                         .AddSeconds(timeEnd.Second * (-1) - 1))
+                                 );
+                }
+                else if(step == Raport.month)
+                {
+                    timeList.Add(("monthly_",
+                                  timeBegin,
+                                  timeEnd.AddHours(timeEnd.Hour * (-1))
+                                         .AddMinutes(timeEnd.Minute * (-1))
+                                         .AddSeconds(timeEnd.Second * (-1) - 1))
+                                 );
+                }
+                else if(step == Raport.year)
+                {
+                    timeList.Add(("annualy_",
+                                  timeBegin,
+                                  timeEnd.AddHours(timeEnd.Hour * (-1))
+                                         .AddMinutes(timeEnd.Minute * (-1))
+                                         .AddSeconds(timeEnd.Second * (-1) - 1))
+                                 );
+                }
+
+                foreach(var (table_name, timeFrom, timeTo) in timeList)
+                    GetCons(equ, table_name, timeFrom, timeTo, ref sqlConnectionPower, dt);
+
+                return dt;
+            }
+            catch (Exception ex)
+            {
+                Message?.Invoke(this, ex.ToString());
+                return new DataTable();
+            }
+        }
+
+        private void GetCons(Dictionary<int, string> equ, string table_name, DateTime timeBegin, DateTime timeEnd, ref SqlConnection Con, DataTable dt)
+        {
+            var l = equ.Keys.ToList();
+            bool addRow = true;
+            int countRow = dt.Rows.Count;
+            foreach (var eq in l)
+            {
+                string strDb = "FROM dbo." + table_name + Convert.ToString(eq) + " ";
+                string strWhere = " WHERE (Czas BETWEEN '" + Replace(timeBegin, _DD_MM_) + "' AND '" + Replace(timeEnd, _DD_MM_) + "') ";
+                string str = "SELECT Czas, P_day, Q_day " + strDb + strWhere;
+
+                string table = "dbo.Consumption" + Convert.ToString(eq);
+                var sqlDataAdapter = new SqlDataAdapter(str.ToString(), Con);
+                var dataSet = new DataSet();
+                sqlDataAdapter.Fill(dataSet, table);
+
+                if(addRow)
+                {
+                    for (int i = 0; i < dataSet.Tables[table].Rows.Count; i++)
+                    {
+                        DataRow row = dt.NewRow();
+                        dt.Rows.Add(row);
+                        dt.Rows[dt.Rows.Count - 1]["Day/Time"] = dataSet.Tables[table].Rows[i]["Czas"].ToString();
+                    }
+                    addRow = false;
+                }
+
+                for (int i = 0; i < dataSet.Tables[table].Rows.Count; i++)
+                {
+                    object P = dataSet.Tables[table].Rows[i]["P_day"];
+                    object Q = dataSet.Tables[table].Rows[i]["Q_day"];
+                    if (P != DBNull.Value) dt.Rows[countRow + i][equ[eq] + ", P"] = Math.Round(Convert.ToSingle(P) / 1000, 2);
+                    if (Q != DBNull.Value) dt.Rows[countRow + i][equ[eq] + ", Q"] = Math.Round(Convert.ToSingle(Q) / 1000, 2);
+                }
+                sqlDataAdapter.Dispose();
+                dataSet.Dispose();
             }
         }
 

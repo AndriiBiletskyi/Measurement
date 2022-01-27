@@ -94,6 +94,7 @@ namespace PomiaryGUI
             butChartsEquipments.Click += new EventHandler(ButChartsEquipments_Click);
 
             butRaports.Click += new EventHandler(ButRaports_Click);
+            butRaportsHourly.Click += new EventHandler(But_Click);
             butRaportsDaily.Click += new EventHandler(But_Click);
             butRaportsWeekly.Click += new EventHandler(But_Click);
             butRaportsMonthly.Click += new EventHandler(But_Click);
@@ -116,7 +117,6 @@ namespace PomiaryGUI
 
             #region Raports panel events
             PanelRaport.ButtonShowClick += new EventHandler(ButtonShowRaportsClick);
-
             #endregion
 
             #region Settings events
@@ -183,6 +183,7 @@ namespace PomiaryGUI
 
         private void HideButtonsRaports()
         {
+            butRaportsHourly.Visible = false;
             butRaportsDaily.Visible = false;
             butRaportsWeekly.Visible = false;
             butRaportsMonthly.Visible = false;
@@ -207,6 +208,7 @@ namespace PomiaryGUI
 
         private void ShowButtonsRaports()
         {
+            butRaportsHourly.Visible = true;
             butRaportsDaily.Visible = true;
             butRaportsWeekly.Visible = true;
             butRaportsMonthly.Visible = true;
@@ -370,6 +372,14 @@ namespace PomiaryGUI
                         PanelShow(Cos);
                     }
                     break;
+                case "butRaportsHourly":
+                    if (formStates != FormStates.hourly)
+                    {
+                        AllPanelsHide();
+                        formStates = FormStates.hourly;
+                        PanelShow(PanelRaport);
+                    }
+                    break;
                 case "butRaportsDaily":
                     if (formStates != FormStates.daily)
                     {
@@ -459,12 +469,14 @@ namespace PomiaryGUI
                 HideButtonsSettings();
                 ShowButtonsRaports();
                 ButtonsRightPosition(butCharts, butRaports);
-                ButtonsRightPosition(butRaports, butRaportsDaily);
+                ButtonsRightPosition(butRaports, butRaportsHourly);
+                ButtonsRightPosition(butRaportsHourly, butRaportsDaily);
                 ButtonsRightPosition(butRaportsDaily, butRaportsWeekly);
                 ButtonsRightPosition(butRaportsWeekly, butRaportsMonthly);
                 ButtonsRightPosition(butRaportsMonthly, butRaportsAnnual);
                 ButtonsRightPosition(butRaportsAnnual, butSettings);
-                if (formStates == FormStates.daily) MarkBottomBut(butRaportsDaily.Location, butRaportsDaily.Size);
+                if (formStates == FormStates.hourly) MarkBottomBut(butRaportsHourly.Location, butRaportsHourly.Size);
+                else if (formStates == FormStates.daily) MarkBottomBut(butRaportsDaily.Location, butRaportsDaily.Size);
                 else if (formStates == FormStates.weekly) MarkBottomBut(butRaportsWeekly.Location, butRaportsWeekly.Size);
                 else if (formStates == FormStates.monthly) MarkBottomBut(butRaportsMonthly.Location, butRaportsMonthly.Size);
                 else if (formStates == FormStates.annual) MarkBottomBut(butRaportsAnnual.Location, butRaportsAnnual.Size);

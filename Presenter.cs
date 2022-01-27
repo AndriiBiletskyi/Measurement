@@ -133,6 +133,9 @@ namespace PomiaryGUI
         {
             switch (e.FormState)
             {
+                case FormStates.hourly:
+                    RaportData3(Raport.hour, e.DateFrom, e.DateTo);
+                    break;
                 case FormStates.daily:
                     RaportData3(Raport.day, e.DateFrom, e.DateTo);
                     break;
@@ -551,46 +554,12 @@ namespace PomiaryGUI
         {
             var dataRaports = new DataTable();
             dataRaports.Columns.Add("Day/Time", typeof(string));
-            var dateList = new List<DateTime>();
-            DateTime dateTime = dateTimeFrom;
-            var PdayList = new Dictionary<int, List<float>>();
-            var QdayList = new Dictionary<int, List<float>>();
 
             try
             {
                 await Task.Run(() =>
                 {
-                    dateTimeTo = dateTimeFrom > dateTimeTo ? dateTimeFrom : dateTimeTo;
-                    dateList.Add(dateTimeFrom);
-                    while (dateTime < dateTimeTo)
-                    {
-                        if (step == Raport.day)
-                        {
-                            TimeSpan dif = dateTimeTo.Subtract(dateTimeFrom);
-                            if (dif.TotalDays > 31) dateTimeTo = dateTimeFrom.AddDays(31);
-                            dateTime = dateTime.AddHours(1.0);
-                        }
-                        else if (step == Raport.week)
-                        {
-                            //TimeSpan dif = dateTimeTo.Subtract(dateTimeFrom);
-                            //if (dif.TotalDays > 8) dateTimeTo = dateTimeFrom.AddDays(8);
-                            dateTime = dateTime.AddDays(7.0);
-                        }
-                        else if (step == Raport.month)
-                        {
-                            //TimeSpan dif = dateTimeTo.Subtract(dateTimeFrom);
-                            //if (dif.TotalDays > 32) dateTimeTo = dateTimeFrom.AddDays(32);
-                            dateTime = dateTime.AddMonths(1);// .AddDays(1.0);
-                        }
-                        else if (step == Raport.year)
-                        {
-                            dateTime = dateTime.AddYears(1);// .AddMonths(1);
-                        }
-                        if (dateTime < dateTimeTo) dateList.Add(dateTime);
-                    }
-                    dateList.Add(dateTimeTo);
-
-                    dataRaports = _dataManager.GetConsumption4(equIDName, dateList);
+                    dataRaports = _dataManager.GetConsumption5(equIDName, dateTimeFrom, dateTimeTo, step);
                 });
             }
             catch(Exception ex)

@@ -36,14 +36,14 @@ namespace PomiaryGUI
             this.DateTo = new System.Windows.Forms.DateTimePicker();
             this.DateFrom = new System.Windows.Forms.DateTimePicker();
             this.dataGridViewRaports = new System.Windows.Forms.DataGridView();
-            this.buttonExport = new System.Windows.Forms.Button();
             this.Time_Day = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.buttonExport = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewRaports)).BeginInit();
             this.SuspendLayout();
             // 
             // buttonShow
             // 
-            this.buttonShow.Location = new System.Drawing.Point(170, 0);
+            this.buttonShow.Location = new System.Drawing.Point(370, 0);
             this.buttonShow.Name = "buttonShow";
             this.buttonShow.Size = new System.Drawing.Size(75, 54);
             this.buttonShow.TabIndex = 12;
@@ -104,15 +104,6 @@ namespace PomiaryGUI
             this.dataGridViewRaports.Size = new System.Drawing.Size(800, 500);
             this.dataGridViewRaports.TabIndex = 13;
             // 
-            // buttonExport
-            // 
-            this.buttonExport.Location = new System.Drawing.Point(722, 1);
-            this.buttonExport.Name = "buttonExport";
-            this.buttonExport.Size = new System.Drawing.Size(75, 54);
-            this.buttonExport.TabIndex = 12;
-            this.buttonExport.Text = "Export >>";
-            this.buttonExport.UseVisualStyleBackColor = true;
-            // 
             // Time_Day
             // 
             this.Time_Day.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
@@ -125,6 +116,15 @@ namespace PomiaryGUI
             this.Time_Day.ReadOnly = true;
             this.Time_Day.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.Time_Day.Width = 103;
+            // 
+            // buttonExport
+            // 
+            this.buttonExport.Location = new System.Drawing.Point(722, 1);
+            this.buttonExport.Name = "buttonExport";
+            this.buttonExport.Size = new System.Drawing.Size(75, 54);
+            this.buttonExport.TabIndex = 12;
+            this.buttonExport.Text = "Export >>";
+            this.buttonExport.UseVisualStyleBackColor = true;
             // 
             // Raports
             // 
