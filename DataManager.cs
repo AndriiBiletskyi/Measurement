@@ -823,17 +823,41 @@ namespace PomiaryGUI
                 }
 
                 var timeList = new List<(string table_name, DateTime timeFrom, DateTime timeTo)>();
-                
-
-
                 if (step == Raport.hour)
                 {
-                    timeList.Add(("hourly_", 
-                                  timeBegin, 
-                                  timeEnd.AddMinutes(timeEnd.Minute * (-1))
-                                         .AddSeconds(timeEnd.Second * (-1) - 1))
-                                 );
-                }else if(step == Raport.day)
+                    var dateBegin = new DateTime(timeBegin.Year, timeBegin.Month, timeBegin.Day).AddHours(timeBegin.Hour);
+                    var deltaBegin = (int)(timeBegin - dateBegin).TotalSeconds;
+                    var dateEnd = new DateTime(timeEnd.Year, timeEnd.Month, timeEnd.Day).AddHours(timeEnd.Hour);
+                    var deltaEnd = (int)(timeEnd - dateEnd).TotalSeconds;
+
+                    if (deltaBegin > 0)
+                    {
+                        var temp = timeBegin.AddSeconds(3600 - deltaBegin);
+                        if (temp > timeEnd) temp = timeEnd;
+                        timeList.Add(("EQ_",
+                                    timeBegin,
+                                    temp)
+                                   );
+                        timeBegin = temp;
+                    }
+                    if ((timeEnd - timeBegin).Hours > 0)
+                    {
+                        var temp = timeEnd.AddSeconds(-deltaEnd - 1);
+                        timeList.Add(("hourly_",
+                                    timeBegin,
+                                    temp)
+                                   );
+                        timeBegin = temp.AddSeconds(1);
+                    }
+                    if (deltaEnd > 0)
+                    {
+                        timeList.Add(("EQ_",
+                                 timeBegin,
+                                 timeEnd)
+                                );
+                    }
+                }
+                else if(step == Raport.day)
                 {
                     timeList.Add(("daily_",
                                   timeBegin,
@@ -871,7 +895,7 @@ namespace PomiaryGUI
                 }
 
                 foreach(var (table_name, timeFrom, timeTo) in timeList)
-                    GetCons(equ, table_name, timeFrom, timeTo, ref sqlConnectionPower, dt);
+                    GetCons(equ, table_name, timeFrom, timeTo, ref sqlConnectionPower, ref dt);
 
                 return dt;
             }
@@ -882,7 +906,7 @@ namespace PomiaryGUI
             }
         }
 
-        private void GetCons(Dictionary<int, string> equ, string table_name, DateTime timeBegin, DateTime timeEnd, ref SqlConnection Con, DataTable dt)
+        private void GetCons(Dictionary<int, string> equ, string table_name, DateTime timeBegin, DateTime timeEnd, ref SqlConnection Con, ref DataTable dt)
         {
             var l = equ.Keys.ToList();
             bool addRow = true;
@@ -890,8 +914,27 @@ namespace PomiaryGUI
             foreach (var eq in l)
             {
                 string strDb = "FROM dbo." + table_name + Convert.ToString(eq) + " ";
-                string strWhere = " WHERE (Czas BETWEEN '" + Replace(timeBegin, _DD_MM_) + "' AND '" + Replace(timeEnd, _DD_MM_) + "') ";
-                string str = "SELECT Czas, P_day, Q_day " + strDb + strWhere;
+                string strWhere = " WHERE (Czas BETWEEN '" + Replace(timeBegin, _DD_MM_) + "' AND '" + Replace(timeEnd, _DD_MM_) + "') "; ;
+                string str;
+                if (table_name != "EQ_")
+                {
+                    str = "SELECT Czas, P_day, Q_day " + strDb + strWhere;
+                }
+                else
+                {
+                    str = "SELECT * FROM " +
+                            "(" +
+                                "(" + "" +
+                                    "SELECT TOP 1 Czas,P_day,Q_day " +
+                                    strDb + strWhere + " AND P_day IS NOT NULL ORDER BY Czas ASC " +
+                                ") " +
+                                "UNION ALL " +
+                                "(" +
+                                    "SELECT TOP 1 Czas,P_day,Q_day " +
+                                    strDb + strWhere + " AND P_day IS NOT NULL ORDER BY Czas DESC " +
+                                ") " +
+                             ") t";
+                }
 
                 string table = "dbo.Consumption" + Convert.ToString(eq);
                 var sqlDataAdapter = new SqlDataAdapter(str.ToString(), Con);
@@ -900,21 +943,48 @@ namespace PomiaryGUI
 
                 if(addRow)
                 {
-                    for (int i = 0; i < dataSet.Tables[table].Rows.Count; i++)
+                    if (table_name != "EQ_")
+                    {
+                        for (int i = 0; i < dataSet.Tables[table].Rows.Count; i++)
+                        {
+                            DataRow row = dt.NewRow();
+                            dt.Rows.Add(row);
+                            dt.Rows[dt.Rows.Count - 1]["Day/Time"] = dataSet.Tables[table].Rows[i]["Czas"].ToString();
+                        }
+                    }
+                    else
                     {
                         DataRow row = dt.NewRow();
                         dt.Rows.Add(row);
-                        dt.Rows[dt.Rows.Count - 1]["Day/Time"] = dataSet.Tables[table].Rows[i]["Czas"].ToString();
+                        dt.Rows[dt.Rows.Count - 1]["Day/Time"] = timeBegin.ToString() + System.Environment.NewLine + timeEnd.ToString();
                     }
                     addRow = false;
                 }
 
-                for (int i = 0; i < dataSet.Tables[table].Rows.Count; i++)
+                if (table_name != "EQ_")
                 {
-                    object P = dataSet.Tables[table].Rows[i]["P_day"];
-                    object Q = dataSet.Tables[table].Rows[i]["Q_day"];
-                    if (P != DBNull.Value) dt.Rows[countRow + i][equ[eq] + ", P"] = Math.Round(Convert.ToSingle(P) / 1000, 2);
-                    if (Q != DBNull.Value) dt.Rows[countRow + i][equ[eq] + ", Q"] = Math.Round(Convert.ToSingle(Q) / 1000, 2);
+                    for (int i = 0; i < dataSet.Tables[table].Rows.Count; i++)
+                    {
+                        object P = dataSet.Tables[table].Rows[i]["P_day"];
+                        object Q = dataSet.Tables[table].Rows[i]["Q_day"];
+                        if (P != DBNull.Value) dt.Rows[countRow + i][equ[eq] + ", P"] = Math.Round(Convert.ToSingle(P) / 1000, 2);
+                        if (Q != DBNull.Value) dt.Rows[countRow + i][equ[eq] + ", Q"] = Math.Round(Convert.ToSingle(Q) / 1000, 2);
+                    }
+                }
+                else
+                {
+                    object firstP, lastP, firstQ, lastQ;
+
+                    if (dataSet.Tables[table].Rows.Count == 2)
+                    {
+                        firstP = dataSet.Tables[table].Rows[0]["P_day"];
+                        lastP = dataSet.Tables[table].Rows[1]["P_day"];
+                        firstQ = dataSet.Tables[table].Rows[0]["Q_day"];
+                        lastQ = dataSet.Tables[table].Rows[1]["Q_day"];
+
+                        if (firstP != DBNull.Value && lastP != DBNull.Value) dt.Rows[countRow][equ[eq] + ", P"] = Math.Round((Convert.ToSingle(lastP) - Convert.ToSingle(firstP)) / 1000, 2);
+                        if (firstQ != DBNull.Value && lastQ != DBNull.Value) dt.Rows[countRow][equ[eq] + ", Q"] = Math.Round((Convert.ToSingle(lastQ) - Convert.ToSingle(firstQ)) / 1000, 2);
+                    }
                 }
                 sqlDataAdapter.Dispose();
                 dataSet.Dispose();
