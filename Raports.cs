@@ -39,7 +39,7 @@ namespace PomiaryGUI
                 {
                     for(j = 0; j <= dataGridViewRaports.ColumnCount - 1; j++)
                     {
-                        worksheet.Cells[i + 2, j + 1] = dataGridViewRaports[j, i].Value.ToString();
+                        worksheet.Cells[i + 2, j + 1] = dataGridViewRaports[j, i].Value;
                     }
                 }
 
@@ -115,8 +115,8 @@ namespace PomiaryGUI
         {
             if (StatusRaports)
             {
-                ButtonShowClick?.Invoke(this, EventArgs.Empty);
                 StatusRaports = false;
+                ButtonShowClick?.Invoke(this, EventArgs.Empty);
             }
         }
 

@@ -849,7 +849,7 @@ namespace PomiaryGUI
                                    );
                         timeBegin = temp.AddSeconds(1);
                     }
-                    if (deltaEnd > 0)
+                    if (deltaEnd > 0 && timeEnd > timeBegin)
                     {
                         timeList.Add(("EQ_",
                                  timeBegin,
@@ -859,30 +859,105 @@ namespace PomiaryGUI
                 }
                 else if(step == Raport.day)
                 {
-                    timeList.Add(("daily_",
-                                  timeBegin,
-                                  timeEnd.AddHours(timeEnd.Hour * (-1))
-                                         .AddMinutes(timeEnd.Minute * (-1))
-                                         .AddSeconds(timeEnd.Second * (-1) - 1))
-                                 );
+                    var dateBegin = new DateTime(timeBegin.Year, timeBegin.Month, timeBegin.Day);
+                    var deltaBegin = (timeBegin - dateBegin).TotalHours;
+                    var dateEnd = new DateTime(timeEnd.Year, timeEnd.Month, timeEnd.Day);
+                    var deltaEnd = (timeEnd - dateEnd).TotalHours;
+
+                    if (deltaBegin > 0)
+                    {
+                        var temp = dateBegin.AddDays(1);
+                        if (temp > timeEnd) temp = timeEnd;
+                        timeList.Add(("EQ_",
+                                    timeBegin,
+                                    temp)
+                                   );
+                        timeBegin = temp;
+                    }
+                    if ((timeEnd - timeBegin).TotalDays > 0)
+                    {
+                        var temp = timeEnd.AddHours(-deltaEnd).AddSeconds(-1);
+                        timeList.Add(("daily_",
+                                    timeBegin,
+                                    temp)
+                                   );
+                        timeBegin = temp.AddSeconds(1);
+                    }
+                    if (deltaEnd > 0 && timeEnd > timeBegin)
+                    {
+                        timeList.Add(("EQ_",
+                                 timeBegin,
+                                 timeEnd)
+                                );
+                    }
                 }
                 else if(step == Raport.week)
                 {
-                    timeList.Add(("weekly_",
-                                  timeBegin,
-                                  timeEnd.AddHours(timeEnd.Hour * (-1))
-                                         .AddMinutes(timeEnd.Minute * (-1))
-                                         .AddSeconds(timeEnd.Second * (-1) - 1))
-                                 );
+                    var dateBegin = new DateTime(timeBegin.Year, timeBegin.Month, timeBegin.Day);
+                    var deltaBegin = (timeBegin - dateBegin).TotalHours;
+                    var dateEnd = new DateTime(timeEnd.Year, timeEnd.Month, timeEnd.Day);
+                    var deltaEnd = (timeEnd - dateEnd).TotalHours;
+
+                    if (deltaBegin > 0)
+                    {
+                        var temp = dateBegin.AddDays(1);
+                        if (temp > timeEnd) temp = timeEnd;
+                        timeList.Add(("EQ_",
+                                    timeBegin,
+                                    temp)
+                                   );
+                        timeBegin = temp;
+                    }
+                    if ((timeEnd - timeBegin).TotalDays > 0)
+                    {
+                        var temp = timeEnd.AddHours(-deltaEnd).AddSeconds(-1);
+                        timeList.Add(("daily_",
+                                    timeBegin,
+                                    temp)
+                                   );
+                        timeBegin = temp.AddSeconds(1);
+                    }
+                    if (deltaEnd > 0 && timeEnd > timeBegin)
+                    {
+                        timeList.Add(("EQ_",
+                                 timeBegin,
+                                 timeEnd)
+                                );
+                    }
                 }
                 else if(step == Raport.month)
                 {
-                    timeList.Add(("monthly_",
-                                  timeBegin,
-                                  timeEnd.AddHours(timeEnd.Hour * (-1))
-                                         .AddMinutes(timeEnd.Minute * (-1))
-                                         .AddSeconds(timeEnd.Second * (-1) - 1))
-                                 );
+                    var dateBegin = new DateTime(timeBegin.Year, timeBegin.Month, 1);
+                    var deltaBegin = (timeBegin - dateBegin).TotalDays;
+                    var dateEnd = new DateTime(timeEnd.Year, timeEnd.Month, 1);
+                    var deltaEnd = (timeEnd - dateEnd).TotalDays;
+
+                    if (deltaBegin > 0)
+                    {
+                        var temp = dateBegin.AddMonths(1);
+                        if (temp > timeEnd) temp = timeEnd;
+                        timeList.Add(("EQ_",
+                                    timeBegin,
+                                    temp)
+                                   );
+                        timeBegin = temp;
+                    }
+                    if ((timeEnd - timeBegin).TotalDays >= System.DateTime.DaysInMonth(timeBegin.Year, timeBegin.Month))
+                    {
+                        var temp = timeEnd.AddDays(-deltaEnd).AddSeconds(-1);
+                        timeList.Add(("monthly_",
+                                    timeBegin,
+                                    temp)
+                                   );
+                        timeBegin = temp.AddSeconds(1);
+                    }
+                    if (deltaEnd > 0 && timeEnd > timeBegin)
+                    {
+                        timeList.Add(("EQ_",
+                                 timeBegin,
+                                 timeEnd)
+                                );
+                    }
                 }
                 else if(step == Raport.year)
                 {
@@ -896,6 +971,25 @@ namespace PomiaryGUI
 
                 foreach(var (table_name, timeFrom, timeTo) in timeList)
                     GetCons(equ, table_name, timeFrom, timeTo, ref sqlConnectionPower, ref dt);
+
+                DataRow row = dt.NewRow();
+                dt.Rows.Add(row);
+                dt.Rows[dt.Rows.Count - 1]["Day/Time"] = "Total";
+                foreach (var eq in equ.Keys)
+                {
+                    float totalP = 0;
+                    float totalQ = 0;
+                    for (int i = 0; i < (dt.Rows.Count - 1); i++)
+                    {
+                        object P, Q;
+                        P = dt.Rows[i][equ[eq] + ", P"];
+                        Q = dt.Rows[i][equ[eq] + ", Q"]; ;
+                        if (P != DBNull.Value) totalP += Convert.ToSingle(P);
+                        if (Q != DBNull.Value) totalQ += Convert.ToSingle(Q);
+                    }
+                    dt.Rows[dt.Rows.Count - 1][equ[eq] + ", P"] = Math.Round(totalP, 2);
+                    dt.Rows[dt.Rows.Count - 1][equ[eq] + ", Q"] = Math.Round(totalQ, 2);
+                }
 
                 return dt;
             }
