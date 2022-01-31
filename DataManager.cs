@@ -809,6 +809,7 @@ namespace PomiaryGUI
 
         public DataTable GetConsumption5(Dictionary<int, string> equ, DateTime timeBegin, DateTime timeEnd, Raport step)
         {
+            //TODO
             var dt = new DataTable();
             if (timeBegin >= timeEnd) return dt;
             try
@@ -840,7 +841,7 @@ namespace PomiaryGUI
                                    );
                         timeBegin = temp;
                     }
-                    if ((timeEnd - timeBegin).Hours > 0)
+                    if ((timeEnd - timeBegin).TotalHours > 0)
                     {
                         var temp = timeEnd.AddSeconds(-deltaEnd - 1);
                         timeList.Add(("hourly_",
@@ -961,7 +962,7 @@ namespace PomiaryGUI
                 }
                 else if(step == Raport.year)
                 {
-                    timeList.Add(("annualy_",
+                    timeList.Add(("annually_",
                                   timeBegin,
                                   timeEnd.AddHours(timeEnd.Hour * (-1))
                                          .AddMinutes(timeEnd.Minute * (-1))

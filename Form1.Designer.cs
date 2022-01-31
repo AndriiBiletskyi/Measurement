@@ -41,6 +41,7 @@ namespace PomiaryGUI
             this.butSettingsConnection = new System.Windows.Forms.Button();
             this.butRaportsMonthly = new System.Windows.Forms.Button();
             this.butRaportsWeekly = new System.Windows.Forms.Button();
+            this.butRaportsHourly = new System.Windows.Forms.Button();
             this.butRaportsDaily = new System.Windows.Forms.Button();
             this.panelButtonMark = new System.Windows.Forms.Panel();
             this.butSettings = new System.Windows.Forms.Button();
@@ -56,7 +57,6 @@ namespace PomiaryGUI
             this.panelLang = new System.Windows.Forms.Panel();
             this.labelDataTime = new System.Windows.Forms.Label();
             this.timerDataTime = new System.Windows.Forms.Timer(this.components);
-            this.butRaportsHourly = new System.Windows.Forms.Button();
             this.panelHead.SuspendLayout();
             this.panelButtons.SuspendLayout();
             this.panelBottom.SuspendLayout();
@@ -151,11 +151,11 @@ namespace PomiaryGUI
             this.butRaportsAnnual.FlatAppearance.BorderSize = 0;
             this.butRaportsAnnual.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.butRaportsAnnual.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.butRaportsAnnual.Location = new System.Drawing.Point(4, 204);
+            this.butRaportsAnnual.Location = new System.Drawing.Point(-8, 204);
             this.butRaportsAnnual.Name = "butRaportsAnnual";
-            this.butRaportsAnnual.Size = new System.Drawing.Size(66, 29);
+            this.butRaportsAnnual.Size = new System.Drawing.Size(78, 29);
             this.butRaportsAnnual.TabIndex = 4;
-            this.butRaportsAnnual.Text = "Annual";
+            this.butRaportsAnnual.Text = "Annually";
             this.butRaportsAnnual.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.butRaportsAnnual.UseVisualStyleBackColor = true;
             // 
@@ -243,6 +243,23 @@ namespace PomiaryGUI
             this.butRaportsWeekly.Text = "Weekly";
             this.butRaportsWeekly.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.butRaportsWeekly.UseVisualStyleBackColor = true;
+            // 
+            // butRaportsHourly
+            // 
+            this.butRaportsHourly.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.butRaportsHourly.AutoSize = true;
+            this.butRaportsHourly.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.butRaportsHourly.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
+            this.butRaportsHourly.FlatAppearance.BorderSize = 0;
+            this.butRaportsHourly.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.butRaportsHourly.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.butRaportsHourly.Location = new System.Drawing.Point(21, 141);
+            this.butRaportsHourly.Name = "butRaportsHourly";
+            this.butRaportsHourly.Size = new System.Drawing.Size(65, 29);
+            this.butRaportsHourly.TabIndex = 4;
+            this.butRaportsHourly.Text = "Hourly";
+            this.butRaportsHourly.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.butRaportsHourly.UseVisualStyleBackColor = true;
             // 
             // butRaportsDaily
             // 
@@ -455,23 +472,6 @@ namespace PomiaryGUI
             this.timerDataTime.Enabled = true;
             this.timerDataTime.Interval = 1000;
             this.timerDataTime.Tick += new System.EventHandler(this.TimerDataTime_Tick);
-            // 
-            // butRaportsHourly
-            // 
-            this.butRaportsHourly.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.butRaportsHourly.AutoSize = true;
-            this.butRaportsHourly.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.butRaportsHourly.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
-            this.butRaportsHourly.FlatAppearance.BorderSize = 0;
-            this.butRaportsHourly.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.butRaportsHourly.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.butRaportsHourly.Location = new System.Drawing.Point(21, 141);
-            this.butRaportsHourly.Name = "butRaportsHourly";
-            this.butRaportsHourly.Size = new System.Drawing.Size(65, 29);
-            this.butRaportsHourly.TabIndex = 4;
-            this.butRaportsHourly.Text = "Hourly";
-            this.butRaportsHourly.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.butRaportsHourly.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 
