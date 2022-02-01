@@ -833,13 +833,13 @@ namespace PomiaryGUI
 
                     if (deltaBegin > 0)
                     {
-                        var temp = timeBegin.AddSeconds(3600 - deltaBegin);
+                        var temp = timeBegin.AddSeconds(3600 - deltaBegin).AddSeconds(-1);
                         if (temp > timeEnd) temp = timeEnd;
                         timeList.Add(("EQ_",
                                     timeBegin,
                                     temp)
                                    );
-                        timeBegin = temp;
+                        timeBegin = temp.AddSeconds(1);
                     }
                     if ((timeEnd - timeBegin).TotalHours > 0)
                     {
@@ -867,13 +867,13 @@ namespace PomiaryGUI
 
                     if (deltaBegin > 0)
                     {
-                        var temp = dateBegin.AddDays(1);
+                        var temp = dateBegin.AddDays(1).AddSeconds(-1);
                         if (temp > timeEnd) temp = timeEnd;
                         timeList.Add(("EQ_",
                                     timeBegin,
                                     temp)
                                    );
-                        timeBegin = temp;
+                        timeBegin = temp.AddSeconds(1);
                     }
                     if ((timeEnd - timeBegin).TotalDays > 0)
                     {
@@ -896,29 +896,35 @@ namespace PomiaryGUI
                 {
                     var dateBegin = new DateTime(timeBegin.Year, timeBegin.Month, timeBegin.Day);
                     var deltaBegin = (timeBegin - dateBegin).TotalHours;
+                    var deltaBeginDays = (int)timeBegin.DayOfWeek - 1;
                     var dateEnd = new DateTime(timeEnd.Year, timeEnd.Month, timeEnd.Day);
                     var deltaEnd = (timeEnd - dateEnd).TotalHours;
+                    var deltaEndDays = (int)timeEnd.DayOfWeek - 1;
 
-                    if (deltaBegin > 0)
+                    if (deltaBeginDays < 0) deltaBeginDays = 6;
+                    if (deltaEndDays < 0) deltaEndDays = 6;
+
+                    if (deltaBegin > 0 || deltaBeginDays > 0)
                     {
-                        var temp = dateBegin.AddDays(1);
+                        var temp = dateBegin.AddDays(-deltaBeginDays).AddHours(-deltaBegin);
+                        temp = temp.AddDays(7).AddSeconds(-1);
                         if (temp > timeEnd) temp = timeEnd;
                         timeList.Add(("EQ_",
                                     timeBegin,
                                     temp)
                                    );
-                        timeBegin = temp;
+                        timeBegin = temp.AddSeconds(1);
                     }
-                    if ((timeEnd - timeBegin).TotalDays > 0)
+                    if ((timeEnd - timeBegin).TotalDays >= 7)
                     {
-                        var temp = timeEnd.AddHours(-deltaEnd).AddSeconds(-1);
-                        timeList.Add(("daily_",
+                        var temp = timeEnd.AddDays(-deltaEndDays).AddHours(-deltaEnd).AddSeconds(-1);
+                        timeList.Add(("weekly_",
                                     timeBegin,
                                     temp)
                                    );
                         timeBegin = temp.AddSeconds(1);
                     }
-                    if (deltaEnd > 0 && timeEnd > timeBegin)
+                    if ((deltaEnd > 0 || deltaEndDays >0) && timeEnd > timeBegin)
                     {
                         timeList.Add(("EQ_",
                                  timeBegin,
@@ -935,13 +941,13 @@ namespace PomiaryGUI
 
                     if (deltaBegin > 0)
                     {
-                        var temp = dateBegin.AddMonths(1);
+                        var temp = dateBegin.AddMonths(1).AddSeconds(-1);
                         if (temp > timeEnd) temp = timeEnd;
                         timeList.Add(("EQ_",
                                     timeBegin,
                                     temp)
                                    );
-                        timeBegin = temp;
+                        timeBegin = temp.AddSeconds(1);
                     }
                     if ((timeEnd - timeBegin).TotalDays >= System.DateTime.DaysInMonth(timeBegin.Year, timeBegin.Month))
                     {
@@ -962,12 +968,41 @@ namespace PomiaryGUI
                 }
                 else if(step == Raport.year)
                 {
-                    timeList.Add(("annually_",
-                                  timeBegin,
-                                  timeEnd.AddHours(timeEnd.Hour * (-1))
-                                         .AddMinutes(timeEnd.Minute * (-1))
-                                         .AddSeconds(timeEnd.Second * (-1) - 1))
-                                 );
+                    var dateBegin = new DateTime(timeBegin.Year, 1, 1);
+                    var deltaBegin = (timeBegin - dateBegin).TotalDays;
+                    var dateEnd = new DateTime(timeEnd.Year, 1, 1);
+                    var deltaEnd = (timeEnd - dateEnd).TotalDays;
+
+                    if (deltaBegin > 0)
+                    {
+                        var temp = dateBegin.AddYears(1);
+                        if (temp > timeEnd) temp = timeEnd;
+                        timeList.Add(("EQ_",
+                                    timeBegin,
+                                    temp)
+                                   );
+                        timeBegin = temp;
+                    }
+
+                    if ((timeEnd.Year - timeBegin.Year) >= 1)
+                    {
+                        var temp = timeEnd.AddMonths((1 - timeEnd.Month))
+                                           .AddHours(timeEnd.Hour * (-1))
+                                           .AddMinutes(timeEnd.Minute * (-1))
+                                           .AddSeconds(timeEnd.Second * (-1) - 1);
+                        timeList.Add(("annually_",
+                                    timeBegin,
+                                    temp)
+                                   );
+                        timeBegin = temp.AddSeconds(1);
+                    }
+                    if (deltaEnd > 0 && timeEnd > timeBegin)
+                    {
+                        timeList.Add(("EQ_",
+                                 timeBegin,
+                                 timeEnd)
+                                );
+                    }
                 }
 
                 foreach(var (table_name, timeFrom, timeTo) in timeList)
