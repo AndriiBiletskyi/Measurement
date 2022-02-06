@@ -54,7 +54,6 @@ namespace PomiaryGUI
             this.textSerwer.Name = "textSerwer";
             this.textSerwer.Size = new System.Drawing.Size(541, 32);
             this.textSerwer.TabIndex = 0;
-            this.textSerwer.Text = "PL02K01-C0AH8FL,1433\\SQL25012021";
             // 
             // labelSerwer
             // 
@@ -75,7 +74,6 @@ namespace PomiaryGUI
             this.textInitialCatalog.Name = "textInitialCatalog";
             this.textInitialCatalog.Size = new System.Drawing.Size(541, 32);
             this.textInitialCatalog.TabIndex = 0;
-            this.textInitialCatalog.Text = "pomiary";
             // 
             // labelInitialCatalog
             // 
@@ -108,7 +106,6 @@ namespace PomiaryGUI
             this.textUserID.Name = "textUserID";
             this.textUserID.Size = new System.Drawing.Size(541, 32);
             this.textUserID.TabIndex = 0;
-            this.textUserID.Text = "uzytkownik";
             // 
             // textPassword
             // 
@@ -119,7 +116,6 @@ namespace PomiaryGUI
             this.textPassword.Name = "textPassword";
             this.textPassword.Size = new System.Drawing.Size(541, 32);
             this.textPassword.TabIndex = 0;
-            this.textPassword.Text = "Kayser2022";
             // 
             // labelUserID
             // 

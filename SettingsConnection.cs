@@ -34,6 +34,7 @@ namespace PomiaryGUI
 
         private void ButtonConnect_Click(object sender, EventArgs e)
         {
+            SaveDataForConnection();
             ButtonConnectClick?.Invoke(this, EventArgs.Empty);
         }
 
@@ -71,6 +72,7 @@ namespace PomiaryGUI
 
         public bool GetConnectionWay()
         {
+            GetDataForConnection();
             return checkStringConnection.Checked;
         }
 
@@ -110,12 +112,34 @@ namespace PomiaryGUI
                                             textStringConnection.Location.Y + textStringConnection.Height + 10);
 
             checkBoxTime.Location = new Point(0, butConnect.Location.Y + butConnect.Height + 20);
+
         }
 
         private void Settings_VisibleChanged(object sender, EventArgs e)
         {
             checkBoxTime.Checked = (bool)PomiaryGUI.Properties.Settings.Default["SetDDMM"];
             ReplaceDDMM?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void SaveDataForConnection()
+        {
+            PomiaryGUI.Properties.Settings.Default["SetConnection"] = checkStringConnection.Checked;
+            PomiaryGUI.Properties.Settings.Default["textStringConnection"] = textStringConnection.Text;
+            PomiaryGUI.Properties.Settings.Default["textSerwer"] = textSerwer.Text;
+            PomiaryGUI.Properties.Settings.Default["textInitialCatalog"] = textInitialCatalog.Text;
+            PomiaryGUI.Properties.Settings.Default["textUserID"] = textUserID.Text;
+            PomiaryGUI.Properties.Settings.Default["textPassword"] = textPassword.Text;
+            PomiaryGUI.Properties.Settings.Default.Save();
+        }
+
+        private void GetDataForConnection()
+        {
+            checkStringConnection.Checked = (bool)PomiaryGUI.Properties.Settings.Default["SetConnection"];
+            textStringConnection.Text = (string)PomiaryGUI.Properties.Settings.Default["textStringConnection"];
+            textSerwer.Text = (string)PomiaryGUI.Properties.Settings.Default["textSerwer"];
+            textInitialCatalog.Text = (string)PomiaryGUI.Properties.Settings.Default["textInitialCatalog"];
+            textUserID.Text = (string)PomiaryGUI.Properties.Settings.Default["textUserID"];
+            textPassword.Text = (string)PomiaryGUI.Properties.Settings.Default["textPassword"];
         }
     }
 }

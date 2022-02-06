@@ -65,6 +65,8 @@ namespace PomiaryGUI
             _mainForm.AplicationStart += new EventHandler(MainFormGetEquList);
 
             _dataManager.Message += new EventHandler<string>(DataManagerMessage);
+
+            MainFormChangeConnect(null, null);
         }
 
         private void DataManagerMessage(object sender, string e)

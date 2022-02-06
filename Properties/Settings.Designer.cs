@@ -34,5 +34,77 @@ namespace PomiaryGUI.Properties {
                 this["SetDDMM"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool SetConnection {
+            get {
+                return ((bool)(this["SetConnection"]));
+            }
+            set {
+                this["SetConnection"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string textStringConnection {
+            get {
+                return ((string)(this["textStringConnection"]));
+            }
+            set {
+                this["textStringConnection"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string textSerwer {
+            get {
+                return ((string)(this["textSerwer"]));
+            }
+            set {
+                this["textSerwer"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string textInitialCatalog {
+            get {
+                return ((string)(this["textInitialCatalog"]));
+            }
+            set {
+                this["textInitialCatalog"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string textUserID {
+            get {
+                return ((string)(this["textUserID"]));
+            }
+            set {
+                this["textUserID"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string textPassword {
+            get {
+                return ((string)(this["textPassword"]));
+            }
+            set {
+                this["textPassword"] = value;
+            }
+        }
     }
 }

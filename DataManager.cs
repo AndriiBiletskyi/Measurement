@@ -31,15 +31,15 @@ namespace PomiaryGUI
         private SqlConnection sqlConnection = null, sqlConnectionPower = null;
         private SqlDataAdapter dataAdapter = null, dataAdapterPower = null;
         private DataSet dataSet = null, dataSetPower = null;
-        private string con = @"Data Source = (LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Program Files\Microsoft SQL Server\MSSQL13.SQLEXPRESS_0804\MSSQL\DATA\pomiary.mdf;Integrated Security = True; Connect Timeout = 30";
+        private string con;// = @"Data Source = (LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Program Files\Microsoft SQL Server\MSSQL13.SQLEXPRESS_0804\MSSQL\DATA\pomiary.mdf;Integrated Security = True; Connect Timeout = 30";
         private bool _DD_MM_ = false;
-        SqlConnectionStringBuilder connection = new SqlConnectionStringBuilder()
-        {
-            DataSource = "PL02K01-C0AH8FL,1433\\SQL25012021",
-            InitialCatalog = "pomiary",
-            UserID = "uzytkownik",
-            Password = "Kayser2022"
-        };
+        private SqlConnectionStringBuilder connection = new SqlConnectionStringBuilder();
+        //{
+        //    DataSource = "PL02K01-C0AH8FL,1433\\SQL25012021",
+        //    InitialCatalog = "pomiary",
+        //    UserID = "uzytkownik",
+        //    Password = "Kayser2022"
+        //};
         public event EventHandler<string> Message;
 
         public DataRow GetLastEquData(int eq)
@@ -212,12 +212,15 @@ namespace PomiaryGUI
         {
             try
             {
-                Sql_Connect();
-                string str = "SELECT * FROM dbo.equipments ORDER BY ID ASC";
-                dataAdapter = new SqlDataAdapter(str, sqlConnection);
-                dataSet = new DataSet();
-                dataAdapter.Fill(dataSet, "dbo.equipments");
-                return dataSet.Tables["dbo.equipments"];
+                if (sqlConnection != null && sqlConnection.State != ConnectionState.Closed)
+                {
+                    string str = "SELECT * FROM dbo.equipments ORDER BY ID ASC";
+                    dataAdapter = new SqlDataAdapter(str, sqlConnection);
+                    dataSet = new DataSet();
+                    dataAdapter.Fill(dataSet, "dbo.equipments");
+                    return dataSet.Tables["dbo.equipments"];
+                }
+                return new DataTable();
             }
             catch(Exception ex)
             {
