@@ -23,4 +23,11 @@ namespace PomiaryGUI
         hourly, daily, weekly, monthly, annual,
         setequipments, connection, network
     }
+
+    public enum EquipmentType
+    {
+        Electricity = 'E',
+        Air = 'A',
+        Unknow
+    }
 }

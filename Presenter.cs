@@ -40,10 +40,10 @@ namespace PomiaryGUI
         private readonly IMainForm _mainForm;
         private readonly IDataManager _dataManager;
 
-        private DataTable equTable;
         private List<int> equID = new List<int>();
         private List<string> equName = new List<string>();
         private Dictionary<int, string> equIDName = new Dictionary<int, string>();
+        private Dictionary<int, (float minValue, float maxValue, EquipmentType type)> equParameters = new Dictionary<int, (float minValue, float maxValue, EquipmentType type)>();
 
         public Presenter(IMainForm mainForm, IDataManager dataManager)
         {
@@ -52,7 +52,7 @@ namespace PomiaryGUI
 
             _mainForm.ButCloseClick += new EventHandler(MainFormButCloseClick);
 
-            _mainForm.ButChartsEquipmentsClick += new EventHandler(MainFormButEquClick);
+            _mainForm.ButChartsEquipmentsClick += new EventHandler<EquControlData>(MainFormButEquClick);
 
             _mainForm.ChangeConnect += new EventHandler(MainFormChangeConnect);
             _mainForm.ExecuteScript += new EventHandler(MainFormExecuteScript);
@@ -61,6 +61,7 @@ namespace PomiaryGUI
             _mainForm.ButShowRaportsClick += new EventHandler<RaportsParameters>(MainFormButShowRaportsClick);
             _mainForm.SettingsGetDataForID += new EventHandler<int>(MainFormSettingsGetDataForID);
             _mainForm.SettingsUpdateDataForID += new EventHandler<SettingsEquipmentsData>(MainFormSettingsUpdateDataForID);
+            _mainForm.SettingsAddNewEquipmentToDB += new EventHandler<SettingsEquipmentsData>(MainFormSettingsAddNewEquipment);
 
             _mainForm.AplicationStart += new EventHandler(MainFormGetEquList);
 
@@ -76,10 +77,11 @@ namespace PomiaryGUI
 
         private void MainFormGetEquList(object sender, EventArgs e)
         {
-            equTable = _dataManager.GetEquList();
+            DataTable equTable = _dataManager.GetEquList();
             equID.Clear();
             equIDName.Clear();
             equName.Clear();
+            equParameters.Clear();
             equID = equTable.AsEnumerable().Where(x => x.Field<object>("ID") != DBNull.Value).Select(x => (int)x["ID"]).ToList();
 
             foreach (var i in equID)
@@ -87,29 +89,45 @@ namespace PomiaryGUI
                 string name = equTable.AsEnumerable().Where(x => x.Field<int>("ID") == i).Select(x => x["NamePL"].ToString()).First();
                 equName.Add(name);
                 equIDName.Add(i, name);
+
+                float minVal = 0;
+                float maxVal = Convert.ToSingle(equTable.AsEnumerable().Where(x => x.Field<int>("ID") == i).Select(x => x["RatedPower"]).First());
+                string type = Convert.ToString(equTable.AsEnumerable().Where(x => x.Field<int>("ID") == i).Select(x => x["Type"]).First());
+                EquipmentType eqType;
+                if (type == EquipmentType.Electricity.ToString()) eqType = EquipmentType.Electricity;
+                else if(type == EquipmentType.Air.ToString()) eqType = EquipmentType.Air;
+                else eqType = EquipmentType.Unknow;
+                equParameters.Add(i, (minVal, maxVal, eqType));
             }
             _mainForm.EquList = equName;
             _mainForm.IdList = equID;
+            equTable.Dispose();
         }
 
-        private void MainFormButEquClick(object sender, EventArgs e)
+        private void MainFormButEquClick(object sender, EquControlData e)
         {
+            DataTable dt = new DataTable();
             try
             {
-                DataTable dataTable = _dataManager.GetEquData(1, new DateTime(1800, 1, 1, 1, 1, 1), new DateTime(1800, 1, 1, 1, 1, 1));
+                dt.Columns.Add("ID",        typeof(int));
+                dt.Columns.Add("Status",    typeof(bool));
+                dt.Columns.Add("P",         typeof(float));
+                dt.Columns.Add("P_L1",      typeof(float));
+                dt.Columns.Add("P_L2",      typeof(float));
+                dt.Columns.Add("P_L3",      typeof(float));
 
-                for (int i = 1; i < 13; i++) //in _mainForm.EquList)//200ms
-                {
-                    DataRow dataRow = dataTable.NewRow();
-                    dataRow = _dataManager.GetLastEquData(i);
-                    dataTable.ImportRow(dataRow);
-                }
-                _mainForm.EquipmentsFill(dataTable);//1635 ms
+                _dataManager.GetLastEquData(e.eqNumbers, ref dt);
+
+                _mainForm.EquipmentsFill(dt);//1635 ms
 
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString());
+            }
+            finally
+            {
+                dt.Dispose();
             }
         }
 
@@ -213,6 +231,12 @@ namespace PomiaryGUI
         private void MainFormSettingsUpdateDataForID(object sender, SettingsEquipmentsData data)
         {
             _dataManager.UpdateDataForID(data);
+        }
+
+        private void MainFormSettingsAddNewEquipment(object sender, SettingsEquipmentsData data)
+        {
+            _dataManager.AddNewEquipment(data);
+            MainFormGetEquList(sender, null);
         }
 
         private void MainFormReplaceDDMM(object sender, EventArgs e)

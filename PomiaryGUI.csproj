@@ -412,6 +412,7 @@
     <Compile Include="EquControl.Designer.cs">
       <DependentUpon>EquControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="EquControlData.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>

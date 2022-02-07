@@ -14,6 +14,7 @@ namespace PomiaryGUI
     {
         public event EventHandler<int> IDChanged;
         public event EventHandler<SettingsEquipmentsData> UpdateData;
+        public event EventHandler<SettingsEquipmentsData> AddNewEquipment;
 
         public SettingsEquipments()
         {
@@ -109,19 +110,29 @@ namespace PomiaryGUI
         {
             if (checkEdit.Checked)
             {
-                var data = new SettingsEquipmentsData
-                {
-                    Id = Convert.ToInt32(comboBoxID.SelectedItem),
-                    NamePL = EquipmentNamePL.Text,
-                    NameEN = EquipmentNameEN.Text,
-                    RatedPower = Convert.ToSingle(Power.Text),
-                    RatedCurrent = Convert.ToSingle(Current.Text),
-                    RatedVoltage = Convert.ToSingle(Voltage.Text),
-                    NumberOfPhases = Convert.ToInt32(comboBoxPhase.SelectedItem),
-                    UnitOfPower = UnitOfPower.Text
-                };
+                var data = new SettingsEquipmentsData();
+                CollectData(ref data);
+                data.Id = Convert.ToInt32(comboBoxID.SelectedItem);
                 UpdateData?.Invoke(sender, data);
+            }else if (checkAdd.Checked)
+            {
+                var data = new SettingsEquipmentsData();
+                CollectData(ref data);
+                data.Id = Convert.ToInt32(TextIDAdd.Text);
+                AddNewEquipment?.Invoke(sender, data);
             }
+        }
+
+        private void CollectData(ref SettingsEquipmentsData settingsEquipmentsData)
+        {
+            
+            settingsEquipmentsData.NamePL = EquipmentNamePL.Text;
+            settingsEquipmentsData.NameEN = EquipmentNameEN.Text;
+            settingsEquipmentsData.RatedPower = Convert.ToSingle(Power.Text);
+            settingsEquipmentsData.RatedCurrent = Convert.ToSingle(Current.Text);
+            settingsEquipmentsData.RatedVoltage = Convert.ToSingle(Voltage.Text);
+            settingsEquipmentsData.NumberOfPhases = Convert.ToInt32(comboBoxPhase.SelectedItem);
+            settingsEquipmentsData.UnitOfPower = UnitOfPower.Text;
         }
     }
 }

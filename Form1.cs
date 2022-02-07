@@ -16,12 +16,13 @@ namespace PomiaryGUI
         event EventHandler<ChartsParameters> ButShowChartsClick;
         event EventHandler<RaportsParameters> ButShowRaportsClick;
         event EventHandler ButCloseClick;
-        event EventHandler ButChartsEquipmentsClick;
+        event EventHandler<EquControlData> ButChartsEquipmentsClick;
         event EventHandler AplicationStart;
         event EventHandler ChangeConnect;
         event EventHandler ExecuteScript;
         event EventHandler<int> SettingsGetDataForID;
         event EventHandler<SettingsEquipmentsData> SettingsUpdateDataForID;
+        event EventHandler<SettingsEquipmentsData> SettingsAddNewEquipmentToDB;
         event EventHandler ReplaceDDMM;
         #endregion
 
@@ -125,37 +126,26 @@ namespace PomiaryGUI
             PanelSettingsConnection.ReplaceDDMM += new EventHandler(Replace_DD_MM);
             PanelSettingsEquipments.IDChanged += new EventHandler<int>(SettingsEquipmentsIDChanged);
             PanelSettingsEquipments.UpdateData += new EventHandler<SettingsEquipmentsData>(SettingsEquipmentsUpdateData);
+            PanelSettingsEquipments.AddNewEquipment += new EventHandler<SettingsEquipmentsData>(SettingsAddNewEquipment);
             #endregion
 
-            //equlist.Add("1");
-            //equlist.Add("2");
-            //equlist.Add("3");
-            //equlist.Add("4");
-            //equlist.Add("5");
-            //equlist.Add("6");
-            //equlist.Add("7");
-            //equlist.Add("8");
-            //equlist.Add("9");
-            //equlist.Add("10");
-            //equlist.Add("11");
-            //equlist.Add("12");
-            //foreach (var c in equlist)
-            //{
-            //for (int i = 0; i < 4; i++)
-            //{
-            //    inst.Add(new InstantaneousValues());
-            //        inst.Add(new InstantaneousValues());
-            //        inst.Add(new InstantaneousValues());
-            //        inst.Add(new InstantaneousValues());
-            //}
-            //}
-            //foreach (InstantaneousValues c in inst)
-            //{
-            //    //c.Visible = false;
-            //    PanelEqu.Controls.Add(c);
-            //}
+            foreach (var c in equList)
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    inst.Add(new InstantaneousValues());
+                    inst.Add(new InstantaneousValues());
+                    inst.Add(new InstantaneousValues());
+                    inst.Add(new InstantaneousValues());
+                }
+            }
+            foreach (InstantaneousValues c in inst)
+            {
+                //c.Visible = false;
+                PanelEqu.Controls.Add(c);
+            }
 
-            //for (int i = 0; i < 60; i++)
+            //foreach (var c in equList)
             //{
             //    PanelEqu.Controls.Add(new Indicator());
             //}
@@ -449,7 +439,9 @@ namespace PomiaryGUI
                 formStates = FormStates.somename;
             }
             MarkBottomBut(((Button)sender).Location, ((Button)sender).Size);
-            ButChartsEquipmentsClick?.Invoke(sender, e);
+            var eqControl = new EquControlData();
+            eqControl.eqNumbers = idList;
+            ButChartsEquipmentsClick?.Invoke(sender, eqControl);
         }
 
         private void ButRaports_Click(object sender, EventArgs e)
@@ -562,6 +554,11 @@ namespace PomiaryGUI
         private void SettingsEquipmentsUpdateData(object sender, SettingsEquipmentsData data)
         {
             SettingsUpdateDataForID?.Invoke(sender, data);
+        }
+
+        private void SettingsAddNewEquipment(object sender, SettingsEquipmentsData data)
+        {
+            SettingsAddNewEquipmentToDB?.Invoke(sender, data);
         }
         #endregion
 
@@ -767,13 +764,14 @@ namespace PomiaryGUI
         public event EventHandler<ChartsParameters> ButShowChartsClick;
         public event EventHandler<RaportsParameters> ButShowRaportsClick;
         public event EventHandler ButCloseClick;
-        public event EventHandler ButChartsEquipmentsClick;
+        public event EventHandler<EquControlData> ButChartsEquipmentsClick;
         public event EventHandler AplicationStart;
 
         //public event EventHandler LangComboBoxTextChanged;
 
         public event EventHandler<int> SettingsGetDataForID;
         public event EventHandler<SettingsEquipmentsData> SettingsUpdateDataForID;
+        public event EventHandler<SettingsEquipmentsData> SettingsAddNewEquipmentToDB;
 
         public event EventHandler ChangeConnect;
         public event EventHandler ExecuteScript;

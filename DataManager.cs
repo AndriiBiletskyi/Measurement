@@ -16,13 +16,13 @@ namespace PomiaryGUI
         void SetConnection(List<string> list);
         void SetConnection(string str);
         void SqlConnectionClose();
-        DataRow GetLastEquData(int eq);
-        DataTable GetEquData(int eq, DateTime begin, DateTime end);
+        void GetLastEquData(List<int> eq, ref DataTable dt);
         void DD_MM(bool state);
         DataTable GetEquList();
         DataTable GetConsumption(Dictionary<int, string> equ, DateTime timeBegin, DateTime timeEnd, Raport step);
         DataTable GetDataPower(int eq, DateTime begin, DateTime end, List<string> colums);
         void UpdateDataForID(SettingsEquipmentsData data);
+        void AddNewEquipment(SettingsEquipmentsData data);
         void ExecuteScript();   
     }
 
@@ -42,54 +42,52 @@ namespace PomiaryGUI
         //};
         public event EventHandler<string> Message;
 
-        public DataRow GetLastEquData(int eq)
+        public void GetLastEquData(List<int> eq, ref DataTable dt)
         {
             try
             {
-                if (eq > 0 && eq < 256)
+                int countRow = dt.Rows.Count;
+                foreach(var equ in eq)
                 {
-                    Sql_Connect();
-                    DataTable table = null;
-                    string str = "SELECT TOP 1 * FROM dbo.\"" + Convert.ToString(eq) + "\" " + "ORDER BY ID DESC";
+                    string tabel = "dbo.EQ_" + Convert.ToString(equ);
+                    string str = "SELECT IDENT_CURRENT(' " + tabel + " ') as IDEN";// FROM " + tabel + " ORDER BY ID DESC";
+                    //string str = "SELECT * FROM "+ tabel + " WHERE ID = (SCOPE_IDENTITY() - 1)";
                     dataAdapter = new SqlDataAdapter(str, sqlConnection);
                     dataSet = new DataSet();
-                    dataAdapter.Fill(dataSet, "dbo." + Convert.ToString(eq));
-                    table = dataSet.Tables["dbo." + Convert.ToString(eq)];
+                    
+                    dataAdapter.Fill(dataSet, tabel);
 
-                    if (table != null) return table.AsEnumerable().Last();
+                    object p = (int)dataSet.Tables[tabel].Rows[0]["IDEN"];
+
+                    DataRow row = dt.NewRow();
+                    dt.Rows.Add(row);
+                    dt.Rows[countRow]["ID"] = equ;
+                    dt.Rows[countRow]["Status"] = dataSet.Tables[tabel].Rows[0]["Status"];
+                    dt.Rows[countRow]["P"] = dataSet.Tables[tabel].Rows[0]["P"];
+                    dt.Rows[countRow]["P_L1"] = dataSet.Tables[tabel].Rows[0]["P_L1"];
+                    dt.Rows[countRow]["P_L2"] = dataSet.Tables[tabel].Rows[0]["P_L2"];
+                    dt.Rows[countRow]["P_L3"] = dataSet.Tables[tabel].Rows[0]["P_L3"];
+
+                    //using (var command = new SqlCommand(str, sqlConnection))
+                    //{
+                    //    using (var reader = command.ExecuteReader())
+                    //    {
+                    //        while (reader.Read())
+                    //        {
+                    //            dt.Rows[countRow]["ID"] = reader[0];
+                    //            dt.Rows[countRow]["Status"] = reader[1];
+                    //            dt.Rows[countRow]["P"] = reader[2];
+                    //            dt.Rows[countRow]["P_L1"] = reader[3];
+                    //            dt.Rows[countRow]["P_L2"] = reader[4];
+                    //            dt.Rows[countRow]["P_L3"] = reader[5];
+                    //        }
+                    //    }
+                    //}
                 }
-
-                return new DataTable().NewRow();
             }
             catch(Exception ex)
             {
                 Message?.Invoke(this, ex.ToString());
-                return new DataTable().NewRow();
-            }
-        }
-
-        public DataTable GetEquData(int eq, DateTime begin, DateTime end)
-        {                               /*12.03.2021 19:45:53*/
-            try
-            {
-                if (eq > 0 && eq < 256)
-                {
-                    Sql_Connect();
-
-                    string str = "SELECT Czas,Nazwa_urzadzenia,P,Status FROM dbo.\"" + Convert.ToString(eq) + "\" " + "WHERE (Czas BETWEEN '" + Replace(begin, _DD_MM_) + "' AND '" + Replace(end, _DD_MM_) + "')" + "ORDER BY ID ASC";
-                    dataAdapter = new SqlDataAdapter(str, sqlConnection);
-                    dataSet = new DataSet();
-                    dataAdapter.Fill(dataSet, "dbo." + Convert.ToString(eq));
-
-                    return dataSet.Tables["dbo." + Convert.ToString(eq)];
-                }
-
-                return new DataTable();
-            }
-            catch (Exception ex)
-            {
-                Message?.Invoke(this, ex.ToString());
-                return new DataTable();
             }
         }
 
@@ -555,7 +553,6 @@ namespace PomiaryGUI
         {
             try
             {
-                Sql_Connect();
                 string str = "UPDATE dbo.equipments " +
                              "SET NamePL = '" + data.NamePL + "', " +
                                  "NameEN = '" + data.NameEN + "', " +
@@ -569,8 +566,30 @@ namespace PomiaryGUI
                 SqlCommand cmd = sqlConnection.CreateCommand();
                 cmd.CommandText = str;
                 cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                Message?.Invoke(this, ex.ToString());
+            }
+        }
 
-                //ExecuteScript();
+        public void AddNewEquipment(SettingsEquipmentsData data)
+        {
+            try
+            {
+                string query = "INSERT INTO dbo.equipments (ID, NamePL, NameEN, RatedPower, RatedCurrent, RatedVoltage, NumberOfPhases, UnitOfPower)";
+                query += " VALUES (@ID, @NamePL, @NameEN, @RatedPower, @RatedCurrent, @RatedVoltage, @NumberOfPhases, @UnitOfPower)";
+
+                SqlCommand myCommand = new SqlCommand(query, sqlConnection);
+                myCommand.Parameters.AddWithValue("@ID",                data.Id);
+                myCommand.Parameters.AddWithValue("@NamePL",            data.NamePL);
+                myCommand.Parameters.AddWithValue("@NameEN",            data.NameEN);
+                myCommand.Parameters.AddWithValue("@RatedPower",        data.RatedPower);
+                myCommand.Parameters.AddWithValue("@RatedCurrent",      data.RatedCurrent);
+                myCommand.Parameters.AddWithValue("@RatedVoltage",      data.RatedVoltage);
+                myCommand.Parameters.AddWithValue("@NumberOfPhases",    data.NumberOfPhases);
+                myCommand.Parameters.AddWithValue("@UnitOfPower",       data.UnitOfPower);
+                myCommand.ExecuteNonQuery();
             }
             catch (Exception ex)
             {
@@ -789,9 +808,34 @@ namespace PomiaryGUI
 //DataTable GetConsumption2(Dictionary<int, string> equ, List<DateTime> times);
 //DataTable GetConsumption3(Dictionary<int, string> equ, List<DateTime> times);
 //DataTable GetConsumption4(Dictionary<int, string> equ, List<DateTime> times);
+//DataTable GetEquData(int eq, DateTime begin, DateTime end);
 
 
 
+//public DataTable GetEquData(int eq, DateTime begin, DateTime end)
+//{                               /*12.03.2021 19:45:53*/
+//    try
+//    {
+//        if (eq > 0 && eq < 256)
+//        {
+//            Sql_Connect();
+
+//            string str = "SELECT Czas,Nazwa_urzadzenia,P,Status FROM dbo.\"" + Convert.ToString(eq) + "\" " + "WHERE (Czas BETWEEN '" + Replace(begin, _DD_MM_) + "' AND '" + Replace(end, _DD_MM_) + "')" + "ORDER BY ID ASC";
+//            dataAdapter = new SqlDataAdapter(str, sqlConnection);
+//            dataSet = new DataSet();
+//            dataAdapter.Fill(dataSet, "dbo." + Convert.ToString(eq));
+
+//            return dataSet.Tables["dbo." + Convert.ToString(eq)];
+//        }
+
+//        return new DataTable();
+//    }
+//    catch (Exception ex)
+//    {
+//        Message?.Invoke(this, ex.ToString());
+//        return new DataTable();
+//    }
+//}
 //public float GetFirstData(int eq, DateTime begin, DateTime end, string Value)
 //{
 //    try
