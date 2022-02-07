@@ -235,6 +235,11 @@ namespace PomiaryGUI
 
         private void MainFormSettingsAddNewEquipment(object sender, SettingsEquipmentsData data)
         {
+            if (equID.Contains(data.Id))
+            {
+                MessageBox.Show("Equipnemt with number = " + data.Id.ToString() + " is exist");
+                return;
+            }
             _dataManager.AddNewEquipment(data);
             MainFormGetEquList(sender, null);
         }

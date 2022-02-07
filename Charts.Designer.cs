@@ -217,7 +217,7 @@ namespace PomiaryGUI
             // 
             this.butExport.AutoSize = true;
             this.butExport.Location = new System.Drawing.Point(931, 7);
-            this.butExport.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.butExport.Margin = new System.Windows.Forms.Padding(2);
             this.butExport.Name = "butExport";
             this.butExport.Size = new System.Drawing.Size(62, 23);
             this.butExport.TabIndex = 6;

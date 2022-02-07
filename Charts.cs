@@ -311,35 +311,6 @@ namespace PomiaryGUI
                     Lines.Add(new GearedValues<double>());
                 }
 
-                //DataTable temptable = new DataTable();
-                //DataColumn tempcolumn;
-                //var checkedLines= GetCheckedLines();
-
-                //tempcolumn = new DataColumn
-                //{
-                //    DataType = System.Type.GetType("System.DateTime"),
-                //    ColumnName = "Czas",
-                //    AutoIncrement = false,
-                //    Caption = "Czas",
-                //    ReadOnly = false,
-                //    Unique = false
-                //};
-                //temptable.Columns.Add(tempcolumn);
-
-                //foreach (string str in GetCheckedLines())
-                //{
-                //    tempcolumn = new DataColumn
-                //    {
-                //        DataType = System.Type.GetType("System.Single"),
-                //        ColumnName = str,
-                //        AutoIncrement = false,
-                //        Caption = str,
-                //        ReadOnly = false,
-                //        Unique = false
-                //    };
-                //    temptable.Columns.Add(tempcolumn);
-                //}
-
                 await Task.Run(() => {
                     
                     foreach (DataRow row in table.Rows)
@@ -353,38 +324,41 @@ namespace PomiaryGUI
                     }                    
                 });
                 
-                string _n = name;
-                int val = 100;
+                int maxVal = 100;
+
                 if (mode == ChartMode.power)
                 {
-                    if (_n.Contains("Piec")) val = 100;
-                    else if (_n.Contains("Szyn")) val = 50;
-                    else if (_n.Contains("TR")) val = 1000;
+                    if (name.Contains("Piec")) maxVal = 100;
+                    else if (name.Contains("Szyn")) maxVal = 100;
+                    else if (name.Contains("TR")) maxVal = 1000;
+                    else if (name.Contains("Par")) maxVal = 100;
                 }
                 else if (mode == ChartMode.current)
                 {
-                    if (_n.Contains("Piec")) val = 150;
-                    else if (_n.Contains("Szyn")) val = 100;
+                    if (name.Contains("Piec")) maxVal = 150;
+                    else if (name.Contains("Szyn")) maxVal = 250;
+                    else if (name.Contains("TR")) maxVal = 2500;
+                    else if (name.Contains("Par")) maxVal = 100;
                 }
                 else if (mode == ChartMode.voltage)
                 {
-                    if (_n.Contains("Piec")) val = 250;
-                    else if (_n.Contains("Szyn")) val = 250;
+                    maxVal = 250;
                 }
                 else if (mode == ChartMode.cos)
                 {
-                    if (_n.Contains("Piec")) val = 1;
-                    else if (_n.Contains("Szyn")) val = 1;
+                    maxVal = 1;
                 }
-                
-                chart.AxisY.Add(new Axis()
-                {
-                    Title = _n,
-                    MaxValue = val,
-                    FontSize = 20,
-                    FontStyle = System.Windows.FontStyles.Normal,
-                    Foreground = System.Windows.Media.Brushes.Black
-                });
+
+                var ax = new Axis();
+                ax.Title = name;
+                if (mode != ChartMode.power) ax.MinValue = 0;
+                ax.MaxValue = maxVal;
+                ax.FontSize = 20;
+                ax.FontStyle = System.Windows.FontStyles.Normal;
+                ax.Foreground = System.Windows.Media.Brushes.Black;
+
+                chart.AxisY.Add(ax);
+
                 chart.AxisX.Add(new Axis()
                 {
                     Labels = dates,
@@ -481,7 +455,5 @@ namespace PomiaryGUI
                 }
             }
         }
-
-
     }
 }
