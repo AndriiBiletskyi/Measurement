@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static PomiaryGUI.Charts;
+using Indicators;
 
 namespace PomiaryGUI
 {
@@ -75,7 +76,8 @@ namespace PomiaryGUI
 
         List<string> equList = new List<string>();
         List<int> idList = new List<int>();
-        List<InstantaneousValues> inst = new List<InstantaneousValues>();
+        //List<InstantaneousValues> inst = new List<InstantaneousValues>();
+        List<Indi> inst = new List<Indi>();
         int timeTick = 0;
         //bool _init = false;
         
@@ -129,19 +131,19 @@ namespace PomiaryGUI
             PanelSettingsEquipments.AddNewEquipment += new EventHandler<SettingsEquipmentsData>(SettingsAddNewEquipment);
             #endregion
 
+            for (int i = 1; i < 16; i++) equList.Add(i.ToString());
+
             foreach (var c in equList)
             {
                 for (int i = 0; i < 4; i++)
                 {
-                    inst.Add(new InstantaneousValues());
-                    inst.Add(new InstantaneousValues());
-                    inst.Add(new InstantaneousValues());
-                    inst.Add(new InstantaneousValues());
+                    //inst.Add(new InstantaneousValues());
+                    inst.Add(new Indi());
                 }
             }
-            foreach (InstantaneousValues c in inst)
+            foreach (var c in inst)
             {
-                //c.Visible = false;
+                c.Visible = false;
                 PanelEqu.Controls.Add(c);
             }
 
@@ -612,7 +614,7 @@ namespace PomiaryGUI
                                 if (inst.Count >= (q + 1))
                                 {
                                     inst.ElementAt(q).Status = Convert.ToBoolean(dataTable.Rows[i]["Status"]);
-                                    inst.ElementAt(q).Name = Convert.ToString(dataTable.Rows[i]["Nazwa_urzadzenia"]) + " - " + quer + ", kW";
+                                    inst.ElementAt(q).NameText = Convert.ToString(dataTable.Rows[i]["Nazwa_urzadzenia"]) + " - " + quer + ", kW";
                                     if (inst.ElementAt(q).Status == false)
                                     {
                                         inst.ElementAt(q).Value = 0;
@@ -623,8 +625,8 @@ namespace PomiaryGUI
                                     }
                                     else inst.ElementAt(q).Value = 0;
 
-                                    inst.ElementAt(q).Max = 100;
-                                    inst.ElementAt(q).Min = 0;
+                                    inst.ElementAt(q).MaxValue = 100;
+                                    inst.ElementAt(q).MinValue = 0;
                                     if (!inst.ElementAt(q).Visible)
                                     {
                                         inst.ElementAt(q).Size = new Size(200, 200);
@@ -650,8 +652,8 @@ namespace PomiaryGUI
                                     inst.ElementAt(q).Status = false;
                                     inst.ElementAt(q).Name = "Unknow" + " - " + quer + ", kW";
                                     inst.ElementAt(q).Value = 0;
-                                    inst.ElementAt(q).Max = 100;
-                                    inst.ElementAt(q).Min = 0;
+                                    inst.ElementAt(q).MaxValue = 100;
+                                    inst.ElementAt(q).MinValue = 0;
                                     if (!inst.ElementAt(q).Visible)
                                     {
                                         inst.ElementAt(q).Size = new Size(200, 200);

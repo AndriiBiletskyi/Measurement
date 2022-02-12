@@ -110,6 +110,7 @@ namespace PomiaryGUI
             try
             {
                 dt.Columns.Add("ID",        typeof(int));
+                dt.Columns.Add("Nazwa_urzadzenia", typeof(string));
                 dt.Columns.Add("Status",    typeof(bool));
                 dt.Columns.Add("P",         typeof(float));
                 dt.Columns.Add("P_L1",      typeof(float));

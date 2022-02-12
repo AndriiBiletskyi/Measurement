@@ -1,7 +1,7 @@
 ﻿
-namespace PomiaryGUI
+namespace Indicators
 {
-    partial class Indicator
+    partial class Indi
     {
         /// <summary> 
         /// Обязательная переменная конструктора.
@@ -29,20 +29,50 @@ namespace PomiaryGUI
         /// </summary>
         private void InitializeComponent()
         {
+            this.labelValue = new System.Windows.Forms.Label();
+            this.labelName = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
-            // Indicator
+            // labelValue
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.labelValue.BackColor = System.Drawing.Color.Transparent;
+            this.labelValue.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.labelValue.Location = new System.Drawing.Point(0, 399);
+            this.labelValue.Name = "labelValue";
+            this.labelValue.Size = new System.Drawing.Size(542, 24);
+            this.labelValue.TabIndex = 1;
+            this.labelValue.Text = "label1";
+            this.labelValue.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // labelName
+            // 
+            this.labelName.BackColor = System.Drawing.Color.Transparent;
+            this.labelName.Dock = System.Windows.Forms.DockStyle.Top;
+            this.labelName.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.labelName.Location = new System.Drawing.Point(0, 0);
+            this.labelName.Name = "labelName";
+            this.labelName.Size = new System.Drawing.Size(542, 24);
+            this.labelName.TabIndex = 1;
+            this.labelName.Text = "label1";
+            this.labelName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // Indi
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.Control;
-            this.Name = "Indicator";
-            this.Size = new System.Drawing.Size(500, 400);
-            this.Load += new System.EventHandler(this.Indicator_Load);
+            this.BackColor = System.Drawing.Color.Silver;
+            this.Controls.Add(this.labelName);
+            this.Controls.Add(this.labelValue);
+            this.Font = new System.Drawing.Font("Times New Roman", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.Margin = new System.Windows.Forms.Padding(6);
+            this.Name = "Indi";
+            this.Size = new System.Drawing.Size(542, 423);
             this.ResumeLayout(false);
 
         }
 
         #endregion
+        private System.Windows.Forms.Label labelValue;
+        private System.Windows.Forms.Label labelName;
     }
 }

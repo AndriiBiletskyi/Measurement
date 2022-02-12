@@ -171,18 +171,18 @@ namespace PomiaryGUI
                                        this.Height / 2 - panel.Height / 2);
             panel.Visible = false;
 
-            string stri = DateFrom.Value.ToLongDateString() +
-                          DateFrom.Value.ToShortTimeString();
-            DateFrom.Width = TextRenderer.MeasureText(stri, DateFrom.Font).Width;
+            //string stri = DateFrom.Value.ToLongDateString() +
+            //              DateFrom.Value.ToLongTimeString();
+            DateFrom.Width = 230;// TextRenderer.MeasureText(stri, DateFrom.Font).Width;
             DateTo.Width = DateFrom.Width;
             DateFrom.Location = new Point(0, 0);
             DateTo.Location = new Point(0, DateFrom.Height);
 
-            buttonShow.Height = DateFrom.Height + DateTo.Height;
-            buttonShow.Location = new Point(DateFrom.Location.X + DateFrom.Width, DateFrom.Location.Y);
+            buttonShow.Height = DateFrom.Height + DateTo.Height + 2;
+            buttonShow.Location = new Point(DateFrom.Location.X + DateFrom.Width - 1, DateFrom.Location.Y - 1);
 
-            butExport.Height = buttonShow.Height;
-            butExport.Location = new Point(this.Width - butExport.Width, 0);
+            butExport.Size = buttonShow.Size;
+            butExport.Location = new Point(this.Width - butExport.Width, -1);
             comboBox1.Location = new Point(buttonShow.Location.X + buttonShow.Width, 0);
             comboBox1.Width = butExport.Location.X - buttonShow.Location.X - buttonShow.Width;
 

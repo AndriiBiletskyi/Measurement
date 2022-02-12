@@ -52,7 +52,7 @@ namespace PomiaryGUI
             this.DateFrom.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.DateFrom.Location = new System.Drawing.Point(3, 1);
             this.DateFrom.Name = "DateFrom";
-            this.DateFrom.Size = new System.Drawing.Size(116, 26);
+            this.DateFrom.Size = new System.Drawing.Size(238, 26);
             this.DateFrom.TabIndex = 0;
             this.DateFrom.Value = new System.DateTime(2021, 1, 1, 0, 0, 0, 0);
             // 
@@ -63,7 +63,7 @@ namespace PomiaryGUI
             this.DateTo.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.DateTo.Location = new System.Drawing.Point(3, 27);
             this.DateTo.Name = "DateTo";
-            this.DateTo.Size = new System.Drawing.Size(239, 26);
+            this.DateTo.Size = new System.Drawing.Size(238, 26);
             this.DateTo.TabIndex = 0;
             this.DateTo.Value = new System.DateTime(2021, 12, 31, 23, 59, 59, 0);
             // 

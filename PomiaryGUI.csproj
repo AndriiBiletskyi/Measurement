@@ -422,8 +422,14 @@
     <Compile Include="Indicator.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Indicator.Designer.cs">
+    <Compile Include="Indicator.designer.cs">
       <DependentUpon>Indicator.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Indicator23.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Indicator23.Designer.cs">
+      <DependentUpon>Indicator23.cs</DependentUpon>
     </Compile>
     <Compile Include="InstantaneousValues.cs">
       <SubType>UserControl</SubType>
@@ -470,6 +476,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Indicator.resx">
       <DependentUpon>Indicator.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Indicator23.resx">
+      <DependentUpon>Indicator23.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="InstantaneousValues.resx">
       <DependentUpon>InstantaneousValues.cs</DependentUpon>

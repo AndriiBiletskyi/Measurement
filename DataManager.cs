@@ -49,40 +49,23 @@ namespace PomiaryGUI
                 int countRow = dt.Rows.Count;
                 foreach(var equ in eq)
                 {
-                    string tabel = "dbo.EQ_" + Convert.ToString(equ);
-                    string str = "SELECT IDENT_CURRENT(' " + tabel + " ') as IDEN";// FROM " + tabel + " ORDER BY ID DESC";
-                    //string str = "SELECT * FROM "+ tabel + " WHERE ID = (SCOPE_IDENTITY() - 1)";
+                    string table = "dbo.EQ_" + Convert.ToString(equ);
+                    string str = "SELECT TOP 1 * FROM " + table + " order by ID DESC";
                     dataAdapter = new SqlDataAdapter(str, sqlConnection);
                     dataSet = new DataSet();
-                    
-                    dataAdapter.Fill(dataSet, tabel);
 
-                    object p = (int)dataSet.Tables[tabel].Rows[0]["IDEN"];
+                    dataAdapter.Fill(dataSet, table);
 
                     DataRow row = dt.NewRow();
                     dt.Rows.Add(row);
                     dt.Rows[countRow]["ID"] = equ;
-                    dt.Rows[countRow]["Status"] = dataSet.Tables[tabel].Rows[0]["Status"];
-                    dt.Rows[countRow]["P"] = dataSet.Tables[tabel].Rows[0]["P"];
-                    dt.Rows[countRow]["P_L1"] = dataSet.Tables[tabel].Rows[0]["P_L1"];
-                    dt.Rows[countRow]["P_L2"] = dataSet.Tables[tabel].Rows[0]["P_L2"];
-                    dt.Rows[countRow]["P_L3"] = dataSet.Tables[tabel].Rows[0]["P_L3"];
-
-                    //using (var command = new SqlCommand(str, sqlConnection))
-                    //{
-                    //    using (var reader = command.ExecuteReader())
-                    //    {
-                    //        while (reader.Read())
-                    //        {
-                    //            dt.Rows[countRow]["ID"] = reader[0];
-                    //            dt.Rows[countRow]["Status"] = reader[1];
-                    //            dt.Rows[countRow]["P"] = reader[2];
-                    //            dt.Rows[countRow]["P_L1"] = reader[3];
-                    //            dt.Rows[countRow]["P_L2"] = reader[4];
-                    //            dt.Rows[countRow]["P_L3"] = reader[5];
-                    //        }
-                    //    }
-                    //}
+                    dt.Rows[countRow]["Nazwa_urzadzenia"] = dataSet.Tables[table].Rows[0]["Nazwa_urzadzenia"];
+                    dt.Rows[countRow]["Status"] = dataSet.Tables[table].Rows[0]["Status"];
+                    dt.Rows[countRow]["P"] = dataSet.Tables[table].Rows[0]["P"];
+                    dt.Rows[countRow]["P_L1"] = dataSet.Tables[table].Rows[0]["P_L1"];
+                    dt.Rows[countRow]["P_L2"] = dataSet.Tables[table].Rows[0]["P_L2"];
+                    dt.Rows[countRow]["P_L3"] = dataSet.Tables[table].Rows[0]["P_L3"];
+                    countRow++;
                 }
             }
             catch(Exception ex)
