@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using static PomiaryGUI.Charts;
 using Indicators;
+using LiveCharts.WinForms;
 
 namespace PomiaryGUI
 {
@@ -34,6 +35,7 @@ namespace PomiaryGUI
         List<string> EquList { get; set; }
         List<int> IdList { get; set; }
         void EquipmentsFill(DataTable dataTable);
+        void UpdateLastDataForEquipments(EquControlData equControlData);
         #endregion
 
         #region Charts
@@ -76,8 +78,8 @@ namespace PomiaryGUI
 
         List<string> equList = new List<string>();
         List<int> idList = new List<int>();
-        //List<InstantaneousValues> inst = new List<InstantaneousValues>();
-        List<Indi> inst = new List<Indi>();
+        List<InstantaneousValues> inst = new List<InstantaneousValues>();
+        //List<AngularGauge> inst = new List<AngularGauge>();
         int timeTick = 0;
         //bool _init = false;
         
@@ -131,26 +133,17 @@ namespace PomiaryGUI
             PanelSettingsEquipments.AddNewEquipment += new EventHandler<SettingsEquipmentsData>(SettingsAddNewEquipment);
             #endregion
 
-            for (int i = 1; i < 16; i++) equList.Add(i.ToString());
+            for (int i = 1; i < 0; i++) equList.Add(i.ToString());
 
             foreach (var c in equList)
             {
                 for (int i = 0; i < 4; i++)
                 {
-                    //inst.Add(new InstantaneousValues());
-                    inst.Add(new Indi());
+                    inst.Add(new InstantaneousValues());
+                    inst.Last().Visible = false;
+                    PanelEqu.Controls.Add(inst.Last());
                 }
             }
-            foreach (var c in inst)
-            {
-                c.Visible = false;
-                PanelEqu.Controls.Add(c);
-            }
-
-            //foreach (var c in equList)
-            //{
-            //    PanelEqu.Controls.Add(new Indicator());
-            //}
         }
 
         #region FormBL
@@ -322,7 +315,7 @@ namespace PomiaryGUI
                 else if (formStates == FormStates.current) MarkBottomBut(butChartsCurrent.Location, butChartsCurrent.Size);
                 else if (formStates == FormStates.voltage) MarkBottomBut(butChartsVoltage.Location, butChartsVoltage.Size);
                 else if (formStates == FormStates.cos) MarkBottomBut(butChartsCos.Location, butChartsCos.Size);
-                else if (formStates == FormStates.somename) MarkBottomBut(butChartsEquipments.Location, butChartsEquipments.Size);
+                else if (formStates == FormStates.equipments) MarkBottomBut(butChartsEquipments.Location, butChartsEquipments.Size);
                 else MarkBottomBut(((Button)sender).Location, ((Button)sender).Size);
             }
         }
@@ -434,11 +427,11 @@ namespace PomiaryGUI
 
         private void ButChartsEquipments_Click(object sender, EventArgs e)
         {
-            if (formStates != FormStates.somename)
+            if (formStates != FormStates.equipments)
             {
                 AllPanelsHide();
                 EquPanelShow();
-                formStates = FormStates.somename;
+                formStates = FormStates.equipments;
             }
             MarkBottomBut(((Button)sender).Location, ((Button)sender).Size);
             var eqControl = new EquControlData();
@@ -614,7 +607,7 @@ namespace PomiaryGUI
                                 if (inst.Count >= (q + 1))
                                 {
                                     inst.ElementAt(q).Status = Convert.ToBoolean(dataTable.Rows[i]["Status"]);
-                                    inst.ElementAt(q).NameText = Convert.ToString(dataTable.Rows[i]["Nazwa_urzadzenia"]) + " - " + quer + ", kW";
+                                    inst.ElementAt(q).Name = Convert.ToString(dataTable.Rows[i]["Nazwa_urzadzenia"]) + " - " + quer + ", kW";
                                     if (inst.ElementAt(q).Status == false)
                                     {
                                         inst.ElementAt(q).Value = 0;
@@ -625,8 +618,8 @@ namespace PomiaryGUI
                                     }
                                     else inst.ElementAt(q).Value = 0;
 
-                                    inst.ElementAt(q).MaxValue = 100;
-                                    inst.ElementAt(q).MinValue = 0;
+                                    inst.ElementAt(q).Max = 100;
+                                    inst.ElementAt(q).Min = 0;
                                     if (!inst.ElementAt(q).Visible)
                                     {
                                         inst.ElementAt(q).Size = new Size(200, 200);
@@ -652,8 +645,8 @@ namespace PomiaryGUI
                                     inst.ElementAt(q).Status = false;
                                     inst.ElementAt(q).Name = "Unknow" + " - " + quer + ", kW";
                                     inst.ElementAt(q).Value = 0;
-                                    inst.ElementAt(q).MaxValue = 100;
-                                    inst.ElementAt(q).MinValue = 0;
+                                    inst.ElementAt(q).Max = 100;
+                                    inst.ElementAt(q).Min = 0;
                                     if (!inst.ElementAt(q).Visible)
                                     {
                                         inst.ElementAt(q).Size = new Size(200, 200);
@@ -671,6 +664,56 @@ namespace PomiaryGUI
             catch (Exception ex)
             {
                 MessageBox.Show("Form_EquFill \n" + ex.ToString());
+            }
+        }
+
+        public void UpdateLastDataForEquipments(EquControlData equControlData)
+        {
+            try
+            {
+                int dif = inst.Count - equControlData.eqNumbers.Count * 4;
+                for (int l = 0; l < dif; l++)
+                {
+                    inst.RemoveAt(inst.Count - 1);
+                    //PanelEqu.Controls.r
+                }
+
+                dif = equControlData.eqNumbers.Count * 4 - inst.Count;
+                for (int l = 0; l < dif; l++)
+                { 
+                    inst.Add(new InstantaneousValues());
+                    inst.Last().Visible = false;
+                    PanelEqu.Controls.Add(inst.Last());
+                }
+
+                int i = 0;
+                int side = 250;
+                int margin = 20;
+                int step = PanelEqu.Width / 4;
+                if (step <= side) side = step - margin;
+                Point p = new Point(((PanelEqu.Width / 4) - side) / 2, margin);
+                foreach (var eq in equControlData.eqData.Keys)
+                {
+                    foreach(var chart in equControlData.eqData[eq])
+                    {
+                        inst.ElementAt(i).Name = chart.Key;
+                        inst.ElementAt(i).Value = chart.Value;
+                        inst.ElementAt(i).Min = equControlData.eqParameters[eq].minValue;
+                        inst.ElementAt(i).Max = equControlData.eqParameters[eq].maxValue;
+                        inst.ElementAt(i).Status = equControlData.eqParameters[eq].state;
+                        if (!inst.ElementAt(i).Visible)
+                        {
+                            inst.ElementAt(i).Size = new Size(side, side);
+                            inst.ElementAt(i).Location = new Point(p.X + step * (i % 4), p.Y + (side + margin) * (i / 4));
+                            inst.ElementAt(i).Visible = true;
+                        }
+                        i++;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
             }
         }
 
@@ -806,7 +849,12 @@ namespace PomiaryGUI
 
             if (timeTick % 10 == 0)
             {
-                //if (formStates == FormStates.equipments) if (ButChartsEquipmentsClick != null) ButChartsEquipmentsClick(this, EventArgs.Empty);
+                if (formStates == FormStates.equipments)
+                {
+                    var eqControl = new EquControlData();
+                    eqControl.eqNumbers = idList;
+                    ButChartsEquipmentsClick?.Invoke(sender, eqControl);
+                }
             }
 
             timeTick++;

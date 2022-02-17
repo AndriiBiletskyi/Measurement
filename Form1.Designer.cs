@@ -323,11 +323,11 @@ namespace PomiaryGUI
             this.butChartsEquipments.FlatAppearance.BorderSize = 0;
             this.butChartsEquipments.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.butChartsEquipments.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.butChartsEquipments.Location = new System.Drawing.Point(54, 86);
+            this.butChartsEquipments.Location = new System.Drawing.Point(53, 86);
             this.butChartsEquipments.Name = "butChartsEquipments";
-            this.butChartsEquipments.Size = new System.Drawing.Size(96, 29);
+            this.butChartsEquipments.Size = new System.Drawing.Size(97, 29);
             this.butChartsEquipments.TabIndex = 0;
-            this.butChartsEquipments.Text = "SomeName";
+            this.butChartsEquipments.Text = "Equipments";
             this.butChartsEquipments.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.butChartsEquipments.UseVisualStyleBackColor = true;
             // 
@@ -466,6 +466,7 @@ namespace PomiaryGUI
             this.labelDataTime.Size = new System.Drawing.Size(45, 24);
             this.labelDataTime.TabIndex = 0;
             this.labelDataTime.Text = "time";
+            this.labelDataTime.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // timerDataTime
             // 

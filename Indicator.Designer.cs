@@ -37,9 +37,9 @@ namespace Indicators
             // 
             this.labelValue.BackColor = System.Drawing.Color.Transparent;
             this.labelValue.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.labelValue.Location = new System.Drawing.Point(0, 399);
+            this.labelValue.Location = new System.Drawing.Point(0, 397);
             this.labelValue.Name = "labelValue";
-            this.labelValue.Size = new System.Drawing.Size(542, 24);
+            this.labelValue.Size = new System.Drawing.Size(540, 24);
             this.labelValue.TabIndex = 1;
             this.labelValue.Text = "label1";
             this.labelValue.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -51,7 +51,7 @@ namespace Indicators
             this.labelName.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.labelName.Location = new System.Drawing.Point(0, 0);
             this.labelName.Name = "labelName";
-            this.labelName.Size = new System.Drawing.Size(542, 24);
+            this.labelName.Size = new System.Drawing.Size(540, 24);
             this.labelName.TabIndex = 1;
             this.labelName.Text = "label1";
             this.labelName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -61,12 +61,13 @@ namespace Indicators
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Silver;
+            this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Controls.Add(this.labelName);
             this.Controls.Add(this.labelValue);
             this.Font = new System.Drawing.Font("Times New Roman", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.Margin = new System.Windows.Forms.Padding(6);
             this.Name = "Indi";
-            this.Size = new System.Drawing.Size(542, 423);
+            this.Size = new System.Drawing.Size(540, 421);
             this.ResumeLayout(false);
 
         }

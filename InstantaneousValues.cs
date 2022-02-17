@@ -34,32 +34,43 @@ namespace PomiaryGUI
             this.angularGauge.Base.Foreground = Brushes.Black;
             this.angularGauge.Base.FontWeight = System.Windows.FontWeights.Bold;
             this.angularGauge.TicksStrokeThickness = 1;
-            this.angularGauge.TickStep = 10;
             this.angularGauge.Base.FontSize = 11;
             this.angularGauge.SectionsInnerRadius = 1;
+            
 
-            this.toolTip.AutoPopDelay = 3000;
-            this.toolTip.InitialDelay = 500;
-            this.toolTip.ReshowDelay = 200;
-            this.toolTip.ShowAlways = true;
+            //this.toolTip.AutoPopDelay = 3000;
+            //this.toolTip.InitialDelay = 500;
+            //this.toolTip.ReshowDelay = 200;
+            //this.toolTip.ShowAlways = true;
 
-            this.toolTip.SetToolTip(this.angularGauge, _value.ToString());
+            //this.toolTip.SetToolTip(this.angularGauge, _value.ToString());
 
             this.Visible = false;
         }
 
-        private void InstantaneousValues_Resize(object sender, EventArgs e)
+        private void ChangeSize()
         {
-            Control control = (Control)sender;
+            //Control control = (Control)sender;
             this.labelName.Height = 30;
-            angularGauge.Size = new Size(control.Width, control.Height - 30);
-            labelName.Size = new Size(control.Width - this.labelName.Height, this.labelName.Height);
+            angularGauge.Size = new Size(this.Width, this.Height - 30);
+            labelName.Size = new Size(this.Width - this.labelName.Height, this.labelName.Height);
             labelName.Location = new Point(0, 0);
             panelStatus.Size = new Size(this.labelName.Height, this.labelName.Height);
-            panelStatus.Location = new Point(control.Width - this.panelStatus.Width, 0);
+            panelStatus.Location = new Point(this.Width - this.panelStatus.Width, 0);
             angularGauge.Location = new Point(0, this.labelName.Height);
             labelValue.Size = new Size(60, 30);
-            labelValue.Location = new Point(control.Width/2 - labelValue.Width/2 - 5, control.Height - labelValue.Height);
+            labelValue.Location = new Point(this.Width / 2 - labelValue.Width / 2 - 5, this.Height - labelValue.Height);
+        }
+
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            base.OnPaint(e);
+            ChangeSize();
+        }
+
+        protected override void OnResize(EventArgs e)
+        {
+            base.OnResize(e);
             Refresh();
         }
 
@@ -89,6 +100,8 @@ namespace PomiaryGUI
             {
                 _min = value;
                 this.angularGauge.FromValue = _min;
+                this.angularGauge.TickStep = (_max - _min) / 100;
+                this.angularGauge.LabelsStep = this.angularGauge.TickStep * 10;
             }
         }
 
@@ -103,6 +116,8 @@ namespace PomiaryGUI
             {
                 _max = value;
                 this.angularGauge.ToValue = _max;
+                this.angularGauge.TickStep = (_max - _min) / 100;
+                this.angularGauge.LabelsStep = this.angularGauge.TickStep * 10;
             }
         }
 
@@ -134,12 +149,12 @@ namespace PomiaryGUI
                 if (_status)
                 {
                     this.panelStatus.BackColor = Color.Green;
-                    this.toolTip.SetToolTip(this.panelStatus, "ON");
+                    this.toolTip.SetToolTip(this.panelStatus, "Connected");
                 }
                 else 
                 {
                     this.panelStatus.BackColor = Color.Red;
-                    this.toolTip.SetToolTip(this.panelStatus, "OFF");
+                    this.toolTip.SetToolTip(this.panelStatus, "Not Connected");
                 }
             }
         }

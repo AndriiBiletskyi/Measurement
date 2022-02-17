@@ -119,8 +119,42 @@ namespace PomiaryGUI
 
                 _dataManager.GetLastEquData(e.eqNumbers, ref dt);
 
-                _mainForm.EquipmentsFill(dt);//1635 ms
+                //_mainForm.EquipmentsFill(dt);//1635 ms
 
+                var lastDataForAllEquipments = new EquControlData();
+                for(int i = 0; i < dt.Rows.Count; i++)
+                {
+                    int id = Convert.ToInt32(dt.Rows[i]["ID"]);
+                    lastDataForAllEquipments.eqNumbers.Add(id);
+                    lastDataForAllEquipments.eqParameters.Add(id,
+                                                             (equIDName[id],
+                                                              equParameters[id].minValue,
+                                                              equParameters[id].maxValue,
+                                                              equParameters[id].type,
+                                                              (bool)dt.Rows[i]["Status"])
+                                                              );
+
+                    var temp = new Dictionary<string, float>();
+                    object oP = dt.Rows[i]["P"];
+                    double fP = oP == DBNull.Value ? 0.0f : Math.Round(Convert.ToSingle(oP)/1000, 2);
+                    string name = equIDName[id] + " - ";
+                    temp.Add(name + "P" + ", kW", (float)fP);
+
+                    oP = dt.Rows[i]["P_L1"];
+                    fP = oP == DBNull.Value ? 0.0f : Math.Round(Convert.ToSingle(oP) / 1000, 2);
+                    temp.Add(name + "P_L1" + ", kW", (float)fP);
+
+                    oP = dt.Rows[i]["P_L2"];
+                    fP = oP == DBNull.Value ? 0.0f : Math.Round(Convert.ToSingle(oP) / 1000, 2);
+                    temp.Add(name + "P_L2" + ", kW", (float)fP);
+
+                    oP = dt.Rows[i]["P_L3"];
+                    fP = oP == DBNull.Value ? 0.0f : Math.Round(Convert.ToSingle(oP) / 1000, 2);
+                    temp.Add(name + "P_L3" + ", kW", (float)fP);
+
+                    lastDataForAllEquipments.eqData.Add(id, temp);
+                }
+                _mainForm.UpdateLastDataForEquipments(lastDataForAllEquipments);
             }
             catch (Exception ex)
             {
@@ -232,6 +266,7 @@ namespace PomiaryGUI
         private void MainFormSettingsUpdateDataForID(object sender, SettingsEquipmentsData data)
         {
             _dataManager.UpdateDataForID(data);
+            MainFormGetEquList(sender, null);
         }
 
         private void MainFormSettingsAddNewEquipment(object sender, SettingsEquipmentsData data)

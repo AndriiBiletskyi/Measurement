@@ -29,23 +29,11 @@ namespace PomiaryGUI
         /// </summary>
         private void InitializeComponent()
         {
-            this.angularGauge = new LiveCharts.WinForms.AngularGauge();
             this.labelName = new System.Windows.Forms.Label();
             this.panelStatus = new System.Windows.Forms.Panel();
             this.labelValue = new System.Windows.Forms.Label();
+            this.angularGauge = new LiveCharts.WinForms.AngularGauge();
             this.SuspendLayout();
-            // 
-            // angularGauge
-            // 
-            this.angularGauge.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.angularGauge.BackColor = System.Drawing.Color.White;
-            this.angularGauge.Location = new System.Drawing.Point(0, 50);
-            this.angularGauge.Name = "angularGauge";
-            this.angularGauge.Size = new System.Drawing.Size(398, 248);
-            this.angularGauge.TabIndex = 0;
-            this.angularGauge.Text = "angularGauge1";
             // 
             // labelName
             // 
@@ -84,6 +72,17 @@ namespace PomiaryGUI
             this.labelValue.Text = "100.00";
             this.labelValue.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // angularGauge
+            // 
+            this.angularGauge.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.angularGauge.Location = new System.Drawing.Point(-1, 63);
+            this.angularGauge.Name = "angularGauge";
+            this.angularGauge.Size = new System.Drawing.Size(400, 233);
+            this.angularGauge.TabIndex = 3;
+            this.angularGauge.Text = "angularGauge1";
+            // 
             // InstantaneousValues
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -91,22 +90,20 @@ namespace PomiaryGUI
             this.BackColor = System.Drawing.Color.White;
             this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Controls.Add(this.labelValue);
+            this.Controls.Add(this.angularGauge);
             this.Controls.Add(this.panelStatus);
             this.Controls.Add(this.labelName);
-            this.Controls.Add(this.angularGauge);
             this.Name = "InstantaneousValues";
             this.Size = new System.Drawing.Size(398, 298);
             this.Tag = "InstantaneousValues";
-            this.Resize += new System.EventHandler(this.InstantaneousValues_Resize);
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
-        private LiveCharts.WinForms.AngularGauge angularGauge;
         private System.Windows.Forms.Label labelName;
         private System.Windows.Forms.Panel panelStatus;
         private System.Windows.Forms.Label labelValue;
+        private LiveCharts.WinForms.AngularGauge angularGauge;
     }
 }
