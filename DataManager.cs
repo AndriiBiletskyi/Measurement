@@ -59,12 +59,15 @@ namespace PomiaryGUI
                     DataRow row = dt.NewRow();
                     dt.Rows.Add(row);
                     dt.Rows[countRow]["ID"] = equ;
-                    dt.Rows[countRow]["Nazwa_urzadzenia"] = dataSet.Tables[table].Rows[0]["Nazwa_urzadzenia"];
-                    dt.Rows[countRow]["Status"] = dataSet.Tables[table].Rows[0]["Status"];
-                    dt.Rows[countRow]["P"] = dataSet.Tables[table].Rows[0]["P"];
-                    dt.Rows[countRow]["P_L1"] = dataSet.Tables[table].Rows[0]["P_L1"];
-                    dt.Rows[countRow]["P_L2"] = dataSet.Tables[table].Rows[0]["P_L2"];
-                    dt.Rows[countRow]["P_L3"] = dataSet.Tables[table].Rows[0]["P_L3"];
+                    if (dataSet.Tables[table].Rows.Count > 0)
+                    {
+                        dt.Rows[countRow]["Nazwa_urzadzenia"] = dataSet.Tables[table].Rows[0]["Nazwa_urzadzenia"];
+                        dt.Rows[countRow]["Status"] = dataSet.Tables[table].Rows[0]["Status"];
+                        dt.Rows[countRow]["P"] = dataSet.Tables[table].Rows[0]["P"];
+                        dt.Rows[countRow]["P_L1"] = dataSet.Tables[table].Rows[0]["P_L1"];
+                        dt.Rows[countRow]["P_L2"] = dataSet.Tables[table].Rows[0]["P_L2"];
+                        dt.Rows[countRow]["P_L3"] = dataSet.Tables[table].Rows[0]["P_L3"];
+                    }
                     countRow++;
                 }
             }
@@ -625,7 +628,7 @@ namespace PomiaryGUI
                     sqlConnection.Open();
                     if (sqlConnection.State == ConnectionState.Open)
                     {
-                        Message?.Invoke(this, "Connection - OK");
+                        //Message?.Invoke(this, "Connection - OK");
                         if (sqlConnectionPower == null || sqlConnectionPower.State == ConnectionState.Closed)
                         {
                             sqlConnectionPower = new SqlConnection(con);

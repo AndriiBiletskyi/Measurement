@@ -125,13 +125,14 @@ namespace PomiaryGUI
                 for(int i = 0; i < dt.Rows.Count; i++)
                 {
                     int id = Convert.ToInt32(dt.Rows[i]["ID"]);
+                    bool state = dt.Rows[i]["Status"] != DBNull.Value ? (bool)dt.Rows[i]["Status"] : false;
                     lastDataForAllEquipments.eqNumbers.Add(id);
                     lastDataForAllEquipments.eqParameters.Add(id,
                                                              (equIDName[id],
                                                               equParameters[id].minValue,
                                                               equParameters[id].maxValue,
                                                               equParameters[id].type,
-                                                              (bool)dt.Rows[i]["Status"])
+                                                              state)
                                                               );
 
                     var temp = new Dictionary<string, float>();

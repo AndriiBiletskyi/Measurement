@@ -79,9 +79,8 @@ namespace PomiaryGUI
         List<string> equList = new List<string>();
         List<int> idList = new List<int>();
         List<InstantaneousValues> inst = new List<InstantaneousValues>();
-        //List<AngularGauge> inst = new List<AngularGauge>();
         int timeTick = 0;
-        //bool _init = false;
+        //MessagePanel messagePanel = new MessagePanel();
         
         public MainForm()
         {
@@ -89,6 +88,10 @@ namespace PomiaryGUI
 
             LangComboBox.Visible = false;
             panelLang.Visible = false;
+            labelDataTime.Text = DateTime.Now.ToString();
+            labelDataTime.Location = new Point(panelBottom.Width - labelDataTime.Width, 0);
+            panelBottom.Height = labelDataTime.Height;
+            panelBottom.Location = new Point(panelBottom.Location.X, this.Height - panelBottom.Height);
 
             #region Buttons events
             butCharts.Click += new EventHandler(ButCharts_Click);
@@ -133,17 +136,7 @@ namespace PomiaryGUI
             PanelSettingsEquipments.AddNewEquipment += new EventHandler<SettingsEquipmentsData>(SettingsAddNewEquipment);
             #endregion
 
-            for (int i = 1; i < 0; i++) equList.Add(i.ToString());
-
-            foreach (var c in equList)
-            {
-                for (int i = 0; i < 4; i++)
-                {
-                    inst.Add(new InstantaneousValues());
-                    inst.Last().Visible = false;
-                    PanelEqu.Controls.Add(inst.Last());
-                }
-            }
+            //panelBottom.Controls.Add(messagePanel);
         }
 
         #region FormBL
@@ -674,8 +667,8 @@ namespace PomiaryGUI
                 int dif = inst.Count - equControlData.eqNumbers.Count * 4;
                 for (int l = 0; l < dif; l++)
                 {
+                    PanelEqu.Controls.RemoveAt(PanelEqu.Controls.IndexOf(inst.Last()));
                     inst.RemoveAt(inst.Count - 1);
-                    //PanelEqu.Controls.r
                 }
 
                 dif = equControlData.eqNumbers.Count * 4 - inst.Count;

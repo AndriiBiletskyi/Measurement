@@ -31,9 +31,7 @@ namespace PomiaryGUI
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            this.btClose = new System.Windows.Forms.Button();
             this.panelHead = new System.Windows.Forms.Panel();
-            this.btMin = new System.Windows.Forms.Button();
             this.panelButtons = new System.Windows.Forms.Panel();
             this.butRaportsAnnual = new System.Windows.Forms.Button();
             this.butSettingsEquipments = new System.Windows.Forms.Button();
@@ -54,30 +52,15 @@ namespace PomiaryGUI
             this.butCharts = new System.Windows.Forms.Button();
             this.panelBottom = new System.Windows.Forms.Panel();
             this.LangComboBox = new System.Windows.Forms.ComboBox();
-            this.panelLang = new System.Windows.Forms.Panel();
             this.labelDataTime = new System.Windows.Forms.Label();
             this.timerDataTime = new System.Windows.Forms.Timer(this.components);
+            this.panelLang = new System.Windows.Forms.Panel();
+            this.btMin = new System.Windows.Forms.Button();
+            this.btClose = new System.Windows.Forms.Button();
             this.panelHead.SuspendLayout();
             this.panelButtons.SuspendLayout();
             this.panelBottom.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // btClose
-            // 
-            this.btClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btClose.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btClose.BackgroundImage")));
-            this.btClose.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.btClose.Cursor = System.Windows.Forms.Cursors.Default;
-            this.btClose.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
-            this.btClose.FlatAppearance.BorderSize = 0;
-            this.btClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btClose.Font = new System.Drawing.Font("Century Gothic", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.btClose.Location = new System.Drawing.Point(770, 0);
-            this.btClose.Name = "btClose";
-            this.btClose.Size = new System.Drawing.Size(30, 30);
-            this.btClose.TabIndex = 0;
-            this.btClose.UseVisualStyleBackColor = true;
-            this.btClose.Click += new System.EventHandler(this.ButClose_Click);
             // 
             // panelHead
             // 
@@ -96,23 +79,6 @@ namespace PomiaryGUI
             this.panelHead.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panelHead_MouseDown);
             this.panelHead.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panelHead_MouseMove);
             this.panelHead.MouseUp += new System.Windows.Forms.MouseEventHandler(this.panelHead_MouseUp);
-            // 
-            // btMin
-            // 
-            this.btMin.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btMin.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btMin.BackgroundImage")));
-            this.btMin.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.btMin.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
-            this.btMin.FlatAppearance.BorderSize = 0;
-            this.btMin.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btMin.Font = new System.Drawing.Font("Century Gothic", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.btMin.Location = new System.Drawing.Point(740, 0);
-            this.btMin.Name = "btMin";
-            this.btMin.Size = new System.Drawing.Size(30, 30);
-            this.btMin.TabIndex = 0;
-            this.btMin.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btMin.UseVisualStyleBackColor = true;
-            this.btMin.Click += new System.EventHandler(this.ButMin_Click);
             // 
             // panelButtons
             // 
@@ -417,7 +383,7 @@ namespace PomiaryGUI
             // 
             this.panelBottom.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.panelBottom.BackColor = System.Drawing.Color.DimGray;
+            this.panelBottom.BackColor = System.Drawing.Color.Gray;
             this.panelBottom.Controls.Add(this.LangComboBox);
             this.panelBottom.Controls.Add(this.panelLang);
             this.panelBottom.Controls.Add(this.labelDataTime);
@@ -445,15 +411,6 @@ namespace PomiaryGUI
             this.LangComboBox.Size = new System.Drawing.Size(50, 27);
             this.LangComboBox.TabIndex = 2;
             // 
-            // panelLang
-            // 
-            this.panelLang.BackgroundImage = global::PomiaryGUI.Properties.Resources.GB;
-            this.panelLang.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.panelLang.Location = new System.Drawing.Point(0, 0);
-            this.panelLang.Name = "panelLang";
-            this.panelLang.Size = new System.Drawing.Size(50, 30);
-            this.panelLang.TabIndex = 1;
-            // 
             // labelDataTime
             // 
             this.labelDataTime.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -461,7 +418,7 @@ namespace PomiaryGUI
             this.labelDataTime.AutoSize = true;
             this.labelDataTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.labelDataTime.ForeColor = System.Drawing.Color.White;
-            this.labelDataTime.Location = new System.Drawing.Point(591, 3);
+            this.labelDataTime.Location = new System.Drawing.Point(491, 4);
             this.labelDataTime.Name = "labelDataTime";
             this.labelDataTime.Size = new System.Drawing.Size(45, 24);
             this.labelDataTime.TabIndex = 0;
@@ -473,6 +430,49 @@ namespace PomiaryGUI
             this.timerDataTime.Enabled = true;
             this.timerDataTime.Interval = 1000;
             this.timerDataTime.Tick += new System.EventHandler(this.TimerDataTime_Tick);
+            // 
+            // panelLang
+            // 
+            this.panelLang.BackgroundImage = global::PomiaryGUI.Properties.Resources.GB;
+            this.panelLang.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.panelLang.Location = new System.Drawing.Point(0, 0);
+            this.panelLang.Name = "panelLang";
+            this.panelLang.Size = new System.Drawing.Size(50, 30);
+            this.panelLang.TabIndex = 1;
+            // 
+            // btMin
+            // 
+            this.btMin.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btMin.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btMin.BackgroundImage")));
+            this.btMin.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btMin.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
+            this.btMin.FlatAppearance.BorderSize = 0;
+            this.btMin.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btMin.Font = new System.Drawing.Font("Century Gothic", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.btMin.Location = new System.Drawing.Point(740, 0);
+            this.btMin.Name = "btMin";
+            this.btMin.Size = new System.Drawing.Size(30, 30);
+            this.btMin.TabIndex = 0;
+            this.btMin.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btMin.UseVisualStyleBackColor = true;
+            this.btMin.Click += new System.EventHandler(this.ButMin_Click);
+            // 
+            // btClose
+            // 
+            this.btClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btClose.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btClose.BackgroundImage")));
+            this.btClose.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btClose.Cursor = System.Windows.Forms.Cursors.Default;
+            this.btClose.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
+            this.btClose.FlatAppearance.BorderSize = 0;
+            this.btClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btClose.Font = new System.Drawing.Font("Century Gothic", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.btClose.Location = new System.Drawing.Point(770, 0);
+            this.btClose.Name = "btClose";
+            this.btClose.Size = new System.Drawing.Size(30, 30);
+            this.btClose.TabIndex = 0;
+            this.btClose.UseVisualStyleBackColor = true;
+            this.btClose.Click += new System.EventHandler(this.ButClose_Click);
             // 
             // MainForm
             // 
